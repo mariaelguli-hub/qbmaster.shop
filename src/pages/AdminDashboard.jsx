@@ -94,16 +94,7 @@ export default function AdminDashboard() {
     try {
       const domain = 'https://qbdeals.shop'
       const headers = [
-        'id',
-        'title',
-        'description',
-        'link',
-        'image_link',
-        'availability',
-        'price',
-        'brand',
-        'condition',
-        'google_product_category'
+        'id', 'title', 'description', 'link', 'image_link', 'availability', 'price', 'brand', 'condition', 'google_product_category'
       ]
 
       const rows = (productsData || []).map((p) => {
@@ -113,16 +104,7 @@ export default function AdminDashboard() {
         const imageLink = p.image && p.image.startsWith('http') ? p.image : `${domain}${p.image || '/images/pro.jpg'}`
 
         return [
-          `"${p.id}"`,
-          `"${p.name}"`,
-          `"${cleanDesc}"`,
-          `"${productLink}"`,
-          `"${imageLink}"`,
-          '"in_stock"',
-          `"${priceFormatted}"`,
-          '"QuickBooks"',
-          '"new"',
-          '"Software > Business & Productivity Software"'
+          `"${p.id}"`, `"${p.name}"`, `"${cleanDesc}"`, `"${productLink}"`, `"${imageLink}"`, '"in_stock"', `"${priceFormatted}"`, '"QuickBooks"', '"new"', '"Software > Business & Productivity Software"'
         ].join(',')
       })
 
@@ -141,15 +123,18 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط (معدلة لتعتمد على البيانات المباشرة وتفكيك الصفوف بشكل صحيح)
-  const exportProductsCsv = (onlyHidden = false) => {
+  // 📦 دالة التصدير المحدثة والمضمونة
+  const exportProductsCsv = async (onlyHidden = false) => {
     try {
-      const jsonProducts = productsData ? (onlyHidden ? productsData.filter(p => p.hidden) : productsData) : []
-      const csvProducts = hiddenCsvProducts || []
-      const targetProducts = [...jsonProducts, ...csvProducts]
+      toast.loading('Preparing export...', { id: 'exportToast' })
+      
+      const freshCsvProducts = await fetchCsvProducts()
+      
+      const jsonHidden = productsData ? (onlyHidden ? productsData.filter(p => p.hidden) : productsData) : []
+      const targetProducts = [...jsonHidden, ...(freshCsvProducts || [])]
 
       if (targetProducts.length === 0) {
-        toast.error('No products found to export!')
+        toast.error('No products found to export!', { id: 'exportToast' })
         return
       }
 
@@ -164,13 +149,7 @@ export default function AdminDashboard() {
         const link = `https://qbdeals.shop/#/product/${slug}`
 
         return [
-          `"${p.id || 'item'}"`,
-          `"${name}"`,
-          `"${slug}"`,
-          `"${category}"`,
-          `"${price}"`,
-          `"${image}"`,
-          `"${link}"`
+          `"${p.id || 'item'}"`, `"${name}"`, `"${slug}"`, `"${category}"`, `"${price}"`, `"${image}"`, `"${link}"`
         ].join(',')
       })
 
@@ -182,10 +161,11 @@ export default function AdminDashboard() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      toast.success(onlyHidden ? 'Hidden Products CSV Downloaded!' : 'All Products CSV Downloaded!')
+      
+      toast.success('Products Exported Successfully!', { id: 'exportToast' })
     } catch (err) {
       console.error(err)
-      toast.error('Failed to export products CSV.')
+      toast.error('Failed to export products CSV.', { id: 'exportToast' })
     }
   }
 
@@ -226,7 +206,6 @@ export default function AdminDashboard() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatMessages])
 
-  // 🛠️ دالة إرسال رد الـ Agent
   const handleSendAgentReply = async (e) => {
     e.preventDefault()
     if (!replyInput.trim() || !selectedSession) return
@@ -262,7 +241,6 @@ export default function AdminDashboard() {
     toast.success('Reply sent successfully!')
   }
 
-  // 🛑 🔴 دالة إغلاق المحادثة من طرف الأدمن
   const handleEndSessionFromAdmin = async () => {
     if (!selectedSession) return
 
@@ -761,7 +739,7 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'gmc' && (
-            <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">اختيار
+            <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
                 <FileSpreadsheet className="w-7 h-7" />
               </div>
