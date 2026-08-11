@@ -3,8 +3,14 @@ import products from '../data/products.json'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid() {
-  // فلترة المنتجات لإخفاء اللي عندهم hidden: true من الصفحة الرئيسية
-  const visibleProducts = products.filter((p) => !p.hidden)
+  // قائمة الـ Slugs ديال المنتجات اللي بغيتيهم يبانو في الهوم واخا يكونو مخفيين
+  const forceVisibleSlugs = [
+    'quickbooks-desktop-enterprise-accountant-2024',
+    'quickbooks-desktop-enterprise-solutions-2024'
+  ]
+
+  // فلترة المنتجات: تبين المنتج إلا كان !hidden (عادي) أو إلا كان ضمن القائمة اللي بغينا
+  const visibleProducts = products.filter((p) => !p.hidden || forceVisibleSlugs.includes(p.slug))
 
   return (
     <section className="py-16 lg:py-24 bg-purple-50/20">
