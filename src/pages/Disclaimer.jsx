@@ -7,8 +7,8 @@ export default function Disclaimer() {
   return (
     <>
       <Helmet>
-        <title>Disclaimer — QB DEALS</title>
-        <meta name="description" content="Disclaimer for QB DEALS regarding independent reselling and trademark notices." />
+        <title>Disclaimer — QB MASTER</title>
+        <meta name="description" content="Disclaimer for QB MASTER regarding independent reselling and trademark notices." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50">
@@ -42,7 +42,7 @@ export default function Disclaimer() {
                 Independent Reseller Notice
               </h2>
               <p className="bg-amber-50/60 border border-amber-200/60 p-4 rounded-2xl text-amber-950 text-sm font-medium leading-relaxed">
-                QB DEALS operates as an independent reseller of software licenses. We are not affiliated with, authorized by, endorsed by, or sponsored by Intuit Inc., QuickBooks, or any of their subsidiaries, affiliates, or related entities.
+                QB MASTER operates as an independent reseller of software licenses. We are not affiliated with, authorized by, endorsed by, or sponsored by Intuit Inc., QuickBooks, or any of their subsidiaries, affiliates, or related entities.
               </p>
             </div>
 
@@ -65,7 +65,7 @@ export default function Disclaimer() {
                 Product Disclaimer
               </h2>
               <p className="mb-3">
-                All software licenses offered through this website are sold by QB DEALS as an independent reseller.
+                All software licenses offered through this website are sold by QB MASTER as an independent reseller.
               </p>
               <p>
                 By purchasing a license through our website, you acknowledge and understand that your purchase is made through an independent reseller and not directly from the original software publisher or brand owner.
@@ -82,7 +82,7 @@ export default function Disclaimer() {
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
                 <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbdeals.shop" className="underline hover:text-emerald-700">contact@qbdeals.shop</a></span>
+                <span>Email: <a href="mailto:contact@qbdeals.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
