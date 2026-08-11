@@ -14,7 +14,7 @@ export default function Shop() {
   return (
     <>
       <Helmet>
-        <title>Shop — TaxUSA</title>
+        <title>Shop — QBMASTER</title>
         <meta name="description" content="Browse all genuine QuickBooks Desktop 2024 editions. One-time purchase, instant delivery." />
       </Helmet>
       <section className="py-12 lg:py-20 bg-gray-50 min-h-[60vh]">
