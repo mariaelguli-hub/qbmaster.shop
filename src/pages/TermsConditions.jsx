@@ -11,26 +11,26 @@ export default function TermsConditions() {
         <meta name="description" content="Terms and Conditions for purchasing software licenses on QB MASTER." />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gray-50/50">
+      <section className="py-12 lg:py-20 bg-purple-50/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Back Button */}
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-emerald-700 mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           {/* Main Card / Cadre */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-gray-200/60 border border-gray-100 text-gray-700 leading-relaxed space-y-8">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-purple-950/5 border border-purple-100/80 text-gray-700 leading-relaxed space-y-8">
             
             {/* H1 Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
                 Terms & Conditions
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-purple-700 font-semibold">
                 Last Updated: August 2, 2026
               </p>
             </div>
@@ -45,7 +45,7 @@ export default function TermsConditions() {
             {/* License */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                <CheckCircle className="w-5 h-5 text-purple-600 shrink-0" />
                 License
               </h2>
               <p className="text-gray-600 leading-relaxed">
@@ -56,7 +56,7 @@ export default function TermsConditions() {
             {/* Refund Policy */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <RotateCcw className="w-5 h-5 text-emerald-600 shrink-0" />
+                <RotateCcw className="w-5 h-5 text-purple-600 shrink-0" />
                 Refund Policy
               </h2>
               <p className="text-gray-600 leading-relaxed">
@@ -72,9 +72,9 @@ export default function TermsConditions() {
               <p className="mb-3 text-sm text-gray-600">
                 If you have any questions regarding our Terms & Conditions, please contact us:
               </p>
-              <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
-                <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbmaster,shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
+              <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
+                <Mail className="w-4 h-4 text-purple-600" />
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-purple-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
