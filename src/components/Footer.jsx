@@ -14,7 +14,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-white text-gray-600 pt-16 pb-8 border-t border-gray-100">
+    <footer className="bg-white text-gray-600 pt-16 pb-8 border-t border-purple-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Columns Grid */}
@@ -34,10 +34,10 @@ export default function Footer() {
               <div className="relative flex items-center justify-center">
                 
                 {/* Outer Glow Halo */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl blur-xs opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 rounded-2xl blur-xs opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
                 
                 {/* Main Icon Container */}
-                <div className="relative w-10 h-10 bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-emerald-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-emerald-400/30">
+                <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-950 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-purple-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-purple-400/30">
                   <span className="tracking-tighter font-mono">QB</span>
                   
                   {/* Micro Sparkle Indicator */}
@@ -50,12 +50,12 @@ export default function Footer() {
               {/* Logo Typography */}
               <div className="flex flex-col">
                 <div className="flex items-center gap-1">
-                  <span className="font-black text-xl tracking-tight text-gray-900 group-hover:text-emerald-700 transition-colors">
-                    QB<span className="text-emerald-600 group-hover:text-emerald-500 transition-colors">MASTER</span>
+                  <span className="font-black text-xl tracking-tight text-gray-900 group-hover:text-purple-700 transition-colors">
+                    QB<span className="text-purple-600 group-hover:text-purple-500 transition-colors">MASTER</span>
                   </span>
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
+                  <Sparkles className="w-3.5 h-3.5 text-purple-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
                 </div>
-                <span className="text-[9px] font-extrabold text-emerald-700 uppercase tracking-widest -mt-1 opacity-80">
+                <span className="text-[9px] font-extrabold text-purple-700 uppercase tracking-widest -mt-1 opacity-80">
                   Official Software Store
                 </span>
               </div>
@@ -69,13 +69,13 @@ export default function Footer() {
             <div className="space-y-2.5 text-sm pt-2 text-gray-600">
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-gray-400 shrink-0" />
-                <a href="mailto:support@qbmaster.shop" className="hover:text-emerald-700 transition-colors">
+                <a href="mailto:support@qbmaster.shop" className="hover:text-purple-700 transition-colors">
                   support@qbmaster.shop
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-gray-400 shrink-0" />
-                <a href="tel:+15053997162" className="hover:text-emerald-700 transition-colors">
+                <a href="tel:+15053997162" className="hover:text-purple-700 transition-colors">
                   +1 (505) 399-7162
                 </a>
               </div>
@@ -83,7 +83,6 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                 <span className="text-xs leading-relaxed text-gray-500">
                   Alexanderstraße 40, 10179 Berlin, Germany.
-
                 </span>
               </div>
             </div>
@@ -95,10 +94,10 @@ export default function Footer() {
               Shop
             </h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link to="/shop" className="hover:text-emerald-700 transition-colors">All Products</Link></li>
-              <li><Link to="/shop?cat=pro" className="hover:text-emerald-700 transition-colors">Pro</Link></li>
-              <li><Link to="/shop?cat=enterprise" className="hover:text-emerald-700 transition-colors">Enterprise</Link></li>
-              <li><Link to="/shop?cat=mac" className="hover:text-emerald-700 transition-colors">Mac</Link></li>
+              <li><Link to="/shop" className="hover:text-purple-700 transition-colors">All Products</Link></li>
+              <li><Link to="/shop?cat=pro" className="hover:text-purple-700 transition-colors">Pro</Link></li>
+              <li><Link to="/shop?cat=enterprise" className="hover:text-purple-700 transition-colors">Enterprise</Link></li>
+              <li><Link to="/shop?cat=mac" className="hover:text-purple-700 transition-colors">Mac</Link></li>
             </ul>
           </div>
 
@@ -108,10 +107,10 @@ export default function Footer() {
               Company
             </h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link to="/about" className="hover:text-emerald-700 transition-colors">About Us</Link></li>
-              <li><Link to="/faq" className="hover:text-emerald-700 transition-colors">FAQ</Link></li>
-              <li><Link to="/contact" className="hover:text-emerald-700 transition-colors">Contact Us</Link></li>
-              <li><Link to="/shipping-delivery" className="hover:text-emerald-700 transition-colors">Shipping & Delivery</Link></li>
+              <li><Link to="/about" className="hover:text-purple-700 transition-colors">About Us</Link></li>
+              <li><Link to="/faq" className="hover:text-purple-700 transition-colors">FAQ</Link></li>
+              <li><Link to="/contact" className="hover:text-purple-700 transition-colors">Contact Us</Link></li>
+              <li><Link to="/shipping-delivery" className="hover:text-purple-700 transition-colors">Shipping & Delivery</Link></li>
             </ul>
           </div>
 
@@ -121,14 +120,14 @@ export default function Footer() {
               Legal
             </h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link to="/privacy-policy" className="hover:text-emerald-700 transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms-conditions" className="hover:text-emerald-700 transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/refund-policy" className="hover:text-emerald-700 transition-colors">Refund Policy</Link></li>
-              <li><Link to="/return-policy" className="hover:text-emerald-700 transition-colors">Return Policy</Link></li>
-              <li><Link to="/cookie-policy" className="hover:text-emerald-700 transition-colors">Cookie Policy</Link></li>
-              <li><Link to="/gdpr-policy" className="hover:text-emerald-700 transition-colors">GDPR Policy</Link></li>
-              <li><Link to="/legal-notice" className="hover:text-emerald-700 transition-colors">Legal Notice</Link></li>
-              <li><Link to="/disclaimer" className="hover:text-emerald-700 transition-colors">Disclaimer</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-purple-700 transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="hover:text-purple-700 transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/refund-policy" className="hover:text-purple-700 transition-colors">Refund Policy</Link></li>
+              <li><Link to="/return-policy" className="hover:text-purple-700 transition-colors">Return Policy</Link></li>
+              <li><Link to="/cookie-policy" className="hover:text-purple-700 transition-colors">Cookie Policy</Link></li>
+              <li><Link to="/gdpr-policy" className="hover:text-purple-700 transition-colors">GDPR Policy</Link></li>
+              <li><Link to="/legal-notice" className="hover:text-purple-700 transition-colors">Legal Notice</Link></li>
+              <li><Link to="/disclaimer" className="hover:text-purple-700 transition-colors">Disclaimer</Link></li>
             </ul>
           </div>
 
@@ -138,18 +137,18 @@ export default function Footer() {
         <div className="py-6 border-t border-b border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-6">
           
           {/* Trust Badges */}
-          <div className="flex flex-wrap items-center gap-6 text-xs font-semibold text-emerald-800">
+          <div className="flex flex-wrap items-center gap-6 text-xs font-semibold text-purple-800">
             <span className="flex items-center gap-1.5">
-              <Lock className="w-4 h-4 text-emerald-600" /> SSL Secured
+              <Lock className="w-4 h-4 text-purple-600" /> SSL Secured
             </span>
             <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" /> Secure Payment
+              <ShieldCheck className="w-4 h-4 text-purple-600" /> Secure Payment
             </span>
             <span className="flex items-center gap-1.5">
-              <RotateCcw className="w-4 h-4 text-emerald-600" /> 30-Day Money-Back
+              <RotateCcw className="w-4 h-4 text-purple-600" /> 30-Day Money-Back
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle className="w-4 h-4 text-emerald-600" /> Genuine License
+              <CheckCircle className="w-4 h-4 text-purple-600" /> Genuine License
             </span>
           </div>
 
