@@ -8,7 +8,7 @@ export default function Checkout() {
   return (
     <>
       <Helmet>
-        <title>Secure Checkout — QB DEALS</title>
+        <title>Secure Checkout — QB MASTER</title>
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gradient-to-b from-gray-50/80 via-white to-gray-50/50 min-h-[85vh] relative overflow-hidden font-sans">
