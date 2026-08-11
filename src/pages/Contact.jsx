@@ -81,8 +81,8 @@ export default function Contact() {
   return (
     <>
       <Helmet>
-        <title>Contact Us — QB DEALS</title>
-        <meta name="description" content="Get in touch with QB DEALS support team." />
+        <title>Contact Us — QB MASTER</title>
+        <meta name="description" content="Get in touch with QB MASTER support team." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50 min-h-[70vh]">
@@ -112,8 +112,8 @@ export default function Contact() {
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Email Us</div>
                 <p className="text-xs text-gray-500 mb-2">Our team usually responds within a few hours.</p>
-                <a href="mailto:contact@qbdeals.shop" className="text-sm font-semibold text-emerald-700 hover:underline">
-                  contact@qbdeals.shop
+                <a href="mailto:contact@qbmaster.shop" className="text-sm font-semibold text-emerald-700 hover:underline">
+                  contact@qbmaster.shop
                 </a>
               </div>
 
