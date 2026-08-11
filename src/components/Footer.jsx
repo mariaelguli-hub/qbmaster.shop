@@ -69,8 +69,8 @@ export default function Footer() {
             <div className="space-y-2.5 text-sm pt-2 text-gray-600">
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-gray-400 shrink-0" />
-                <a href="mailto:support@qbdeals.shop" className="hover:text-emerald-700 transition-colors">
-                  support@qbdeals.shop
+                <a href="mailto:support@qbmaster.shop" className="hover:text-emerald-700 transition-colors">
+                  support@qbmaster.shop
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
