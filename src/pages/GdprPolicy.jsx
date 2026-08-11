@@ -7,8 +7,8 @@ export default function GdprPolicy() {
   return (
     <>
       <Helmet>
-        <title>GDPR Privacy Policy — QB DEALS</title>
-        <meta name="description" content="GDPR Privacy Policy for QB DEALS explaining data processing, storage, and your rights." />
+        <title>GDPR Privacy Policy — QB MASTER</title>
+        <meta name="description" content="GDPR Privacy Policy for QB MASTER explaining data processing, storage, and your rights." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50">
@@ -42,7 +42,7 @@ export default function GdprPolicy() {
                 Introduction
               </h2>
               <p className="text-emerald-900 text-sm leading-relaxed mb-2">
-                QB DEALS (“we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information.
+                QB MASTER (“we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information.
               </p>
               <p className="text-emerald-800 text-xs leading-relaxed">
                 This GDPR Privacy Policy explains how we collect, use, protect, and handle personal information when you visit or use our website, <strong className="font-semibold">qbdeals.shop</strong>, or purchase our digital products in accordance with the General Data Protection Regulation (GDPR).
