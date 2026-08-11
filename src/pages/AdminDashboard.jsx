@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async'
 import { Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, Clock, Compass, ShieldAlert, Send, Bot, User, Image as ImageIcon, LogOut, Download, FileSpreadsheet, PackageCheck, EyeOff as EyeOffIcon } from 'lucide-react'
 import { supabase } from '../utils/supabase'
 import { toast } from 'react-hot-toast'
-import productsData from '../data/products.json' // 👈 استيراد المنتجات لملف الـ Export
-import { fetchCsvProducts } from '../utils/loadHiddenProducts' // 👈 استيراد دالة الـ CSV الجديدة
+import productsData from '../data/products.json' 
+import { fetchCsvProducts } from '../utils/loadHiddenProducts' 
 
 const ADMIN_PASSWORD = "MySecretAdminPassword2026!"
 
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('visitors')
   const [messages, setMessages] = useState([])
   const [visitors, setVisitors] = useState([])
-  const [hiddenCsvProducts, setHiddenCsvProducts] = useState([]) // 👈 State منتجات الـ CSV
+  const [hiddenCsvProducts, setHiddenCsvProducts] = useState([]) 
   
   // 💬 States الشات المباشر
   const [chatSessions, setChatSessions] = useState([])
@@ -109,7 +109,7 @@ export default function AdminDashboard() {
       const rows = (productsData || []).map((p) => {
         const cleanDesc = (p.description || '').replace(/"/g, '""')
         const priceFormatted = `${Number(p.variants?.[0]?.price || 127).toFixed(2)} USD`
-        const productLink = `${domain}/product/${p.slug || p.id}`
+        const productLink = `${domain}/#/product/${p.slug || p.id}`
         const imageLink = p.image && p.image.startsWith('http') ? p.image : `${domain}${p.image || '/images/pro.jpg'}`
 
         return [
@@ -144,18 +144,17 @@ export default function AdminDashboard() {
   // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط
   const exportProductsCsv = (onlyHidden = false) => {
     try {
-      const targetProducts = onlyHidden ? productsData.filter(p => p.hidden) : productsData
-      const headers = ['id', 'name', 'slug', 'category', 'hidden', 'default_price', 'direct_link']
+      const targetProducts = onlyHidden ? [...productsData.filter(p => p.hidden), ...hiddenCsvProducts] : productsData
+      const headers = ['id', 'name', 'slug', 'category', 'default_price', 'direct_link']
       
       const rows = targetProducts.map((p) => {
         const price = p.variants?.[0]?.price || 0
-        const link = `https://qbdeals.shop/product/${p.slug}`
+        const link = `https://qbdeals.shop/#/product/${p.slug}`
         return [
           `"${p.id}"`,
           `"${p.name}"`,
           `"${p.slug}"`,
-          `"${p.category}"`,
-          `"${p.hidden ? 'Yes' : 'No'}"`,
+          `"${p.category || 'CSV'}"`,
           `"${price}"`,
           `"${link}"`
         ].join(',')
@@ -240,7 +239,6 @@ export default function AdminDashboard() {
       return
     }
 
-    // تحديث حالة المحادثة إلى Agent
     await supabase
       .from('chat_sessions')
       .update({ status: 'agent', updated_at: new Date().toISOString() })
@@ -250,7 +248,7 @@ export default function AdminDashboard() {
     toast.success('Reply sent successfully!')
   }
 
-  // 🛑 🔴 دالة إغلاق المحادثة من طرف الأدمن مع إرسال رسالة فورية للعميل
+  // 🛑 🔴 دالة إغلاق المحادثة من طرف الأدمن
   const handleEndSessionFromAdmin = async () => {
     if (!selectedSession) return
 
@@ -352,7 +350,6 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-purple-50/20 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-6">
           
-          {/* HEADER BAR */}
           <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-purple-100 shadow-sm">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Control Panel</h1>
@@ -374,7 +371,6 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* TABS NAVIGATION */}
           <div className="flex flex-wrap gap-3 border-b border-purple-100/60 pb-2">
             <button
               onClick={() => setActiveTab('visitors')}
@@ -398,7 +394,6 @@ export default function AdminDashboard() {
               <MessageSquare className="w-4 h-4" /> Live Chat ({chatSessions.length})
             </button>
 
-            {/* 🔒 تبويب المنتجات المخفية والروابط الخاصة (JSON + CSV) */}
             <button
               onClick={() => setActiveTab('hiddenproducts')}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
@@ -433,7 +428,6 @@ export default function AdminDashboard() {
             </button>
           </div>
 
-          {/* TAB 1: VISITORS LOGS */}
           {activeTab === 'visitors' && (
             <div className="bg-white rounded-3xl border border-purple-100 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-purple-100/60 flex items-center justify-between">
@@ -504,7 +498,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB 2: LIVE CHAT SUPPORT PANEL */}
           {activeTab === 'livechat' && (
             <div className="grid md:grid-cols-3 gap-6 h-[600px]">
               
@@ -613,7 +606,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* 🔒 TAB 3: HIDDEN PRODUCTS MANAGEMENT (JSON + CSV) */}
+          {/* 🔒 TAB 3: HIDDEN PRODUCTS MANAGEMENT (JSON + CSV with #) */}
           {activeTab === 'hiddenproducts' && (
             <div className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-purple-100/60 pb-4">
@@ -652,13 +645,13 @@ export default function AdminDashboard() {
 
                     <div className="space-y-2 bg-white p-3 rounded-xl border border-purple-100/60 text-xs">
                       <div className="flex justify-between font-semibold">
-                        <span className="text-gray-500">Variants & Prices:</span>
-                        <span className="text-purple-700">{p.variants?.length || 0} Options</span>
+                        <span className="text-gray-500">Price:</span>
+                        <span className="text-purple-700">${p.variants?.[0]?.price || 0}</span>
                       </div>
                       <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                        <span className="text-gray-400 font-mono text-[11px]">/product/{p.slug}</span>
+                        <span className="text-gray-400 font-mono text-[11px]">/#/product/{p.slug}</span>
                         <a 
-                          href={`/product/${p.slug}`} 
+                          href={`/#/product/${p.slug}`} 
                           target="_blank" 
                           rel="noreferrer"
                           className="text-purple-600 font-bold hover:underline flex items-center gap-1"
@@ -690,9 +683,9 @@ export default function AdminDashboard() {
                         <span className="text-indigo-700">${p.variants?.[0]?.price || 0}</span>
                       </div>
                       <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                        <span className="text-gray-400 font-mono text-[11px]">/product/{p.slug}</span>
+                        <span className="text-gray-400 font-mono text-[11px]">/#/product/{p.slug}</span>
                         <a 
-                          href={`/product/${p.slug}`} 
+                          href={`/#/product/${p.slug}`} 
                           target="_blank" 
                           rel="noreferrer"
                           className="text-indigo-600 font-bold hover:underline flex items-center gap-1"
@@ -707,7 +700,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB 4: CONTACT FORM MESSAGES */}
           {activeTab === 'messages' && (
             <div className="grid gap-4">
               {messages.length === 0 ? (
@@ -754,7 +746,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB 5: GMC EXPORTER CARD */}
           {activeTab === 'gmc' && (
             <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
