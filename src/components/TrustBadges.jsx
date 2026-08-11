@@ -41,10 +41,10 @@ function AnimatedNumber({ target, decimals = 0, suffix = '' }) {
 
 export default function TrustBadges() {
   return (
-    <section className="py-12 bg-gradient-to-b from-white via-gray-50/50 to-white border-y border-gray-100 relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-b from-white via-purple-50/20 to-white border-y border-purple-100/60 relative overflow-hidden">
       
       {/* Background Subtle Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[150px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[150px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -58,12 +58,12 @@ export default function TrustBadges() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0 }}
             whileHover={{ y: -4 }}
-            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-500/30 transition-all duration-300 text-center group"
+            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
-            <div className="text-3xl sm:text-4xl font-black text-emerald-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
+            <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
               <AnimatedNumber target={100} suffix="%" />
             </div>
-            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-emerald-900 transition-colors">
+            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
               Genuine licenses
             </div>
           </motion.div>
@@ -75,12 +75,12 @@ export default function TrustBadges() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.1 }}
             whileHover={{ y: -4 }}
-            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-500/30 transition-all duration-300 text-center group"
+            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
-            <div className="text-3xl sm:text-4xl font-black text-emerald-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
+            <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
               <AnimatedNumber target={4.8} decimals={1} suffix="★" />
             </div>
-            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-emerald-900 transition-colors">
+            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
               Average rating
             </div>
           </motion.div>
@@ -92,12 +92,12 @@ export default function TrustBadges() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.2 }}
             whileHover={{ y: -4 }}
-            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-500/30 transition-all duration-300 text-center group"
+            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
-            <div className="text-3xl sm:text-4xl font-black text-emerald-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
+            <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
               <AnimatedNumber target={22} />
             </div>
-            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-emerald-900 transition-colors">
+            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
               Verified reviews
             </div>
           </motion.div>
@@ -109,12 +109,12 @@ export default function TrustBadges() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.3 }}
             whileHover={{ y: -4 }}
-            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-500/30 transition-all duration-300 text-center group"
+            className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
-            <div className="text-3xl sm:text-4xl font-black text-emerald-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
+            <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
               24/7
             </div>
-            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-emerald-900 transition-colors">
+            <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
               Human support
             </div>
           </motion.div>
@@ -126,17 +126,17 @@ export default function TrustBadges() {
           
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-bold text-gray-700">
-            <span className="flex items-center gap-1.5 hover:text-emerald-700 transition-colors">
-              <Lock className="w-4 h-4 text-emerald-600 shrink-0" /> SSL Secured
+            <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
+              <Lock className="w-4 h-4 text-purple-600 shrink-0" /> SSL Secured
             </span>
-            <span className="flex items-center gap-1.5 hover:text-emerald-700 transition-colors">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Secure Payment
+            <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
+              <ShieldCheck className="w-4 h-4 text-purple-600 shrink-0" /> Secure Payment
             </span>
-            <span className="flex items-center gap-1.5 hover:text-emerald-700 transition-colors">
-              <RotateCcw className="w-4 h-4 text-emerald-600 shrink-0" /> 30-Day Money-Back
+            <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
+              <RotateCcw className="w-4 h-4 text-purple-600 shrink-0" /> 30-Day Money-Back
             </span>
-            <span className="flex items-center gap-1.5 hover:text-emerald-700 transition-colors">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Genuine License
+            <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
+              <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" /> Genuine License
             </span>
           </div>
 
