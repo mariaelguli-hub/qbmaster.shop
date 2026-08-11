@@ -3,6 +3,9 @@ import products from '../data/products.json'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid() {
+  // فلترة المنتجات لإخفاء اللي عندهم hidden: true من الصفحة الرئيسية
+  const visibleProducts = products.filter((p) => !p.hidden)
+
   return (
     <section className="py-16 lg:py-24 bg-purple-50/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +27,7 @@ export default function ProductGrid() {
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {visibleProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
