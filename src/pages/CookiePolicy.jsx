@@ -7,8 +7,8 @@ export default function CookiePolicy() {
   return (
     <>
       <Helmet>
-        <title>Cookies Policy — QB DEALS</title>
-        <meta name="description" content="Cookies Policy for QB DEALS explaining how we use cookies and similar technologies." />
+        <title>Cookies Policy — QB MASTER</title>
+        <meta name="description" content="Cookies Policy for QB MASTER explaining how we use cookies and similar technologies." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50">
@@ -41,7 +41,7 @@ export default function CookiePolicy() {
                 Introduction
               </h2>
               <p className="mb-3">
-                This Cookies Policy explains how QB DEALS (“we,” “our,” or “us”) uses cookies and similar technologies when you visit or use our website, <span className="font-semibold text-emerald-700">qbdeals.shop</span>.
+                This Cookies Policy explains how QB MASTER (“we,” “our,” or “us”) uses cookies and similar technologies when you visit or use our website, <span className="font-semibold text-emerald-700">qbdeals.shop</span>.
               </p>
               <p className="mb-3">
                 By accessing or using our website, you acknowledge and agree to the use of cookies as described in this Cookies Policy and our Privacy Policy.
@@ -85,9 +85,9 @@ export default function CookiePolicy() {
               </h3>
               <p className="mb-3">For the purposes of this Cookies Policy:</p>
               <ul className="list-disc pl-5 space-y-2 text-gray-600">
-                <li><strong className="text-gray-900">Company</strong> refers to QB DEALS.</li>
+                <li><strong className="text-gray-900">Company</strong> refers to QB MASTER.</li>
                 <li><strong className="text-gray-900">Cookies</strong> refers to small text files stored on your device by a website that contain information about your browsing activity.</li>
-                <li><strong className="text-gray-900">Website</strong> refers to QB DEALS, accessible at qbdeals.shop.</li>
+                <li><strong className="text-gray-900">Website</strong> refers to QB MASTER, accessible at qbmaster.shop.</li>
                 <li><strong className="text-gray-900">You</strong> refers to the individual accessing or using the Website, or the company or legal entity on whose behalf the Website is being accessed or used.</li>
               </ul>
             </div>
@@ -124,7 +124,7 @@ export default function CookiePolicy() {
                   <h3 className="text-base font-bold text-gray-900 mb-1">
                     Functionality Cookies
                   </h3>
-                  <p className="text-xs text-emerald-700 font-semibold mb-1">Type: Persistent Cookies | Administered by: QB DEALS</p>
+                  <p className="text-xs text-emerald-700 font-semibold mb-1">Type: Persistent Cookies | Administered by: QB MASTER</p>
                   <p className="text-sm text-gray-600">
                     These cookies allow our website to remember information such as your preferences, settings, and other choices. This helps us provide a more convenient and personalized browsing experience.
                   </p>
@@ -212,7 +212,7 @@ export default function CookiePolicy() {
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
                 <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbdeals.shop" className="underline hover:text-emerald-700">contact@qbdeals.shop</a></span>
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
