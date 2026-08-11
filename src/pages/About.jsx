@@ -7,8 +7,8 @@ export default function About() {
   return (
     <>
       <Helmet>
-        <title>About Us — QB DEALS</title>
-        <meta name="description" content="QB DEALS is an independent retailer specializing in genuine QuickBooks Desktop licenses." />
+        <title>About Us — QB MASTER</title>
+        <meta name="description" content="QB MASTER is an independent retailer specializing in genuine QuickBooks Desktop licenses." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50">
@@ -28,7 +28,7 @@ export default function About() {
             {/* H1 Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
-                About QB DEALS
+                About QB MASTER
               </h1>
               <p className="text-sm text-gray-400">
                 Your Trusted Independent Software License Provider
@@ -38,7 +38,7 @@ export default function About() {
             {/* Introduction */}
             <div className="space-y-4">
               <p className="text-base text-gray-600 leading-relaxed">
-                <strong className="text-gray-900">QB DEALS</strong> is an independent retailer specializing in genuine QuickBooks Desktop licenses. We believe software should be owned, not rented. That is why we offer one-time purchase licenses with lifetime activation — no subscriptions, no hidden fees.
+                <strong className="text-gray-900">QB MASTER</strong> is an independent retailer specializing in genuine QuickBooks Desktop licenses. We believe software should be owned, not rented. That is why we offer one-time purchase licenses with lifetime activation — no subscriptions, no hidden fees.
               </p>
               <p className="text-base text-gray-600 leading-relaxed">
                 Every license key is authentic and backed by our 30-day money-back guarantee. Our support team is available to help with installation and activation, trusted by accountants and small business owners across the United States.
@@ -89,7 +89,7 @@ export default function About() {
                 Independent Reseller Notice
               </h2>
               <p className="text-amber-900 text-xs leading-relaxed">
-                QB DEALS operates as an independent reseller of software licenses. We are not directly affiliated with, authorized by, or endorsed by Intuit Inc., QuickBooks, or any related trademark owners.
+                QB MASTER operates as an independent reseller of software licenses. We are not directly affiliated with, authorized by, or endorsed by Intuit Inc., QuickBooks, or any related trademark owners.
               </p>
             </div>
 
@@ -103,7 +103,7 @@ export default function About() {
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
                 <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbdeals.shop" className="underline hover:text-emerald-700">contact@qbdeals.shop</a></span>
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
