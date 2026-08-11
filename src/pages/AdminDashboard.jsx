@@ -141,20 +141,15 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة التصدير المحدثة التي تقرأ البيانات مباشرة وتضمن ظهور كل منتج في سطر مستقل
-  const exportProductsCsv = async (onlyHidden = false) => {
+  // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط (معدلة لتعتمد على البيانات المباشرة وتفكيك الصفوف بشكل صحيح)
+  const exportProductsCsv = (onlyHidden = false) => {
     try {
-      toast.loading('Preparing export...', { id: 'exportToast' })
-      
-      // جلب منتجات الـ CSV المحدثة مباشرة لضمان عدم بقائها فارغة
-      const freshCsvProducts = await fetchCsvProducts()
-      
-      const targetProducts = onlyHidden 
-        ? [...productsData.filter(p => p.hidden), ...(freshCsvProducts || [])] 
-        : [...productsData, ...(freshCsvProducts || [])]
+      const jsonProducts = productsData ? (onlyHidden ? productsData.filter(p => p.hidden) : productsData) : []
+      const csvProducts = hiddenCsvProducts || []
+      const targetProducts = [...jsonProducts, ...csvProducts]
 
       if (targetProducts.length === 0) {
-        toast.error('No products found to export!', { id: 'exportToast' })
+        toast.error('No products found to export!')
         return
       }
 
@@ -164,7 +159,7 @@ export default function AdminDashboard() {
         const price = p.variants?.[0]?.price || p.price || 0
         const name = (p.name || p.title || 'Unknown').replace(/"/g, '""')
         const slug = p.slug || p.id || 'item'
-        const category = p.category || 'CSV'
+        const category = p.category || 'General'
         const image = p.image || ''
         const link = `https://qbdeals.shop/#/product/${slug}`
 
@@ -187,11 +182,10 @@ export default function AdminDashboard() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
-      toast.success(onlyHidden ? 'Hidden Products CSV Downloaded!' : 'All Products CSV Downloaded!', { id: 'exportToast' })
+      toast.success(onlyHidden ? 'Hidden Products CSV Downloaded!' : 'All Products CSV Downloaded!')
     } catch (err) {
       console.error(err)
-      toast.error('Failed to export products CSV.', { id: 'exportToast' })
+      toast.error('Failed to export products CSV.')
     }
   }
 
@@ -767,7 +761,7 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'gmc' && (
-            <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
+            <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">اختيار
               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
                 <FileSpreadsheet className="w-7 h-7" />
               </div>
