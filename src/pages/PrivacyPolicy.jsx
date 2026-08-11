@@ -7,8 +7,8 @@ export default function PrivacyPolicy() {
   return (
     <>
       <Helmet>
-        <title>Privacy Policy — QB DEALS</title>
-        <meta name="description" content="Privacy Policy for QB DEALS explaining how we collect and protect your data." />
+        <title>Privacy Policy — QB MASTER</title>
+        <meta name="description" content="Privacy Policy for QB MASTER explaining how we collect and protect your data." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50">
@@ -83,7 +83,7 @@ export default function PrivacyPolicy() {
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
                 <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbdeals.shop" className="underline hover:text-emerald-700">contact@qbdeals.shop</a></span>
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
