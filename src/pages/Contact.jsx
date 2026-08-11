@@ -85,12 +85,12 @@ export default function Contact() {
         <meta name="description" content="Get in touch with QB MASTER support team." />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gray-50/50 min-h-[70vh]">
+      <section className="py-12 lg:py-20 bg-purple-50/20 min-h-[70vh]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-emerald-700 mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
@@ -106,19 +106,19 @@ export default function Contact() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="md:col-span-1 space-y-4">
-              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <div className="bg-white p-6 rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Email Us</div>
                 <p className="text-xs text-gray-500 mb-2">Our team usually responds within a few hours.</p>
-                <a href="mailto:contact@qbmaster.shop" className="text-sm font-semibold text-emerald-700 hover:underline">
+                <a href="mailto:contact@qbmaster.shop" className="text-sm font-semibold text-purple-700 hover:underline">
                   contact@qbmaster.shop
                 </a>
               </div>
 
-              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <div className="bg-white p-6 rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Phone Support</div>
@@ -126,8 +126,8 @@ export default function Contact() {
                 <span className="text-sm font-semibold text-gray-800">+1 (505) 399-7162</span>
               </div>
 
-              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <div className="bg-white p-6 rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Office Address</div>
@@ -138,9 +138,9 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="md:col-span-2 bg-white p-8 sm:p-10 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/60">
+            <div className="md:col-span-2 bg-white p-8 sm:p-10 rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5">
               <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 pb-4">
-                <MessageSquare className="w-6 h-6 text-emerald-600" />
+                <MessageSquare className="w-6 h-6 text-purple-600" />
                 <h2 className="text-xl font-bold text-gray-900">Send us a message</h2>
               </div>
 
@@ -154,7 +154,7 @@ export default function Contact() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all bg-gray-50/50 focus:bg-white" 
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 focus:bg-white" 
                       placeholder="John Doe" 
                     />
                   </div>
@@ -166,7 +166,7 @@ export default function Contact() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all bg-gray-50/50 focus:bg-white" 
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 focus:bg-white" 
                       placeholder="you@example.com" 
                     />
                   </div>
@@ -180,7 +180,7 @@ export default function Contact() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all bg-gray-50/50 focus:bg-white" 
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 focus:bg-white" 
                     placeholder="How can we help you?" 
                   />
                 </div>
@@ -193,7 +193,7 @@ export default function Contact() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all bg-gray-50/50 focus:bg-white resize-none" 
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all bg-gray-50/50 focus:bg-white resize-none" 
                     placeholder="Provide details about your query or order..." 
                   />
                 </div>
@@ -201,7 +201,7 @@ export default function Contact() {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3.5 rounded-xl text-sm transition-all shadow-md shadow-emerald-600/20 active:scale-95 disabled:opacity-50"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3.5 rounded-xl text-sm transition-all shadow-md shadow-purple-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   <Send className="w-4 h-4" /> {loading ? 'Sending...' : 'Send Message'}
                 </button>
