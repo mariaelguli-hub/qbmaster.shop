@@ -100,7 +100,7 @@ export default function Header() {
               
               {/* Main Icon Container */}
               <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-950 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-purple-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-purple-400/30">
-                <span className="tracking-tighter font-mono">QB</span>
+                <span className="tracking-tighter font-mono">QM</span>
                 
                 {/* Micro Sparkle Indicator */}
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-white flex items-center justify-center shadow-xs">
