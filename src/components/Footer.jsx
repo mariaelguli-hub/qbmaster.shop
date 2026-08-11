@@ -38,7 +38,7 @@ export default function Footer() {
                 
                 {/* Main Icon Container */}
                 <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-950 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-purple-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-purple-400/30">
-                  <span className="tracking-tighter font-mono">QB</span>
+                  <span className="tracking-tighter font-mono">QM</span>
                   
                   {/* Micro Sparkle Indicator */}
                   <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-white flex items-center justify-center shadow-xs">
@@ -204,9 +204,9 @@ export default function Footer() {
 
         {/* Bottom Disclaimer */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-400 text-center sm:text-left">
-          <p>© {new Date().getFullYear()} QB DEALS. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} QB MASTER. All rights reserved.</p>
           <p className="max-w-xl">
-            QuickBooks and Intuit are trademarks of Intuit Inc. QB DEALS is an independent retailer and is not affiliated with Intuit.
+            QuickBooks and Intuit are trademarks of Intuit Inc. QB MASTER is an independent retailer and is not affiliated with Intuit.
           </p>
         </div>
 
