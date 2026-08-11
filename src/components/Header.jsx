@@ -46,34 +46,34 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100/80 shadow-xs">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-purple-100/80 shadow-xs">
       
       {/* TOP BAR (Clean Mobile Responsive Layout) */}
-      <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 text-emerald-100 text-xs py-2 border-b border-emerald-800/40 shadow-xs relative z-50">
+      <div className="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-purple-100 text-xs py-2 border-b border-purple-800/40 shadow-xs relative z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center sm:justify-between gap-y-2 gap-x-4 text-[11px] sm:text-xs font-semibold tracking-wide">
             
             {/* Item 1: Visible everywhere */}
-            <div className="flex items-center gap-1.5 text-emerald-100/90 cursor-default group">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+            <div className="flex items-center gap-1.5 text-purple-100/90 cursor-default group">
+              <ShieldCheck className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
               <span>Secure Checkout</span>
             </div>
 
             {/* Item 2: Visible everywhere */}
-            <div className="flex items-center gap-1.5 text-emerald-100/90 cursor-default group">
+            <div className="flex items-center gap-1.5 text-purple-100/90 cursor-default group">
               <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400/30 group-hover:scale-110 transition-transform shrink-0" />
               <span>Instant Email Delivery</span>
             </div>
 
             {/* Item 3: Hidden on mobile, visible from sm screen */}
-            <div className="hidden sm:flex items-center gap-1.5 text-emerald-100/90 hover:text-white transition-colors cursor-default group">
-              <CreditCard className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+            <div className="hidden sm:flex items-center gap-1.5 text-purple-100/90 hover:text-white transition-colors cursor-default group">
+              <CreditCard className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
               <span>One-Time Payment</span>
             </div>
 
             {/* Item 4: Hidden on mobile, visible from md screen */}
-            <div className="hidden md:flex items-center gap-1.5 text-emerald-100/90 hover:text-white transition-colors cursor-default group">
-              <RotateCcw className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+            <div className="hidden md:flex items-center gap-1.5 text-purple-100/90 hover:text-white transition-colors cursor-default group">
+              <RotateCcw className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
               <span>30-Day Money-Back Guarantee</span>
             </div>
 
@@ -96,10 +96,10 @@ export default function Header() {
             <div className="relative flex items-center justify-center">
               
               {/* Outer Glow Halo */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl blur-xs opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 rounded-2xl blur-xs opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
               
               {/* Main Icon Container */}
-              <div className="relative w-10 h-10 bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-emerald-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-emerald-400/30">
+              <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-950 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-purple-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-purple-400/30">
                 <span className="tracking-tighter font-mono">QB</span>
                 
                 {/* Micro Sparkle Indicator */}
@@ -112,12 +112,12 @@ export default function Header() {
             {/* Logo Typography */}
             <div className="flex flex-col">
               <div className="flex items-center gap-1">
-                <span className="font-black text-xl tracking-tight text-gray-900 group-hover:text-emerald-700 transition-colors">
-                  QB<span className="text-emerald-600 group-hover:text-emerald-500 transition-colors">MASTER</span>
+                <span className="font-black text-xl tracking-tight text-gray-900 group-hover:text-purple-700 transition-colors">
+                  QB<span className="text-purple-600 group-hover:text-purple-500 transition-colors">MASTER</span>
                 </span>
-                <Sparkles className="w-3.5 h-3.5 text-emerald-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
+                <Sparkles className="w-3.5 h-3.5 text-purple-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
               </div>
-              <span className="text-[9px] font-extrabold text-emerald-700 uppercase tracking-widest -mt-1 opacity-80">
+              <span className="text-[9px] font-extrabold text-purple-700 uppercase tracking-widest -mt-1 opacity-80">
                 Official Software Store
               </span>
             </div>
@@ -132,20 +132,20 @@ export default function Header() {
                 to={link.to}
                 className={`text-sm font-semibold transition-colors relative py-1 ${
                   pathname === link.to
-                    ? 'text-emerald-700 font-extrabold'
-                    : 'text-gray-600 hover:text-emerald-600'
+                    ? 'text-purple-700 font-extrabold'
+                    : 'text-gray-600 hover:text-purple-600'
                 }`}
               >
                 {link.label}
                 {pathname === link.to && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-600 rounded-full" />
                 )}
               </Link>
             ))}
             
             <button
               onClick={scrollToProducts}
-              className="text-sm font-semibold text-gray-600 hover:text-emerald-600 transition-colors cursor-pointer"
+              className="text-sm font-semibold text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
             >
               Products
             </button>
@@ -155,7 +155,7 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <Link
               to="/cart"
-              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl hover:bg-emerald-50 text-gray-700 hover:text-emerald-700 transition-colors relative"
+              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl hover:bg-purple-50 text-gray-700 hover:text-purple-700 transition-colors relative"
             >
               <ShoppingCart className="w-5 h-5" />
             </Link>
@@ -163,7 +163,7 @@ export default function Header() {
             {/* SHOP NOW BUTTON WITH ANIMATION & SCROLL DOWN */}
             <button
               onClick={scrollToProducts}
-              className="hidden sm:inline-flex relative items-center justify-center px-6 py-2.5 text-sm font-extrabold text-white bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl overflow-hidden shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
+              className="hidden sm:inline-flex relative items-center justify-center px-6 py-2.5 text-sm font-extrabold text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl overflow-hidden shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
             >
               <span className="absolute top-0 left-0 w-full h-full bg-white/20 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
               
@@ -193,7 +193,7 @@ export default function Header() {
                 onClick={() => setMobileOpen(false)}
                 className={`block px-3 py-2.5 rounded-xl text-sm font-bold ${
                   pathname === link.to
-                    ? 'bg-emerald-50 text-emerald-700'
+                    ? 'bg-purple-50 text-purple-700'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -224,7 +224,7 @@ export default function Header() {
                 setMobileOpen(false)
                 scrollToProducts()
               }}
-              className="w-full mt-3 inline-flex items-center justify-center py-3 text-sm font-extrabold text-white bg-emerald-600 rounded-xl shadow-md active:scale-95 transition-all"
+              className="w-full mt-3 inline-flex items-center justify-center py-3 text-sm font-extrabold text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl shadow-md active:scale-95 transition-all"
             >
               Shop now
             </button>
