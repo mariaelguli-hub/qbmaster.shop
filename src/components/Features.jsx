@@ -89,22 +89,22 @@ export default function Features() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               className="group relative p-6 border border-gray-200/80 rounded-2xl bg-white cursor-pointer
                          transition-all duration-300
-                         hover:shadow-xl hover:shadow-brand-700/10 hover:border-brand-700/40"
+                         hover:shadow-xl hover:shadow-purple-700/10 hover:border-purple-600/40"
             >
               {/* Subtle Glow Effect */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-brand-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-purple-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
               {/* Animated Icon */}
               <motion.div 
                 whileHover={{ scale: 1.15, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-700 mx-auto mb-4
-                           transition-colors duration-300 group-hover:bg-brand-700 group-hover:text-white"
+                className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 mx-auto mb-4
+                           transition-colors duration-300 group-hover:bg-purple-600 group-hover:text-white"
               >
                 <f.icon className="w-6 h-6 stroke-[2]" />
               </motion.div>
 
-              <div className="font-bold text-gray-900 mb-1.5 group-hover:text-brand-700 transition-colors">
+              <div className="font-bold text-gray-900 mb-1.5 group-hover:text-purple-600 transition-colors">
                 {f.title}
               </div>
               <div className="text-sm text-gray-500 leading-relaxed">
