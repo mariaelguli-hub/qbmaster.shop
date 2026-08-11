@@ -11,47 +11,47 @@ export default function ShippingDelivery() {
         <meta name="description" content="Shipping & Delivery Policy for QB MASTER digital licenses." />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gray-50/50">
+      <section className="py-12 lg:py-20 bg-purple-50/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Back Button */}
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-emerald-700 mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           {/* Main Card */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-gray-200/60 border border-gray-100 text-gray-700 leading-relaxed space-y-8">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-purple-950/5 border border-purple-100/80 text-gray-700 leading-relaxed space-y-8">
             
             {/* H1 Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
                 Shipping & Delivery Policy
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-purple-700 font-semibold">
                 Last Updated: August 2, 2026
               </p>
             </div>
 
             {/* Digital Products Only Banner */}
-            <div className="bg-emerald-50/60 border border-emerald-200/60 p-5 rounded-2xl">
-              <h2 className="text-lg font-bold text-emerald-950 mb-2 flex items-center gap-2">
-                <Truck className="w-5 h-5 text-emerald-600 shrink-0" />
+            <div className="bg-purple-50/60 border border-purple-200/60 p-5 rounded-2xl">
+              <h2 className="text-lg font-bold text-purple-950 mb-2 flex items-center gap-2">
+                <Truck className="w-5 h-5 text-purple-600 shrink-0" />
                 Digital Products Only
               </h2>
-              <p className="text-emerald-900 text-sm mb-3">
+              <p className="text-purple-900 text-sm mb-3">
                 All products available on our website are digital goods delivered electronically. We do not ship any physical products.
               </p>
-              <p className="text-xs font-semibold text-emerald-800">
+              <p className="text-xs font-semibold text-purple-800">
                 Digital orders are fulfilled online and may be delivered through:
               </p>
-              <ul className="list-disc pl-5 mt-1 text-xs text-emerald-800 space-y-1">
+              <ul className="list-disc pl-5 mt-1 text-xs text-purple-800 space-y-1">
                 <li>Instant on-screen order confirmation</li>
                 <li>Email delivery to the address provided during checkout</li>
               </ul>
-              <p className="text-xs text-emerald-700 mt-3 font-medium">
+              <p className="text-xs text-purple-700 mt-3 font-medium">
                 Because our products are delivered digitally, delivery is free and typically immediate for customers worldwide, including customers in the United States.
               </p>
             </div>
@@ -59,7 +59,7 @@ export default function ShippingDelivery() {
             {/* Order Cut-Off Time */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Clock className="w-5 h-5 text-purple-600 shrink-0" />
                 Order Cut-Off Time
               </h2>
               <p className="mb-2">
@@ -137,9 +137,9 @@ export default function ShippingDelivery() {
               <p className="mb-3">
                 If you have any questions regarding this Shipping & Delivery Policy, please contact us at:
               </p>
-              <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
-                <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
+              <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
+                <Mail className="w-4 h-4 text-purple-600" />
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-purple-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
