@@ -4,6 +4,7 @@ import { Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, Cloc
 import { supabase } from '../utils/supabase'
 import { toast } from 'react-hot-toast'
 import productsData from '../data/products.json' // 👈 استيراد المنتجات لملف الـ Export
+import { fetchCsvProducts } from '../utils/loadHiddenProducts' // 👈 استيراد دالة الـ CSV الجديدة
 
 const ADMIN_PASSWORD = "MySecretAdminPassword2026!"
 
@@ -15,6 +16,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('visitors')
   const [messages, setMessages] = useState([])
   const [visitors, setVisitors] = useState([])
+  const [hiddenCsvProducts, setHiddenCsvProducts] = useState([]) // 👈 State منتجات الـ CSV
   
   // 💬 States الشات المباشر
   const [chatSessions, setChatSessions] = useState([])
@@ -71,6 +73,10 @@ export default function AdminDashboard() {
       .select('*')
       .order('updated_at', { ascending: false })
     setChatSessions(chatData || [])
+
+    // 4. جلب منتجات الـ CSV المخفية أوتوماتيكياً
+    const csvProds = await fetchCsvProducts()
+    setHiddenCsvProducts(csvProds)
 
     setLoading(false)
   }
@@ -392,7 +398,7 @@ export default function AdminDashboard() {
               <MessageSquare className="w-4 h-4" /> Live Chat ({chatSessions.length})
             </button>
 
-            {/* 🔒 تبويب المنتجات المخفية والروابط الخاصة */}
+            {/* 🔒 تبويب المنتجات المخفية والروابط الخاصة (JSON + CSV) */}
             <button
               onClick={() => setActiveTab('hiddenproducts')}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
@@ -401,7 +407,7 @@ export default function AdminDashboard() {
                   : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
-              <EyeOffIcon className="w-4 h-4" /> Hidden Products ({productsData.filter(p => p.hidden).length})
+              <EyeOffIcon className="w-4 h-4" /> Hidden Products ({productsData.filter(p => p.hidden).length + hiddenCsvProducts.length})
             </button>
 
             <button
@@ -607,7 +613,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* 🔒 TAB 3: HIDDEN PRODUCTS MANAGEMENT (المنتجات المخفية والروابط الخاصة) */}
+          {/* 🔒 TAB 3: HIDDEN PRODUCTS MANAGEMENT (JSON + CSV) */}
           {activeTab === 'hiddenproducts' && (
             <div className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-purple-100/60 pb-4">
@@ -616,7 +622,7 @@ export default function AdminDashboard() {
                     <EyeOffIcon className="w-5 h-5 text-purple-600" /> Hidden / Secret Products Manager
                   </h2>
                   <p className="text-xs text-gray-500 mt-1">
-                    These products are hidden from the Home and Shop pages, but fully accessible via direct URLs.
+                    Includes native JSON hidden items and imported Shopify CSV items. Accessible via direct URLs.
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -630,6 +636,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
+                {/* 1. عرض منتجات JSON المخفية */}
                 {productsData.filter(p => p.hidden).map((p) => (
                   <div key={p.id} className="border border-purple-100 rounded-2xl p-5 bg-purple-50/10 flex flex-col justify-between space-y-4">
                     <div className="flex items-start gap-4">
@@ -655,6 +662,40 @@ export default function AdminDashboard() {
                           target="_blank" 
                           rel="noreferrer"
                           className="text-purple-600 font-bold hover:underline flex items-center gap-1"
+                        >
+                          Visit Page &rarr;
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* 2. عرض منتجات الـ CSV القادمة من Shopify CSV */}
+                {hiddenCsvProducts.map((p) => (
+                  <div key={p.id} className="border border-indigo-100 rounded-2xl p-5 bg-indigo-50/10 flex flex-col justify-between space-y-4">
+                    <div className="flex items-start gap-4">
+                      <img src={p.image} alt={p.name} className="w-16 h-16 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" />
+                      <div>
+                        <span className="text-[10px] font-extrabold uppercase bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full">
+                          SHOPIFY CSV
+                        </span>
+                        <h3 className="font-bold text-gray-900 text-sm mt-1">{p.name}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{p.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 bg-white p-3 rounded-xl border border-indigo-100/60 text-xs">
+                      <div className="flex justify-between font-semibold">
+                        <span className="text-gray-500">Price:</span>
+                        <span className="text-indigo-700">${p.variants?.[0]?.price || 0}</span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1 border-t border-gray-100">
+                        <span className="text-gray-400 font-mono text-[11px]">/product/{p.slug}</span>
+                        <a 
+                          href={`/product/${p.slug}`} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="text-indigo-600 font-bold hover:underline flex items-center gap-1"
                         >
                           Visit Page &rarr;
                         </a>
