@@ -11,26 +11,26 @@ export default function About() {
         <meta name="description" content="QB MASTER is an independent retailer specializing in genuine QuickBooks Desktop licenses." />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gray-50/50">
+      <section className="py-12 lg:py-20 bg-purple-50/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Back Button */}
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-emerald-700 mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           {/* Main Card / Cadre */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-gray-200/60 border border-gray-100 text-gray-700 leading-relaxed space-y-8">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-purple-950/5 border border-purple-100/80 text-gray-700 leading-relaxed space-y-8">
             
             {/* H1 Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
                 About QB MASTER
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-purple-700 font-semibold">
                 Your Trusted Independent Software License Provider
               </p>
             </div>
@@ -48,32 +48,32 @@ export default function About() {
             {/* Features Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               
-              <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100">
-                <ShieldCheck className="w-6 h-6 text-emerald-600 mb-2" />
+              <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
+                <ShieldCheck className="w-6 h-6 text-purple-600 mb-2" />
                 <h3 className="font-bold text-gray-900 text-base mb-1">Genuine Licenses</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Authentic lifetime activation keys with no subscriptions or hidden fees.
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100">
-                <Zap className="w-6 h-6 text-emerald-600 mb-2" />
+              <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
+                <Zap className="w-6 h-6 text-purple-600 mb-2" />
                 <h3 className="font-bold text-gray-900 text-base mb-1">Instant Digital Delivery</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Fast electronic delivery right to your email address after purchase.
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100">
-                <Award className="w-6 h-6 text-emerald-600 mb-2" />
+              <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
+                <Award className="w-6 h-6 text-purple-600 mb-2" />
                 <h3 className="font-bold text-gray-900 text-base mb-1">30-Day Guarantee</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Every order is backed by a 30-day money-back risk-free guarantee.
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100">
-                <Users className="w-6 h-6 text-emerald-600 mb-2" />
+              <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
+                <Users className="w-6 h-6 text-purple-600 mb-2" />
                 <h3 className="font-bold text-gray-900 text-base mb-1">Trusted Support</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Assisting accountants and small business owners with installation.
@@ -101,9 +101,9 @@ export default function About() {
               <p className="mb-3 text-sm text-gray-600">
                 If you have any questions about our licenses, feel free to reach out to our team:
               </p>
-              <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
-                <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
+              <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
+                <Mail className="w-4 h-4 text-purple-600" />
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-purple-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
