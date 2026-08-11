@@ -11,26 +11,26 @@ export default function CookiePolicy() {
         <meta name="description" content="Cookies Policy for QB MASTER explaining how we use cookies and similar technologies." />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gray-50/50">
+      <section className="py-12 lg:py-20 bg-purple-50/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Back Button */}
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-emerald-700 mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           {/* Main Card */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-gray-200/60 border border-gray-100 text-gray-700 leading-relaxed space-y-8">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-purple-950/5 border border-purple-100/80 text-gray-700 leading-relaxed space-y-8">
             
             {/* H1 Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
                 Cookies Policy
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-purple-700 font-semibold">
                 Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
               </p>
             </div>
@@ -41,7 +41,7 @@ export default function CookiePolicy() {
                 Introduction
               </h2>
               <p className="mb-3">
-                This Cookies Policy explains how QB MASTER (“we,” “our,” or “us”) uses cookies and similar technologies when you visit or use our website, <span className="font-semibold text-emerald-700">qbdeals.shop</span>.
+                This Cookies Policy explains how QB MASTER (“we,” “our,” or “us”) uses cookies and similar technologies when you visit or use our website, <span className="font-semibold text-purple-700">qbdeals.shop</span>.
               </p>
               <p className="mb-3">
                 By accessing or using our website, you acknowledge and agree to the use of cookies as described in this Cookies Policy and our Privacy Policy.
@@ -63,7 +63,7 @@ export default function CookiePolicy() {
                 Cookies generally do not directly contain information that identifies you personally. However, information collected through cookies may be associated with other information we maintain about you.
               </p>
               <p>
-                For more information about how we collect, use, and protect your personal information, please review our <Link to="/privacy-policy" className="text-emerald-600 font-semibold hover:underline">Privacy Policy</Link>.
+                For more information about how we collect, use, and protect your personal information, please review our <Link to="/privacy-policy" className="text-purple-600 font-semibold hover:underline">Privacy Policy</Link>.
               </p>
             </div>
 
@@ -109,22 +109,22 @@ export default function CookiePolicy() {
               <p className="mb-4">We may use the following types of cookies:</p>
 
               {/* Cookie Types Breakdown */}
-              <div className="space-y-4 bg-gray-50/80 p-5 rounded-2xl border border-gray-100">
+              <div className="space-y-4 bg-purple-50/40 p-5 rounded-2xl border border-purple-100">
                 <div>
                   <h3 className="text-base font-bold text-gray-900 mb-1">
                     Essential Cookies
                   </h3>
-                  <p className="text-xs text-emerald-700 font-semibold mb-1">Type: Session Cookies | Administered by: QB DEALS</p>
+                  <p className="text-xs text-purple-700 font-semibold mb-1">Type: Session Cookies | Administered by: QB DEALS</p>
                   <p className="text-sm text-gray-600">
                     These cookies are necessary for the proper operation of our website. They support essential functions such as order processing, secure browsing, and fraud prevention. Without these cookies, certain features and services may not function properly.
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-gray-200/60">
+                <div className="pt-3 border-t border-purple-100">
                   <h3 className="text-base font-bold text-gray-900 mb-1">
                     Functionality Cookies
                   </h3>
-                  <p className="text-xs text-emerald-700 font-semibold mb-1">Type: Persistent Cookies | Administered by: QB MASTER</p>
+                  <p className="text-xs text-purple-700 font-semibold mb-1">Type: Persistent Cookies | Administered by: QB MASTER</p>
                   <p className="text-sm text-gray-600">
                     These cookies allow our website to remember information such as your preferences, settings, and other choices. This helps us provide a more convenient and personalized browsing experience.
                   </p>
@@ -159,22 +159,22 @@ export default function CookiePolicy() {
 
               <ul className="space-y-2 text-sm font-medium">
                 <li>
-                  <a href="https://support.google.com/accounts/answer/32050" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-emerald-600 hover:underline">
+                  <a href="https://support.google.com/accounts/answer/32050" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-purple-600 hover:underline">
                     Google Chrome <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </li>
                 <li>
-                  <a href="https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-emerald-600 hover:underline">
+                  <a href="https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-purple-600 hover:underline">
                     Mozilla Firefox <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </li>
                 <li>
-                  <a href="https://support.microsoft.com/kb/278835" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-emerald-600 hover:underline">
+                  <a href="https://support.microsoft.com/kb/278835" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-purple-600 hover:underline">
                     Microsoft Internet Explorer <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </li>
                 <li>
-                  <a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-emerald-600 hover:underline">
+                  <a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-purple-600 hover:underline">
                     Safari <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </li>
@@ -196,7 +196,7 @@ export default function CookiePolicy() {
                 href="https://www.allaboutcookies.org/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="inline-flex items-center gap-1.5 font-semibold text-emerald-600 hover:underline text-sm"
+                className="inline-flex items-center gap-1.5 font-semibold text-purple-600 hover:underline text-sm"
               >
                 https://www.allaboutcookies.org/ <ExternalLink className="w-3.5 h-3.5" />
               </a>
@@ -210,9 +210,9 @@ export default function CookiePolicy() {
               <p className="mb-3">
                 If you have any questions or concerns about this Cookies Policy, please contact us at:
               </p>
-              <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
-                <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
+              <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
+                <Mail className="w-4 h-4 text-purple-600" />
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-purple-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
