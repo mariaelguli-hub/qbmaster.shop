@@ -99,22 +99,22 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative py-12 lg:py-24 bg-emerald-50/20 overflow-hidden perspective-1000">
+    <section className="relative py-12 lg:py-24 bg-purple-50/30 overflow-hidden perspective-1000">
       
       {/* 🟦 1. Modern Grid Background Pattern */}
       <div 
-        className="absolute inset-0 z-0 pointer-events-none opacity-60"
+        className="absolute inset-0 z-0 pointer-events-none opacity-50"
         style={{
-          backgroundImage: `radial-gradient(#10b981 0.75px, transparent 0.75px), linear-gradient(to right, #05966912 1px, transparent 1px), linear-gradient(to bottom, #05966912 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(#7c3aed 0.75px, transparent 0.75px), linear-gradient(to right, #6d28d912 1px, transparent 1px), linear-gradient(to bottom, #6d28d912 1px, transparent 1px)`,
           backgroundSize: '24px 24px, 32px 32px, 32px 32px',
           maskImage: 'radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 100%)',
           WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 100%)'
         }}
       />
 
-      {/* 🟢 2. Soft Ambient Glows */}
-      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-teal-400/10 rounded-full blur-3xl pointer-events-none" />
+      {/* 🟣 2. Soft Ambient Glows */}
+      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -127,10 +127,10 @@ export default function Hero() {
             className="lg:col-span-6 text-left"
           >
             {/* Rating Badge */}
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-emerald-200/80 mb-5 shadow-xs">
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-purple-200/80 mb-5 shadow-xs">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-              <span className="text-xs font-black text-emerald-950 tracking-tight">4.8/5 from 22 verified reviews</span>
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse ml-0.5" />
+              <span className="text-xs font-black text-purple-950 tracking-tight">4.8/5 from 22 verified reviews</span>
+              <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse ml-0.5" />
             </motion.div>
 
             {/* Main Title */}
@@ -144,10 +144,10 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-700 font-black px-2 pb-1 inline-block overflow-visible"
+                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 font-black px-2 pb-1 inline-block overflow-visible"
                   >
                     {animatedWords[wordIndex]}
-                    <span className="absolute left-0 bottom-0 w-full h-[3.5px] bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 rounded-full shadow-xs" />
+                    <span className="absolute left-0 bottom-0 w-full h-[3.5px] bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-600 rounded-full shadow-xs" />
                   </motion.span>
                 </AnimatePresence>
               </span>
@@ -160,14 +160,14 @@ export default function Hero() {
 
             {/* Perks List */}
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-4 gap-y-2.5 text-xs sm:text-sm font-extrabold text-gray-800 mb-8">
-              <span className="flex items-center gap-1.5 text-emerald-800 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-emerald-200/60 shadow-2xs">
-                <Check className="w-4 h-4 text-emerald-600 stroke-[3]" /> No subscription
+              <span className="flex items-center gap-1.5 text-purple-900 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-purple-200/70 shadow-2xs">
+                <Check className="w-4 h-4 text-purple-600 stroke-[3]" /> No subscription
               </span>
-              <span className="flex items-center gap-1.5 text-emerald-800 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-emerald-200/60 shadow-2xs">
-                <Check className="w-4 h-4 text-emerald-600 stroke-[3]" /> Instant delivery
+              <span className="flex items-center gap-1.5 text-purple-900 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-purple-200/70 shadow-2xs">
+                <Check className="w-4 h-4 text-purple-600 stroke-[3]" /> Instant delivery
               </span>
-              <span className="flex items-center gap-1.5 text-emerald-800 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-emerald-200/60 shadow-2xs">
-                <Check className="w-4 h-4 text-emerald-600 stroke-[3]" /> Genuine license
+              <span className="flex items-center gap-1.5 text-purple-900 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-purple-200/70 shadow-2xs">
+                <Check className="w-4 h-4 text-purple-600 stroke-[3]" /> Genuine license
               </span>
             </motion.div>
 
@@ -175,7 +175,7 @@ export default function Hero() {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4">
               <button
                 onClick={scrollToProducts}
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-700 text-white font-extrabold text-base shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden cursor-pointer"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-base shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform transform skew-x-12" />
                 <Zap className="w-5 h-5 fill-white animate-bounce shrink-0" /> 
@@ -204,13 +204,13 @@ export default function Hero() {
             <motion.div 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative bg-white/95 backdrop-blur-2xl rounded-3xl p-6 sm:p-7 shadow-2xl shadow-emerald-950/15 border border-gray-200/80 transition-all duration-500 hover:rotate-1"
+              className="relative bg-white/95 backdrop-blur-2xl rounded-3xl p-6 sm:p-7 shadow-2xl shadow-purple-950/15 border border-gray-200/80 transition-all duration-500 hover:rotate-1"
             >
               
               {/* Top Header Row */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl flex items-center justify-center font-mono font-black text-white text-lg shadow-md shadow-emerald-900/20">
+                  <div className="w-11 h-11 bg-gradient-to-br from-purple-600 to-indigo-900 rounded-2xl flex items-center justify-center font-mono font-black text-white text-lg shadow-md shadow-purple-900/20">
                     QB
                   </div>
                   <div>
@@ -221,17 +221,17 @@ export default function Hero() {
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-black rounded-full border border-emerald-200/60">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-50 text-purple-700 text-xs font-black rounded-full border border-purple-200/60">
+                  <span className="w-2 h-2 rounded-full bg-purple-600 animate-ping" />
                   ACTIVE
                 </span>
               </div>
 
               {/* Status Step 1 */}
               <div className="space-y-3.5 mb-6">
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-emerald-200/80 transition-all">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-purple-200/80 transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-xs">
+                    <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div>
@@ -239,13 +239,13 @@ export default function Hero() {
                       <p className="text-[11px] text-gray-400 font-medium">To your inbox in 2 min</p>
                     </div>
                   </div>
-                  <Check className="w-5 h-5 text-emerald-600 stroke-[3]" />
+                  <Check className="w-5 h-5 text-purple-600 stroke-[3]" />
                 </div>
 
                 {/* Status Step 2 */}
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-emerald-200/80 transition-all">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-purple-200/80 transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-xs">
+                    <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs">
                       <Download className="w-4 h-4" />
                     </div>
                     <div>
@@ -253,13 +253,13 @@ export default function Hero() {
                       <p className="text-[11px] text-gray-400 font-medium">Windows & macOS</p>
                     </div>
                   </div>
-                  <Check className="w-5 h-5 text-emerald-600 stroke-[3]" />
+                  <Check className="w-5 h-5 text-purple-600 stroke-[3]" />
                 </div>
 
                 {/* Status Step 3 */}
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-emerald-200/80 transition-all">
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-purple-200/80 transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-xs">
+                    <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs">
                       <Zap className="w-4 h-4 fill-white" />
                     </div>
                     <div>
@@ -267,14 +267,14 @@ export default function Hero() {
                       <p className="text-[11px] text-gray-400 font-medium">Genuine key — lifetime</p>
                     </div>
                   </div>
-                  <Check className="w-5 h-5 text-emerald-600 stroke-[3]" />
+                  <Check className="w-5 h-5 text-purple-600 stroke-[3]" />
                 </div>
               </div>
 
               {/* Bottom Card Footer */}
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
                 <span className="font-extrabold text-gray-400">One-time purchase</span>
-                <span className="font-black text-emerald-600 text-base font-mono">From $127.00</span>
+                <span className="font-black text-purple-600 text-base font-mono">From $127.00</span>
               </div>
 
             </motion.div>
@@ -283,9 +283,9 @@ export default function Hero() {
             <motion.div 
               animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-6 -right-3 sm:-right-6 bg-white/95 backdrop-blur-xl p-3.5 rounded-2xl shadow-xl shadow-emerald-950/10 border border-emerald-100 flex items-center gap-3 z-20"
+              className="absolute -top-6 -right-3 sm:-right-6 bg-white/95 backdrop-blur-xl p-3.5 rounded-2xl shadow-xl shadow-purple-950/10 border border-purple-100 flex items-center gap-3 z-20"
             >
-              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60">
+              <div className="p-2 rounded-xl bg-purple-50 text-purple-600 border border-purple-200/60">
                 <Shield className="w-5 h-5" />
               </div>
               <div>
@@ -298,9 +298,9 @@ export default function Hero() {
             <motion.div 
               animate={{ y: [0, 10, 0], rotate: [0, -2, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-              className="absolute -bottom-6 -left-3 sm:-left-6 bg-white/95 backdrop-blur-xl p-3.5 rounded-2xl shadow-xl shadow-emerald-950/10 border border-emerald-100 flex items-center gap-3 z-20"
+              className="absolute -bottom-6 -left-3 sm:-left-6 bg-white/95 backdrop-blur-xl p-3.5 rounded-2xl shadow-xl shadow-purple-950/10 border border-purple-100 flex items-center gap-3 z-20"
             >
-              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60">
+              <div className="p-2 rounded-xl bg-purple-50 text-purple-600 border border-purple-200/60">
                 <Timer className="w-5 h-5" />
               </div>
               <div>
