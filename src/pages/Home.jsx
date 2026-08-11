@@ -1,3 +1,4 @@
+import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import Hero from '../components/Hero'
 import TrustBadges from '../components/TrustBadges'
@@ -16,20 +17,23 @@ export default function Home() {
         <title>QB MASTER — Genuine QuickBooks Desktop Licenses | One-Time Payment</title>
         <meta name="description" content="Buy genuine QuickBooks Desktop 2024 licenses with one-time payment. Instant email delivery, 30-day money-back guarantee. No subscription." />
       </Helmet>
-      <Hero />
-      <TrustBadges />
-      <Features />
-      
-      {/* 🎯 إضافة الـ ID المباشر لقسم المنتجات لضمان السكورل السلس */}
-      <div id="products" className="scroll-mt-20">
-        <ProductGrid />
-      </div>
 
-      <HowItWorks />
-      <ComparisonTable />
-      <Testimonials />
-      <FAQAccordion />
-      <CTASection />
+      <main className="bg-white text-gray-900 selection:bg-purple-500 selection:text-white">
+        <Hero />
+        <TrustBadges />
+        <Features />
+        
+        {/* 🎯 قسم المنتجات مع معرف السكرول */}
+        <div id="products" className="scroll-mt-20">
+          <ProductGrid />
+        </div>
+
+        <HowItWorks />
+        <ComparisonTable />
+        <Testimonials />
+        <FAQAccordion />
+        <CTASection />
+      </main>
     </>
   )
 }
