@@ -7,8 +7,8 @@ export default function TermsConditions() {
   return (
     <>
       <Helmet>
-        <title>Terms & Conditions — QB DEALS</title>
-        <meta name="description" content="Terms and Conditions for purchasing software licenses on QB DEALS." />
+        <title>Terms & Conditions — QB MASTER</title>
+        <meta name="description" content="Terms and Conditions for purchasing software licenses on QB MASTER." />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gray-50/50">
@@ -38,7 +38,7 @@ export default function TermsConditions() {
             {/* Agreement / Overview */}
             <div>
               <p className="text-base text-gray-600 leading-relaxed">
-                By accessing or using QB DEALS, you acknowledge that you have read, understood, and agreed to be bound by the terms and conditions of this agreement.
+                By accessing or using QB MASTER, you acknowledge that you have read, understood, and agreed to be bound by the terms and conditions of this agreement.
               </p>
             </div>
 
@@ -49,7 +49,7 @@ export default function TermsConditions() {
                 License
               </h2>
               <p className="text-gray-600 leading-relaxed">
-                All software licenses sold by QB DEALS are genuine, valid, and intended for perpetual use on the specified number of devices or users, as stated in the product description.
+                All software licenses sold by QB MASTER are genuine, valid, and intended for perpetual use on the specified number of devices or users, as stated in the product description.
               </p>
             </div>
 
@@ -74,7 +74,7 @@ export default function TermsConditions() {
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
                 <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbdeals,shop" className="underline hover:text-emerald-700">contact@qbdeals.shop</a></span>
+                <span>Email: <a href="mailto:contact@qbmaster,shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
