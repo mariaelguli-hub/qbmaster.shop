@@ -17,7 +17,7 @@ function Cell({ value, isUs }) {
     return (
       <div className="flex justify-center">
         <div className={`w-7 h-7 rounded-full flex items-center justify-center shadow-xs transition-transform group-hover:scale-110 ${
-          isUs ? 'bg-emerald-600 text-white' : 'bg-emerald-100 text-emerald-700'
+          isUs ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-700'
         }`}>
           <Check className="w-4 h-4 stroke-[3]" />
         </div>
@@ -38,10 +38,10 @@ function Cell({ value, isUs }) {
 
 export default function ComparisonTable() {
   return (
-    <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-gray-50/50 to-white relative overflow-hidden">
+    <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-purple-50/20 to-white relative overflow-hidden">
       
       {/* Background Decorative Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         
@@ -53,8 +53,8 @@ export default function ComparisonTable() {
           transition={{ duration: 0.5 }}
           className="max-w-2xl mx-auto mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-xs font-black uppercase tracking-widest mb-4 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/60 text-purple-700 text-xs font-black uppercase tracking-widest mb-4 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
             <span>Smart Comparison</span>
           </div>
 
@@ -86,13 +86,13 @@ export default function ComparisonTable() {
                   </th>
                   
                   {/* Our Store Highlighted Header (With Clean Badge Inside) */}
-                  <th className="py-4 px-6 text-center bg-emerald-500/10 border-x border-emerald-500/20 align-middle">
+                  <th className="py-4 px-6 text-center bg-purple-500/10 border-x border-purple-500/20 align-middle">
                     <div className="flex flex-col items-center justify-center gap-1">
-                      <span className="bg-emerald-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
+                      <span className="bg-purple-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
                         Best Choice
                       </span>
-                      <div className="flex items-center gap-1.5 font-black text-emerald-700 text-sm sm:text-base">
-                        <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <div className="flex items-center gap-1.5 font-black text-purple-700 text-sm sm:text-base">
+                        <ShieldCheck className="w-4 h-4 text-purple-600 shrink-0" />
                         <span>Our Store</span>
                       </div>
                     </div>
@@ -116,12 +116,12 @@ export default function ComparisonTable() {
                     className="hover:bg-gray-50/80 transition-colors group"
                   >
                     {/* Feature Title */}
-                    <td className="py-4 px-6 font-bold text-gray-800 group-hover:text-emerald-900 transition-colors">
+                    <td className="py-4 px-6 font-bold text-gray-800 group-hover:text-purple-900 transition-colors">
                       {row.feature}
                     </td>
 
                     {/* Our Store Result (Highlighted Column) */}
-                    <td className="py-4 px-6 text-center bg-emerald-500/5 border-x border-emerald-500/15">
+                    <td className="py-4 px-6 text-center bg-purple-500/5 border-x border-purple-500/15">
                       <Cell value={row.us} isUs={true} />
                     </td>
 
