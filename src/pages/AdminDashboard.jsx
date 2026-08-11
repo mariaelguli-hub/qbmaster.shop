@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, Clock, Compass, ShieldAlert, Send, Bot, User, Image as ImageIcon, LogOut, Download, FileSpreadsheet } from 'lucide-react'
+import { Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, Clock, Compass, ShieldAlert, Send, Bot, User, Image as ImageIcon, LogOut, Download, FileSpreadsheet, PackageCheck, EyeOff as EyeOffIcon } from 'lucide-react'
 import { supabase } from '../utils/supabase'
 import { toast } from 'react-hot-toast'
 import productsData from '../data/products.json' // 👈 استيراد المنتجات لملف الـ Export
@@ -102,13 +102,13 @@ export default function AdminDashboard() {
 
       const rows = (productsData || []).map((p) => {
         const cleanDesc = (p.description || '').replace(/"/g, '""')
-        const priceFormatted = `${Number(p.price || 127).toFixed(2)} USD`
+        const priceFormatted = `${Number(p.variants?.[0]?.price || 127).toFixed(2)} USD`
         const productLink = `${domain}/product/${p.slug || p.id}`
         const imageLink = p.image && p.image.startsWith('http') ? p.image : `${domain}${p.image || '/images/pro.jpg'}`
 
         return [
           `"${p.id}"`,
-          `"${p.title}"`,
+          `"${p.name}"`,
           `"${cleanDesc}"`,
           `"${productLink}"`,
           `"${imageLink}"`,
@@ -132,6 +132,41 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error(err)
       toast.error('Failed to export CSV. Check products.json file.')
+    }
+  }
+
+  // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط
+  const exportProductsCsv = (onlyHidden = false) => {
+    try {
+      const targetProducts = onlyHidden ? productsData.filter(p => p.hidden) : productsData
+      const headers = ['id', 'name', 'slug', 'category', 'hidden', 'default_price', 'direct_link']
+      
+      const rows = targetProducts.map((p) => {
+        const price = p.variants?.[0]?.price || 0
+        const link = `https://qbdeals.shop/product/${p.slug}`
+        return [
+          `"${p.id}"`,
+          `"${p.name}"`,
+          `"${p.slug}"`,
+          `"${p.category}"`,
+          `"${p.hidden ? 'Yes' : 'No'}"`,
+          `"${price}"`,
+          `"${link}"`
+        ].join(',')
+      })
+
+      const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows].join('\n')
+      const encodedUri = encodeURI(csvContent)
+      const link = document.createElement('a')
+      link.setAttribute('href', encodedUri)
+      link.setAttribute('download', `${onlyHidden ? 'hidden_products' : 'all_products'}_${new Date().toISOString().slice(0, 10)}.csv`)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      toast.success(onlyHidden ? 'Hidden Products CSV Downloaded!' : 'All Products CSV Downloaded!')
+    } catch (err) {
+      console.error(err)
+      toast.error('Failed to export products CSV.')
     }
   }
 
@@ -315,17 +350,9 @@ export default function AdminDashboard() {
           <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-purple-100 shadow-sm">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Control Panel</h1>
-              <p className="text-xs text-gray-500">Visitor logs, live chat & GMC product feed management</p>
+              <p className="text-xs text-gray-500">Visitor logs, live chat, hidden products & GMC feed</p>
             </div>
             <div className="flex items-center gap-2">
-              {/* 🟣 ZER EXPORT GMC CSV */}
-              <button 
-                onClick={exportGmcCsv}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-extrabold transition-all shadow-md shadow-purple-600/20 cursor-pointer"
-              >
-                <Download className="w-4 h-4" /> Export GMC Feed (.CSV)
-              </button>
-
               <button 
                 onClick={fetchData}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-sm font-medium transition-all cursor-pointer"
@@ -362,7 +389,19 @@ export default function AdminDashboard() {
                   : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
-              <MessageSquare className="w-4 h-4" /> Live Chat Support ({chatSessions.length})
+              <MessageSquare className="w-4 h-4" /> Live Chat ({chatSessions.length})
+            </button>
+
+            {/* 🔒 تبويب المنتجات المخفية والروابط الخاصة */}
+            <button
+              onClick={() => setActiveTab('hiddenproducts')}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                activeTab === 'hiddenproducts' 
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
+                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
+              }`}
+            >
+              <EyeOffIcon className="w-4 h-4" /> Hidden Products ({productsData.filter(p => p.hidden).length})
             </button>
 
             <button
@@ -503,7 +542,6 @@ export default function AdminDashboard() {
                         <p className="text-xs text-purple-700 font-medium">Status: {selectedSession.status?.toUpperCase()}</p>
                       </div>
 
-                      {/* 🛑🔴 زر إنهاء المحادثة من طرف الأدمن */}
                       {selectedSession.status !== 'ended' && (
                         <button
                           onClick={handleEndSessionFromAdmin}
@@ -569,7 +607,66 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB 3: CONTACT FORM MESSAGES */}
+          {/* 🔒 TAB 3: HIDDEN PRODUCTS MANAGEMENT (المنتجات المخفية والروابط الخاصة) */}
+          {activeTab === 'hiddenproducts' && (
+            <div className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-purple-100/60 pb-4">
+                <div>
+                  <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                    <EyeOffIcon className="w-5 h-5 text-purple-600" /> Hidden / Secret Products Manager
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1">
+                    These products are hidden from the Home and Shop pages, but fully accessible via direct URLs.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => exportProductsCsv(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-purple-600/20 cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Export Hidden CSV
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                {productsData.filter(p => p.hidden).map((p) => (
+                  <div key={p.id} className="border border-purple-100 rounded-2xl p-5 bg-purple-50/10 flex flex-col justify-between space-y-4">
+                    <div className="flex items-start gap-4">
+                      <img src={p.image} alt={p.name} className="w-16 h-16 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" />
+                      <div>
+                        <span className="text-[10px] font-extrabold uppercase bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-full">
+                          {p.category}
+                        </span>
+                        <h3 className="font-bold text-gray-900 text-sm mt-1">{p.name}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{p.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 bg-white p-3 rounded-xl border border-purple-100/60 text-xs">
+                      <div className="flex justify-between font-semibold">
+                        <span className="text-gray-500">Variants & Prices:</span>
+                        <span className="text-purple-700">{p.variants?.length || 0} Options</span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1 border-t border-gray-100">
+                        <span className="text-gray-400 font-mono text-[11px]">/product/{p.slug}</span>
+                        <a 
+                          href={`/product/${p.slug}`} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="text-purple-600 font-bold hover:underline flex items-center gap-1"
+                        >
+                          Visit Page &rarr;
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: CONTACT FORM MESSAGES */}
           {activeTab === 'messages' && (
             <div className="grid gap-4">
               {messages.length === 0 ? (
@@ -616,7 +713,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB 4: GMC EXPORTER CARD */}
+          {/* TAB 5: GMC EXPORTER CARD */}
           {activeTab === 'gmc' && (
             <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
@@ -629,7 +726,7 @@ export default function AdminDashboard() {
                 </p>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-4 flex flex-wrap justify-center gap-3">
                 <button
                   onClick={exportGmcCsv}
                   className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
