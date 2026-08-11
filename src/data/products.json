@@ -33,7 +33,8 @@
         "paymentLink": "https://href.li/?https://www.paypal.com/invoice/p/#PJGSYFNV2RG7PXYB"
       }
     ],
-    "image": "/images/qb-pro-plus-2024.webp"
+    "image": "/images/qb-pro-plus-2024.webp",
+    "hidden": false
   },
   {
     "id": 2,
@@ -60,7 +61,8 @@
         "paymentLink": "https://href.li/?https://www.paypal.com/invoice/p/#UJ7YKLQBHWT7FALF"
       }
     ],
-    "image": "/images/QuickBooks-Desktop-Mac-Plus-2024.png"
+    "image": "/images/QuickBooks-Desktop-Mac-Plus-2024.png",
+    "hidden": false
   },
   {
     "id": 3,
@@ -80,7 +82,8 @@
       { "id": "ent-acc-single", "label": "Single User", "price": 137, "comparePrice": 685, "users": 1, "bestselling": false },
       { "id": "ent-acc-5users", "label": "5 Users", "price": 153, "comparePrice": 899, "users": 5, "bestselling": true }
     ],
-    "image": "/images/QuickBooks-Desktop-Enterprise-2024.png"
+    "image": "/images/QuickBooks-Desktop-Enterprise-2024.png",
+    "hidden": true
   },
   {
     "id": 4,
@@ -100,6 +103,7 @@
       { "id": "ent-sol-single", "label": "Single User", "price": 145, "comparePrice": 725, "users": 1, "bestselling": false },
       { "id": "ent-sol-5users", "label": "5 Users", "price": 157, "comparePrice": 949, "users": 5, "bestselling": true }
     ],
-    "image": "/images/QuickBooks-Desktop-Enterprise-2024.png"
+    "image": "/images/QuickBooks-Desktop-Enterprise-2024.png",
+    "hidden": true
   }
 ]
