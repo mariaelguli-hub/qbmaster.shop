@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn, CheckCircle2 } from 'lucide-react'
-import products from '../data/products.json'
+import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn } from 'lucide-react'
+import productsData from '../data/products.json'
+import { fetchCsvProducts } from '../utils/loadHiddenProducts'
 
 const whyUsFeatures = [
   {
@@ -35,9 +36,25 @@ const whyUsFeatures = [
 export default function ProductDetails() {
   const { slug } = useParams()
   const navigate = useNavigate()
-  const product = products.find((p) => p.slug === slug)
 
-  // 1️⃣ State لتحديد الـ Variant الخيار المختار (الافتراضي هو الأول)
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  // 🎯 جلب ودمج المنتجات الأصلية مع منتجات ملف الـ CSV المخفية
+  useEffect(() => {
+    async function loadProduct() {
+      setLoading(true)
+      const csvProducts = await fetchCsvProducts()
+      const allProducts = [...productsData, ...csvProducts]
+      
+      const found = allProducts.find((p) => p.slug === slug || String(p.id) === slug)
+      setProduct(found || null)
+      setLoading(false)
+    }
+    loadProduct()
+  }, [slug])
+
+  // 1️⃣ State لتحديد الـ Variant الخيار المختار
   const [selectedVariant, setSelectedVariant] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
 
@@ -68,6 +85,14 @@ export default function ProductDetails() {
     return () => clearInterval(interval)
   }, [])
 
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+        <h1 className="text-xl font-bold text-gray-500 animate-pulse">Loading product details...</h1>
+      </div>
+    )
+  }
+
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
@@ -83,13 +108,11 @@ export default function ProductDetails() {
   const handleBuyNow = () => {
     const targetVariant = selectedVariant || (product.variants && product.variants[0])
 
-    // إلا كان عندها paymentLink مباشر (فـ JSON) كيتوجه ليه أونلاين
-    if (targetVariant && targetVariant.paymentLink) {
+    if (targetVariant && targetVariant.paymentLink && targetVariant.paymentLink !== '#') {
       window.location.href = targetVariant.paymentLink
     } else if (product.paymentLink) {
       window.location.href = product.paymentLink
     } else {
-      // إرسال لصفحة Checkout مع الـ ID المحدد
       navigate(`/checkout?id=${product.id}&variant=${targetVariant?.id || 'default'}`)
     }
   }
@@ -101,7 +124,7 @@ export default function ProductDetails() {
   return (
     <>
       <Helmet>
-        <title>{product.name} — QB DEALS</title>
+        <title>{product.name} — QB MASTER</title>
         <meta name="description" content={product.description} />
       </Helmet>
       
@@ -136,7 +159,7 @@ export default function ProductDetails() {
                   }}
                   className="w-full h-auto max-h-[480px] object-contain rounded-2xl transition-transform duration-200 ease-out"
                   onError={(e) => {
-                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(product.category)}`
+                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(product.category || 'QB')}`
                   }}
                 />
 
@@ -218,7 +241,7 @@ export default function ProductDetails() {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">
-                  {product.category}
+                  {product.category || 'EXECUTIVE'}
                 </div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-purple-600 rounded-full animate-pulse" />
@@ -258,7 +281,7 @@ export default function ProductDetails() {
                 ))}
               </ul>
 
-              {/* 🎯 3️⃣ VARIANTS SELECTION LIST (المربعات التي تصبح محددة بـ Click) */}
+              {/* VARIANTS SELECTION LIST */}
               <div className="space-y-3 mb-8">
                 {(product.variants || []).map((variant) => {
                   const isSelected = selectedVariant?.id === variant.id
@@ -274,7 +297,6 @@ export default function ProductDetails() {
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        {/* Check Indicator Icon */}
                         <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
                           isSelected ? 'bg-purple-600 text-white' : 'border border-gray-300'
                         }`}>
@@ -288,7 +310,7 @@ export default function ProductDetails() {
                             {variant.label}
                           </div>
                           <div className="text-xs text-gray-500 mt-0.5 font-medium">
-                            {variant.users} user license
+                            {variant.users || 1} user license
                           </div>
                         </div>
                       </div>
@@ -310,7 +332,7 @@ export default function ProductDetails() {
                 })}
               </div>
 
-              {/* 🚀 4️⃣ BUY NOW BUTTON WITH INSTANT DIRECT LINK LOGIC */}
+              {/* BUY NOW BUTTON */}
               <motion.div
                 whileHover={{ scale: 1.015 }}
                 whileTap={{ scale: 0.985 }}
@@ -329,7 +351,7 @@ export default function ProductDetails() {
                 </button>
               </motion.div>
 
-              {/* Payment Method Badges & Security */}
+              {/* Payment Badges & Security */}
               <div className="mt-6 space-y-6">
                 <div>
                   <div className="flex items-center justify-center gap-1.5 mb-2.5">
