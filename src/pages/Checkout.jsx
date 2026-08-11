@@ -11,32 +11,32 @@ export default function Checkout() {
         <title>Secure Checkout — QB MASTER</title>
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gradient-to-b from-gray-50/80 via-white to-gray-50/50 min-h-[85vh] relative overflow-hidden font-sans">
+      <section className="py-12 lg:py-20 bg-gradient-to-b from-purple-50/40 via-white to-purple-50/20 min-h-[85vh] relative overflow-hidden font-sans">
         
         {/* Background Decorative Mesh Glow */}
-        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Back Button */}
           <Link 
             to="/cart" 
-            className="inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-emerald-700 transition-colors mb-6 group"
+            className="inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-purple-700 transition-colors mb-6 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 
             <span>Back to cart</span>
           </Link>
 
           {/* Title Header */}
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200/60">
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-purple-100/80">
             <div>
               <h1 className="text-3xl font-black text-gray-900 tracking-tight">Secure Checkout</h1>
               <p className="text-xs text-gray-500 font-medium mt-1">Instant delivery to your email inbox</p>
             </div>
             
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200/60 text-xs font-black">
-              <Lock className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-800 rounded-full border border-purple-200/60 text-xs font-black">
+              <Lock className="w-3.5 h-3.5 text-purple-600" />
               <span>256-Bit Encrypted</span>
             </div>
           </div>
@@ -46,11 +46,11 @@ export default function Checkout() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="bg-white rounded-3xl border border-gray-200/80 p-6 sm:p-7 shadow-xl shadow-gray-200/50 mb-6"
+            className="bg-white rounded-3xl border border-purple-100 p-6 sm:p-7 shadow-xl shadow-purple-950/5 mb-6"
           >
             <h2 className="font-extrabold text-gray-900 text-base mb-4 flex items-center justify-between">
               <span>Contact Information</span>
-              <span className="text-xs text-emerald-600 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-md">Step 1 of 2</span>
+              <span className="text-xs text-purple-700 font-bold bg-purple-50 px-2.5 py-0.5 rounded-md">Step 1 of 2</span>
             </h2>
             <div className="space-y-4">
               <div>
@@ -59,7 +59,7 @@ export default function Checkout() {
                 </label>
                 <input 
                   type="email" 
-                  className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none transition-all shadow-2xs" 
+                  className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 outline-none transition-all shadow-2xs" 
                   placeholder="you@example.com" 
                   required
                 />
@@ -75,7 +75,7 @@ export default function Checkout() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="bg-white rounded-3xl border border-gray-200/80 p-6 sm:p-7 shadow-xl shadow-gray-200/50 mb-8"
+            className="bg-white rounded-3xl border border-purple-100 p-6 sm:p-7 shadow-xl shadow-purple-950/5 mb-8"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-100">
               <h2 className="font-extrabold text-gray-900 text-base">Payment Method</h2>
@@ -135,7 +135,7 @@ export default function Checkout() {
                 <div className="relative">
                   <input 
                     type="text" 
-                    className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none pl-11 transition-all shadow-2xs font-mono" 
+                    className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 outline-none pl-11 transition-all shadow-2xs font-mono" 
                     placeholder="0000 0000 0000 0000" 
                     required
                   />
@@ -150,7 +150,7 @@ export default function Checkout() {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none transition-all shadow-2xs font-mono" 
+                    className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 outline-none transition-all shadow-2xs font-mono" 
                     placeholder="MM/YY" 
                     required
                   />
@@ -161,7 +161,7 @@ export default function Checkout() {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none transition-all shadow-2xs font-mono" 
+                    className="w-full bg-gray-50/50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 outline-none transition-all shadow-2xs font-mono" 
                     placeholder="123" 
                     required
                   />
@@ -176,7 +176,7 @@ export default function Checkout() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <button className="group relative w-full inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-700 text-white font-black text-base shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.02] active:scale-95 transition-all duration-300 overflow-hidden cursor-pointer mb-6">
+            <button className="group relative w-full inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-black text-base shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-95 transition-all duration-300 overflow-hidden cursor-pointer mb-6">
               
               {/* Shimmer Light Beam Effect */}
               <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform transform skew-x-12" />
@@ -190,13 +190,13 @@ export default function Checkout() {
           {/* 🔒 Bottom Micro Trust Indicators */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-extrabold text-gray-500 text-center">
             <span className="flex items-center gap-1.5 text-gray-600">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" /> Guaranteed Genuine License
+              <ShieldCheck className="w-4 h-4 text-purple-600" /> Guaranteed Genuine License
             </span>
             <span className="flex items-center gap-1.5 text-gray-600">
               <Zap className="w-4 h-4 text-amber-500 fill-amber-500" /> Instant Email Delivery
             </span>
             <span className="flex items-center gap-1.5 text-gray-600">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" /> 30-Day Money Back
+              <CheckCircle2 className="w-4 h-4 text-purple-600" /> 30-Day Money Back
             </span>
           </div>
 
