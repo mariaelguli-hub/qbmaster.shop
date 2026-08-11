@@ -264,10 +264,10 @@ export default function AdminDashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-[80vh] flex items-center justify-center bg-purple-50/20 px-4">
         <Helmet><title>Admin Login — QB DEALS</title></Helmet>
-        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl max-w-md w-full text-center space-y-6">
-          <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
+        <div className="bg-white p-8 rounded-3xl border border-purple-100 shadow-xl max-w-md w-full text-center space-y-6">
+          <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
             <Lock className="w-8 h-8" />
           </div>
           <div>
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
                 placeholder="Enter password..."
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm pr-10 outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm pr-10 outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
                 required
               />
               <button 
@@ -294,7 +294,7 @@ export default function AdminDashboard() {
             </div>
             <button 
               type="submit" 
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl text-sm transition-all shadow-md shadow-emerald-600/20"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl text-sm transition-all shadow-md shadow-purple-600/20 cursor-pointer"
             >
               Unlock Dashboard
             </button>
@@ -308,33 +308,33 @@ export default function AdminDashboard() {
     <>
       <Helmet><title>Admin Control Panel — QB DEALS</title></Helmet>
 
-      <div className="min-h-screen bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-purple-50/20 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-6">
           
           {/* HEADER BAR */}
-          <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-purple-100 shadow-sm">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Control Panel</h1>
               <p className="text-xs text-gray-500">Visitor logs, live chat & GMC product feed management</p>
             </div>
             <div className="flex items-center gap-2">
-              {/* 🟢 ZER EXPORT GMC CSV */}
+              {/* 🟣 ZER EXPORT GMC CSV */}
               <button 
                 onClick={exportGmcCsv}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-extrabold transition-all shadow-md shadow-emerald-600/20 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-extrabold transition-all shadow-md shadow-purple-600/20 cursor-pointer"
               >
                 <Download className="w-4 h-4" /> Export GMC Feed (.CSV)
               </button>
 
               <button 
                 onClick={fetchData}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-medium transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-sm font-medium transition-all cursor-pointer"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
               </button>
               <button 
                 onClick={handleLogout}
-                className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-sm font-medium transition-all"
+                className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-sm font-medium transition-all cursor-pointer"
               >
                 Logout
               </button>
@@ -342,13 +342,13 @@ export default function AdminDashboard() {
           </div>
 
           {/* TABS NAVIGATION */}
-          <div className="flex flex-wrap gap-3 border-b border-gray-200 pb-2">
+          <div className="flex flex-wrap gap-3 border-b border-purple-100/60 pb-2">
             <button
               onClick={() => setActiveTab('visitors')}
-              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
                 activeTab === 'visitors' 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
+                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
               <Users className="w-4 h-4" /> Visitor Logs ({visitors.length})
@@ -356,10 +356,10 @@ export default function AdminDashboard() {
 
             <button
               onClick={() => setActiveTab('livechat')}
-              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
                 activeTab === 'livechat' 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
+                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
               <MessageSquare className="w-4 h-4" /> Live Chat Support ({chatSessions.length})
@@ -367,10 +367,10 @@ export default function AdminDashboard() {
 
             <button
               onClick={() => setActiveTab('messages')}
-              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
                 activeTab === 'messages' 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
+                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
               <MessageSquare className="w-4 h-4" /> Contact Forms ({messages.length})
@@ -378,10 +378,10 @@ export default function AdminDashboard() {
 
             <button
               onClick={() => setActiveTab('gmc')}
-              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
                 activeTab === 'gmc' 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
+                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
               <FileSpreadsheet className="w-4 h-4" /> GMC Exporter
@@ -390,15 +390,15 @@ export default function AdminDashboard() {
 
           {/* TAB 1: VISITORS LOGS */}
           {activeTab === 'visitors' && (
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-              <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+            <div className="bg-white rounded-3xl border border-purple-100 shadow-sm overflow-hidden">
+              <div className="p-6 border-b border-purple-100/60 flex items-center justify-between">
                 <div>
                   <h2 className="font-bold text-gray-900 flex items-center gap-2">
-                    <Compass className="w-5 h-5 text-emerald-600" /> Visitor History Logs
+                    <Compass className="w-5 h-5 text-purple-600" /> Visitor History Logs
                   </h2>
                   <p className="text-xs text-gray-400 mt-0.5">Complete tracking log for all site visits</p>
                 </div>
-                <span className="text-xs text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full font-bold">
+                <span className="text-xs text-purple-700 bg-purple-50 px-3 py-1 rounded-full font-bold">
                   Total Tracked: {visitors.length}
                 </span>
               </div>
@@ -409,7 +409,7 @@ export default function AdminDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse text-sm">
                     <thead>
-                      <tr className="bg-gray-50 text-gray-500 text-xs uppercase border-b border-gray-100">
+                      <tr className="bg-purple-50/50 text-gray-500 text-xs uppercase border-b border-purple-100/60">
                         <th className="p-4">Visit Date & Time</th>
                         <th className="p-4">Visitor IP</th>
                         <th className="p-4">Location</th>
@@ -418,9 +418,9 @@ export default function AdminDashboard() {
                         <th className="p-4 text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-purple-100/60">
                       {visitors.map((v) => (
-                        <tr key={v.id} className="hover:bg-gray-50/50 transition-colors">
+                        <tr key={v.id} className="hover:bg-purple-50/30 transition-colors">
                           <td className="p-4 text-xs text-gray-500 font-medium">
                             {new Date(v.last_seen).toLocaleString()}
                           </td>
@@ -428,11 +428,11 @@ export default function AdminDashboard() {
                             {v.ip_address || 'Unknown'}
                           </td>
                           <td className="p-4 text-gray-600">
-                            <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg text-xs font-medium">
-                              <Globe className="w-3.5 h-3.5 text-emerald-600" /> {v.location || 'Unknown'}
+                            <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-900 px-2.5 py-1 rounded-lg text-xs font-medium">
+                              <Globe className="w-3.5 h-3.5 text-purple-600" /> {v.location || 'Unknown'}
                             </span>
                           </td>
-                          <td className="p-4 font-medium text-emerald-700">
+                          <td className="p-4 font-medium text-purple-700">
                             <span className="bg-gray-100 px-2.5 py-1 rounded-md text-xs font-mono">
                               {v.current_page || '/'}
                             </span>
@@ -445,7 +445,7 @@ export default function AdminDashboard() {
                           <td className="p-4 text-right">
                             <button 
                               onClick={() => deleteVisitor(v.id)}
-                              className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                              className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -463,7 +463,7 @@ export default function AdminDashboard() {
           {activeTab === 'livechat' && (
             <div className="grid md:grid-cols-3 gap-6 h-[600px]">
               
-              <div className="md:col-span-1 bg-white rounded-3xl border border-gray-100 p-4 overflow-y-auto space-y-2 shadow-sm">
+              <div className="md:col-span-1 bg-white rounded-3xl border border-purple-100 p-4 overflow-y-auto space-y-2 shadow-sm">
                 <h3 className="font-bold text-gray-900 text-sm mb-3">Chat Conversations ({chatSessions.length})</h3>
                 {chatSessions.length === 0 ? (
                   <p className="text-xs text-gray-400 text-center py-8">No live chats yet.</p>
@@ -474,8 +474,8 @@ export default function AdminDashboard() {
                       onClick={() => setSelectedSession(s)}
                       className={`p-3.5 rounded-2xl cursor-pointer border transition-all ${
                         selectedSession?.id === s.id
-                          ? 'bg-emerald-50 border-emerald-300 shadow-sm'
-                          : 'bg-gray-50/60 hover:bg-gray-100 border-gray-100'
+                          ? 'bg-purple-50 border-purple-300 shadow-sm'
+                          : 'bg-gray-50/60 hover:bg-purple-50/50 border-gray-100'
                       }`}
                     >
                       <div className="flex justify-between items-center mb-1">
@@ -483,7 +483,7 @@ export default function AdminDashboard() {
                           Session #{s.id.substring(0, 6)}
                         </span>
                         <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-                          s.status === 'ended' ? 'bg-red-100 text-red-700' : s.status === 'agent' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                          s.status === 'ended' ? 'bg-red-100 text-red-700' : s.status === 'agent' ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-800'
                         }`}>
                           {s.status === 'ended' ? 'Ended' : s.status === 'agent' ? 'Agent Active' : 'AI Bot'}
                         </span>
@@ -494,13 +494,13 @@ export default function AdminDashboard() {
                 )}
               </div>
 
-              <div className="md:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+              <div className="md:col-span-2 bg-white rounded-3xl border border-purple-100 shadow-sm flex flex-col overflow-hidden">
                 {selectedSession ? (
                   <>
-                    <div className="p-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                    <div className="p-4 border-b border-purple-100/60 bg-purple-50/30 flex items-center justify-between">
                       <div>
                         <h4 className="font-bold text-sm text-gray-900">Session ID: {selectedSession.id}</h4>
-                        <p className="text-xs text-emerald-600 font-medium">Status: {selectedSession.status?.toUpperCase()}</p>
+                        <p className="text-xs text-purple-700 font-medium">Status: {selectedSession.status?.toUpperCase()}</p>
                       </div>
 
                       {/* 🛑🔴 زر إنهاء المحادثة من طرف الأدمن */}
@@ -519,7 +519,7 @@ export default function AdminDashboard() {
                         <div key={m.id || idx} className={`flex ${m.sender === 'agent' ? 'justify-end' : 'justify-start'}`}>
                           <div className={`max-w-[75%] p-3 rounded-2xl ${
                             m.sender === 'agent' 
-                              ? 'bg-emerald-600 text-white rounded-br-none' 
+                              ? 'bg-purple-600 text-white rounded-br-none' 
                               : m.sender === 'user' 
                               ? 'bg-gray-800 text-white rounded-bl-none' 
                               : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
@@ -542,17 +542,17 @@ export default function AdminDashboard() {
                         This session has been closed.
                       </div>
                     ) : (
-                      <form onSubmit={handleSendAgentReply} className="p-3 border-t border-gray-100 flex gap-2">
+                      <form onSubmit={handleSendAgentReply} className="p-3 border-t border-purple-100/60 flex gap-2">
                         <input
                           type="text"
                           value={replyInput}
                           onChange={(e) => setReplyInput(e.target.value)}
                           placeholder="Reply to visitor as Live Agent..."
-                          className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-xs outline-none focus:ring-2 focus:ring-emerald-500/20"
+                          className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-xs outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
                         />
                         <button
                           type="submit"
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                          className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/20"
                         >
                           <Send className="w-3.5 h-3.5" /> Reply
                         </button>
@@ -573,16 +573,16 @@ export default function AdminDashboard() {
           {activeTab === 'messages' && (
             <div className="grid gap-4">
               {messages.length === 0 ? (
-                <div className="bg-white rounded-3xl p-12 text-center text-gray-500 border border-gray-100">
+                <div className="bg-white rounded-3xl p-12 text-center text-gray-500 border border-purple-100">
                   No messages received yet.
                 </div>
               ) : (
                 messages.map((msg) => (
-                  <div key={msg.id} className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-                    <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-3">
+                  <div key={msg.id} className="bg-white rounded-2xl p-6 border border-purple-100 shadow-sm">
+                    <div className="flex justify-between items-center border-b border-purple-100/60 pb-3 mb-3">
                       <div>
                         <span className="font-bold text-gray-900">{msg.name}</span>
-                        <a href={`mailto:${msg.email}`} className="ml-2 text-xs text-emerald-600 font-semibold underline">
+                        <a href={`mailto:${msg.email}`} className="ml-2 text-xs text-purple-600 font-semibold underline">
                           {msg.email}
                         </a>
                       </div>
@@ -590,7 +590,7 @@ export default function AdminDashboard() {
                     </div>
                     <h3 className="font-semibold text-gray-800 text-sm mb-2">Subject: {msg.subject}</h3>
                     <p className="text-gray-600 text-sm mb-4 whitespace-pre-wrap">{msg.message}</p>
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-gray-100 pt-3 text-xs">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-purple-100/60 pt-3 text-xs">
                       <div className="flex items-center gap-2 text-gray-500">
                         {msg.ip_address && (
                           <span className="inline-flex items-center gap-1 bg-gray-100 px-2.5 py-1 rounded-lg font-mono text-[11px]">
@@ -598,14 +598,14 @@ export default function AdminDashboard() {
                           </span>
                         )}
                         {msg.location && (
-                          <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg font-medium text-[11px]">
-                            <Globe className="w-3.5 h-3.5 text-emerald-600" /> {msg.location}
+                          <span className="inline-flex items-center gap-1 bg-purple-50 text-purple-900 px-2.5 py-1 rounded-lg font-medium text-[11px]">
+                            <Globe className="w-3.5 h-3.5 text-purple-600" /> {msg.location}
                           </span>
                         )}
                       </div>
                       <button 
                         onClick={() => deleteMessage(msg.id)}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors cursor-pointer"
                       >
                         <Trash2 className="w-3.5 h-3.5" /> Delete
                       </button>
@@ -618,8 +618,8 @@ export default function AdminDashboard() {
 
           {/* TAB 4: GMC EXPORTER CARD */}
           {activeTab === 'gmc' && (
-            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
-              <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
+              <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
                 <FileSpreadsheet className="w-7 h-7" />
               </div>
               <div>
@@ -632,7 +632,7 @@ export default function AdminDashboard() {
               <div className="pt-4">
                 <button
                   onClick={exportGmcCsv}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                 >
                   <Download className="w-5 h-5" /> Download GMC Feed (.CSV)
                 </button>
