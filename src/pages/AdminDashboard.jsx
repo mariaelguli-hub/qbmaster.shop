@@ -141,21 +141,23 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط
+  // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط (المعدلة لتشمل كلشي)
   const exportProductsCsv = (onlyHidden = false) => {
     try {
       const targetProducts = onlyHidden ? [...productsData.filter(p => p.hidden), ...hiddenCsvProducts] : productsData
-      const headers = ['id', 'name', 'slug', 'category', 'default_price', 'direct_link']
+      const headers = ['id', 'name', 'slug', 'category', 'price', 'image', 'direct_link']
       
       const rows = targetProducts.map((p) => {
         const price = p.variants?.[0]?.price || 0
-        const link = `https://qbdeals.shop/#/product/${p.slug}`
+        const link = `https://qbdeals.shop/#/product/${p.slug || p.id}`
+        const image = p.image || ''
         return [
-          `"${p.id}"`,
-          `"${p.name}"`,
-          `"${p.slug}"`,
+          `"${p.id || ''}"`,
+          `"${(p.name || p.title || '').replace(/"/g, '""')}"`,
+          `"${p.slug || ''}"`,
           `"${p.category || 'CSV'}"`,
           `"${price}"`,
+          `"${image}"`,
           `"${link}"`
         ].join(',')
       })
