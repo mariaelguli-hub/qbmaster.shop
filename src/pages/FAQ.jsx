@@ -8,7 +8,7 @@ export default function FAQ() {
   return (
     <>
       <Helmet>
-        <title>Frequently Asked Questions — QB DEALS</title>
+        <title>Frequently Asked Questions — QB MASTER</title>
         <meta name="description" content="Find answers to common questions about QuickBooks Desktop licenses, delivery, and support." />
       </Helmet>
 
