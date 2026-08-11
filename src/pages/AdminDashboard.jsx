@@ -141,21 +141,29 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة الـ Export الخاصة بجميع المنتجات أو المنتجات المخفية فقط (المعدلة لتشمل كلشي)
+  // 📦 دالة الـ Export المصححة الشاملة التي تضمن ظهور كل المنتجات في أسطر منفصلة
   const exportProductsCsv = (onlyHidden = false) => {
     try {
-      const targetProducts = onlyHidden ? [...productsData.filter(p => p.hidden), ...hiddenCsvProducts] : productsData
+      // دمج المنتجات بشكل صحيح لضمان عدم ضياع أي منتج
+      const targetProducts = onlyHidden 
+        ? [...productsData.filter(p => p.hidden), ...hiddenCsvProducts] 
+        : [...productsData, ...hiddenCsvProducts]
+
       const headers = ['id', 'name', 'slug', 'category', 'price', 'image', 'direct_link']
       
       const rows = targetProducts.map((p) => {
-        const price = p.variants?.[0]?.price || 0
-        const link = `https://qbdeals.shop/#/product/${p.slug || p.id}`
+        const price = p.variants?.[0]?.price || p.price || 0
+        const name = (p.name || p.title || '').replace(/"/g, '""')
+        const slug = p.slug || p.id || ''
+        const category = p.category || 'General'
         const image = p.image || ''
+        const link = `https://qbdeals.shop/#/product/${slug}`
+
         return [
-          `"${p.id || ''}"`,
-          `"${(p.name || p.title || '').replace(/"/g, '""')}"`,
-          `"${p.slug || ''}"`,
-          `"${p.category || 'CSV'}"`,
+          `"${p.id || 'item'}"`,
+          `"${name}"`,
+          `"${slug}"`,
+          `"${category}"`,
           `"${price}"`,
           `"${image}"`,
           `"${link}"`
