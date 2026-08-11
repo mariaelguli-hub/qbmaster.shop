@@ -263,10 +263,10 @@ export default function ChatWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="relative group flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-2xl shadow-emerald-600/40 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
+          className="relative group flex items-center gap-3 bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-full shadow-2xl shadow-purple-600/40 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
         >
-          <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-ping" />
-          <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white" />
+          <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-purple-400 rounded-full border-2 border-white animate-ping" />
+          <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-purple-400 rounded-full border-2 border-white" />
           
           <MessageSquare className="w-6 h-6" />
           <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out text-xs font-bold pr-1">
@@ -279,23 +279,23 @@ export default function ChatWidget() {
         <div className="w-[360px] sm:w-[400px] h-[560px] bg-white/95 backdrop-blur-xl rounded-3xl border border-gray-100 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
           
           {/* Header */}
-          <div className="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 p-4 text-white flex items-center justify-between shadow-md">
+          <div className="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 p-4 text-white flex items-center justify-between shadow-md">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm border transition-all duration-300 ${
-                  sessionStatus === 'agent' ? 'bg-amber-600 border-amber-400/50 shadow-lg shadow-amber-500/30' : 'bg-emerald-600 border-emerald-400/30'
+                  sessionStatus === 'agent' ? 'bg-amber-600 border-amber-400/50 shadow-lg shadow-amber-500/30' : 'bg-purple-600 border-purple-400/30'
                 }`}>
                   {sessionStatus === 'agent' ? <Headset className="w-5 h-5 text-white animate-pulse" /> : 'QB'}
                 </div>
-                <span className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-emerald-900 rounded-full ${
-                  sessionStatus === 'agent' ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'
+                <span className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-purple-950 rounded-full ${
+                  sessionStatus === 'agent' ? 'bg-amber-400 animate-ping' : 'bg-purple-400'
                 }`} />
               </div>
               <div>
                 <h3 className="font-bold text-sm leading-tight flex items-center gap-1.5">
                   QB DEALS Support <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300/30" />
                 </h3>
-                <p className="text-[11px] text-emerald-200/80 font-medium">
+                <p className="text-[11px] text-purple-200/80 font-medium">
                   {sessionStatus === 'agent' ? 'Live Support Expert (Active)' : 'Instant AI Assistance'}
                 </p>
               </div>
@@ -305,14 +305,14 @@ export default function ChatWidget() {
               <button
                 onClick={handleEndConversation}
                 title="End & Reset Chat"
-                className="p-1.5 hover:bg-white/10 text-emerald-100 rounded-xl transition-colors cursor-pointer"
+                className="p-1.5 hover:bg-white/10 text-purple-100 rounded-xl transition-colors cursor-pointer"
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
 
               <button 
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 hover:bg-white/10 rounded-xl transition-colors text-emerald-100 cursor-pointer"
+                className="p-1.5 hover:bg-white/10 rounded-xl transition-colors text-purple-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -320,10 +320,10 @@ export default function ChatWidget() {
           </div>
 
           {/* Session Status Bar */}
-          <div className="bg-emerald-50/80 px-4 py-1.5 border-b border-emerald-100 flex items-center justify-between text-[11px]">
-            <span className="text-emerald-800 font-medium flex items-center gap-1.5">
+          <div className="bg-purple-50/80 px-4 py-1.5 border-b border-purple-100 flex items-center justify-between text-[11px]">
+            <span className="text-purple-900 font-medium flex items-center gap-1.5">
               <span className={`w-2 h-2 rounded-full ${
-                sessionStatus === 'ended' ? 'bg-red-500' : sessionStatus === 'agent' ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500 animate-pulse'
+                sessionStatus === 'ended' ? 'bg-red-500' : sessionStatus === 'agent' ? 'bg-amber-500 animate-pulse' : 'bg-purple-600 animate-pulse'
               }`} /> 
               {sessionStatus === 'ended' ? 'Chat Ended' : sessionStatus === 'agent' ? 'Human Expert Connected 🟢' : 'Active AI Session'}
             </span>
@@ -347,7 +347,7 @@ export default function ChatWidget() {
                 >
                   {msg.sender !== 'user' && (
                     <div className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-1 shadow-sm ${
-                      isAgentOrAdmin ? 'bg-amber-500 text-white animate-bounce' : 'bg-emerald-100 text-emerald-800'
+                      isAgentOrAdmin ? 'bg-amber-500 text-white animate-bounce' : 'bg-purple-100 text-purple-800'
                     }`}>
                       {isAgentOrAdmin ? <Headset className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                     </div>
@@ -366,7 +366,7 @@ export default function ChatWidget() {
                     {msg.message && (
                       <div className={`p-3 rounded-2xl font-medium leading-relaxed shadow-sm whitespace-pre-line transition-all duration-300 ${
                         msg.sender === 'user' 
-                          ? 'bg-emerald-600 text-white rounded-br-none shadow-emerald-600/20' 
+                          ? 'bg-purple-600 text-white rounded-br-none shadow-purple-600/20' 
                           : isAgentOrAdmin
                           ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-bl-none border border-amber-400 shadow-md shadow-amber-500/20 animate-in fade-in zoom-in-95'
                           : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
@@ -392,13 +392,13 @@ export default function ChatWidget() {
 
             {isTyping && sessionStatus === 'bot' && (
               <div className="flex gap-2 items-center text-gray-400 text-xs">
-                <div className="w-7 h-7 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center">
+                <div className="w-7 h-7 bg-purple-100 text-purple-800 rounded-xl flex items-center justify-center">
                   <Bot className="w-4 h-4" />
                 </div>
                 <div className="bg-white border border-gray-100 px-3 py-2 rounded-2xl flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-bounce" />
-                  <span className="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <span className="w-1.5 h-1.5 bg-purple-600 rounded-full animate-bounce" />
+                  <span className="w-1.5 h-1.5 bg-purple-600 rounded-full animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 bg-purple-600 rounded-full animate-bounce [animation-delay:0.4s]" />
                 </div>
               </div>
             )}
@@ -411,7 +411,7 @@ export default function ChatWidget() {
                     <button
                       key={i}
                       onClick={() => handleSend(q)}
-                      className="text-left bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-100 px-3 py-1.5 rounded-xl font-medium transition-all text-[11px] shadow-sm hover:border-emerald-300 cursor-pointer"
+                      className="text-left bg-white hover:bg-purple-50 text-purple-900 border border-purple-100 px-3 py-1.5 rounded-xl font-medium transition-all text-[11px] shadow-sm hover:border-purple-300 cursor-pointer"
                     >
                       {q}
                     </button>
@@ -424,10 +424,10 @@ export default function ChatWidget() {
           </div>
 
           {selectedImage && (
-            <div className="p-2 bg-emerald-50 border-t border-emerald-100 flex items-center justify-between">
+            <div className="p-2 bg-purple-50 border-t border-purple-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <img src={selectedImage} alt="Preview" className="w-10 h-10 object-cover rounded-lg border border-emerald-200" />
-                <span className="text-[11px] text-emerald-800 font-semibold">Image Attached</span>
+                <img src={selectedImage} alt="Preview" className="w-10 h-10 object-cover rounded-lg border border-purple-200" />
+                <span className="text-[11px] text-purple-800 font-semibold">Image Attached</span>
               </div>
               <button onClick={() => setSelectedImage(null)} className="text-gray-400 hover:text-red-500 p-1 cursor-pointer">
                 <X className="w-4 h-4" />
@@ -442,7 +442,7 @@ export default function ChatWidget() {
                 <p className="text-xs text-gray-500 mb-2 font-medium">This conversation has ended.</p>
                 <button
                   onClick={() => handleEndConversation()}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 px-4 rounded-xl transition-all cursor-pointer shadow-md"
+                  className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2 px-4 rounded-xl transition-all cursor-pointer shadow-md"
                 >
                   Start New Chat ✨
                 </button>
@@ -460,7 +460,7 @@ export default function ChatWidget() {
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploadingImage}
-                  className="p-2.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all disabled:opacity-50 cursor-pointer"
+                  className="p-2.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {uploadingImage ? <Loader2 className="w-5 h-5 animate-spin" /> : <Paperclip className="w-5 h-5" />}
                 </button>
@@ -470,14 +470,14 @@ export default function ChatWidget() {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder={sessionStatus === 'agent' ? "Message your support expert..." : "Type a message..."}
-                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
+                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
                 />
 
                 <button
                   type="submit"
                   disabled={!inputMessage.trim() && !selectedImage}
                   className={`p-2.5 text-white rounded-xl shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-40 ${
-                    sessionStatus === 'agent' ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-600/20' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20'
+                    sessionStatus === 'agent' ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-600/20' : 'bg-purple-600 hover:bg-purple-700 shadow-purple-600/20'
                   }`}
                 >
                   <Send className="w-4 h-4" />
