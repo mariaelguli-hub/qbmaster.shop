@@ -141,21 +141,30 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة الـ Export المصححة الشاملة التي تضمن ظهور كل المنتجات في أسطر منفصلة
-  const exportProductsCsv = (onlyHidden = false) => {
+  // 📦 دالة التصدير المحدثة التي تقرأ البيانات مباشرة وتضمن ظهور كل منتج في سطر مستقل
+  const exportProductsCsv = async (onlyHidden = false) => {
     try {
-      // دمج المنتجات بشكل صحيح لضمان عدم ضياع أي منتج
+      toast.loading('Preparing export...', { id: 'exportToast' })
+      
+      // جلب منتجات الـ CSV المحدثة مباشرة لضمان عدم بقائها فارغة
+      const freshCsvProducts = await fetchCsvProducts()
+      
       const targetProducts = onlyHidden 
-        ? [...productsData.filter(p => p.hidden), ...hiddenCsvProducts] 
-        : [...productsData, ...hiddenCsvProducts]
+        ? [...productsData.filter(p => p.hidden), ...(freshCsvProducts || [])] 
+        : [...productsData, ...(freshCsvProducts || [])]
+
+      if (targetProducts.length === 0) {
+        toast.error('No products found to export!', { id: 'exportToast' })
+        return
+      }
 
       const headers = ['id', 'name', 'slug', 'category', 'price', 'image', 'direct_link']
       
       const rows = targetProducts.map((p) => {
         const price = p.variants?.[0]?.price || p.price || 0
-        const name = (p.name || p.title || '').replace(/"/g, '""')
-        const slug = p.slug || p.id || ''
-        const category = p.category || 'General'
+        const name = (p.name || p.title || 'Unknown').replace(/"/g, '""')
+        const slug = p.slug || p.id || 'item'
+        const category = p.category || 'CSV'
         const image = p.image || ''
         const link = `https://qbdeals.shop/#/product/${slug}`
 
@@ -178,10 +187,11 @@ export default function AdminDashboard() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      toast.success(onlyHidden ? 'Hidden Products CSV Downloaded!' : 'All Products CSV Downloaded!')
+      
+      toast.success(onlyHidden ? 'Hidden Products CSV Downloaded!' : 'All Products CSV Downloaded!', { id: 'exportToast' })
     } catch (err) {
       console.error(err)
-      toast.error('Failed to export products CSV.')
+      toast.error('Failed to export products CSV.', { id: 'exportToast' })
     }
   }
 
