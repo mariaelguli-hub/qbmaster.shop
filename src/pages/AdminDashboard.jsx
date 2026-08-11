@@ -123,24 +123,20 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة التصدير المحدثة والمضمونة
-  const exportProductsCsv = async (onlyHidden = false) => {
+  // 📦 دالة التصدير المباشرة والمبسطة لتفادي أي ملف فارغ
+  const exportProductsCsv = (onlyHidden = false) => {
     try {
-      toast.loading('Preparing export...', { id: 'exportToast' })
-      
-      const freshCsvProducts = await fetchCsvProducts()
-      
-      const jsonHidden = productsData ? (onlyHidden ? productsData.filter(p => p.hidden) : productsData) : []
-      const targetProducts = [...jsonHidden, ...(freshCsvProducts || [])]
+      const hiddenJson = (productsData || []).filter(p => p.hidden || onlyHidden)
+      const csvProds = hiddenCsvProducts || []
+      const allProds = [...hiddenJson, ...csvProds]
 
-      if (targetProducts.length === 0) {
-        toast.error('No products found to export!', { id: 'exportToast' })
+      if (allProds.length === 0) {
+        toast.error('No products found to export!')
         return
       }
 
       const headers = ['id', 'name', 'slug', 'category', 'price', 'image', 'direct_link']
-      
-      const rows = targetProducts.map((p) => {
+      const rows = allProds.map(p => {
         const price = p.variants?.[0]?.price || p.price || 0
         const name = (p.name || p.title || 'Unknown').replace(/"/g, '""')
         const slug = p.slug || p.id || 'item'
@@ -148,24 +144,22 @@ export default function AdminDashboard() {
         const image = p.image || ''
         const link = `https://qbdeals.shop/#/product/${slug}`
 
-        return [
-          `"${p.id || 'item'}"`, `"${name}"`, `"${slug}"`, `"${category}"`, `"${price}"`, `"${image}"`, `"${link}"`
-        ].join(',')
+        return [`"${p.id || 'item'}"`, `"${name}"`, `"${slug}"`, `"${category}"`, `"${price}"`, `"${image}"`, `"${link}"`].join(',')
       })
 
       const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows].join('\n')
       const encodedUri = encodeURI(csvContent)
       const link = document.createElement('a')
       link.setAttribute('href', encodedUri)
-      link.setAttribute('download', `${onlyHidden ? 'hidden_products' : 'all_products'}_${new Date().toISOString().slice(0, 10)}.csv`)
+      link.setAttribute('download', `hidden_products_${Date.now()}.csv`)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
-      toast.success('Products Exported Successfully!', { id: 'exportToast' })
+
+      toast.success(`Exported ${allProds.length} products successfully!`)
     } catch (err) {
       console.error(err)
-      toast.error('Failed to export products CSV.', { id: 'exportToast' })
+      toast.error('Failed to export products CSV.')
     }
   }
 
