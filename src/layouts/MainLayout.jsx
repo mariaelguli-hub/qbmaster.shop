@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans antialiased">
+    <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans antialiased selection:bg-purple-600 selection:text-white">
       {/* Header (Fih TopBar Pro Max) */}
       <Header />
 
