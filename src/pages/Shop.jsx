@@ -17,21 +17,25 @@ export default function Shop() {
         <title>Shop — QBMASTER</title>
         <meta name="description" content="Browse all genuine QuickBooks Desktop 2024 editions. One-time purchase, instant delivery." />
       </Helmet>
-      <section className="py-12 lg:py-20 bg-gray-50 min-h-[60vh]">
+
+      <section className="py-12 lg:py-20 bg-purple-50/20 min-h-[70vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-2">All Products</h1>
-          <p className="text-gray-500 mb-8">Genuine QuickBooks Desktop licenses at unbeatable prices.</p>
+          
+          <div className="mb-8">
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">All Products</h1>
+            <p className="text-gray-500 text-sm font-medium">Genuine QuickBooks Desktop licenses at unbeatable prices.</p>
+          </div>
 
           {/* Category filter */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2.5 mb-10">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs ${
                   activeCategory === cat.id
-                    ? 'bg-brand-700 text-white'
-                    : 'bg-white text-gray-700 border border-gray-200 hover:border-gray-300'
+                    ? 'bg-purple-600 text-white shadow-md shadow-purple-600/25 ring-2 ring-purple-600/20'
+                    : 'bg-white text-gray-600 border border-gray-200/90 hover:border-purple-300 hover:bg-purple-50/30'
                 }`}
               >
                 {cat.name}
@@ -46,8 +50,8 @@ export default function Shop() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-gray-500">
-              No products found in this category.
+            <div className="text-center py-20 text-gray-500 bg-white rounded-3xl border border-purple-100 shadow-sm p-8">
+              <p className="font-semibold">No products found in this category.</p>
             </div>
           )}
         </div>
