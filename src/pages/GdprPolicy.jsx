@@ -45,7 +45,7 @@ export default function GdprPolicy() {
                 QB MASTER (“we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information.
               </p>
               <p className="text-emerald-800 text-xs leading-relaxed">
-                This GDPR Privacy Policy explains how we collect, use, protect, and handle personal information when you visit or use our website, <strong className="font-semibold">qbdeals.shop</strong>, or purchase our digital products in accordance with the General Data Protection Regulation (GDPR).
+                This GDPR Privacy Policy explains how we collect, use, protect, and handle personal information when you visit or use our website, <strong className="font-semibold">qbmaster.shop</strong>, or purchase our digital products in accordance with the General Data Protection Regulation (GDPR).
               </p>
             </div>
 
@@ -176,7 +176,7 @@ export default function GdprPolicy() {
                 How to Submit a Request & Complaints
               </h2>
               <p className="text-gray-600 mb-3">
-                To exercise any of your GDPR rights, please contact us at <a href="mailto:contact@qbdeals.shop" className="text-emerald-600 font-semibold underline">contact@qbdeals.shop</a>. We may need to verify your identity before completing requests.
+                To exercise any of your GDPR rights, please contact us at <a href="mailto:contact@qbmaster.shop" className="text-emerald-600 font-semibold underline">contact@qbmaster.shop</a>. We may need to verify your identity before completing requests.
               </p>
               <p className="text-xs text-gray-500">
                 If you believe your personal information has been processed in violation of applicable data protection laws, you also have the right to lodge a complaint with your local data protection supervisory authority.
@@ -206,7 +206,7 @@ export default function GdprPolicy() {
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
                 <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbdeals.shop" className="underline hover:text-emerald-700">contact@qbdeals.shop</a></span>
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
