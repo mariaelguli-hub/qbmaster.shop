@@ -51,7 +51,7 @@ export default function Footer() {
               <div className="flex flex-col">
                 <div className="flex items-center gap-1">
                   <span className="font-black text-xl tracking-tight text-gray-900 group-hover:text-emerald-700 transition-colors">
-                    QB<span className="text-emerald-600 group-hover:text-emerald-500 transition-colors">DEALS</span>
+                    QB<span className="text-emerald-600 group-hover:text-emerald-500 transition-colors">MASTER</span>
                   </span>
                   <Sparkles className="w-3.5 h-3.5 text-emerald-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
                 </div>
