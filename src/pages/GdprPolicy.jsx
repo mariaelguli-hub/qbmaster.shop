@@ -11,40 +11,40 @@ export default function GdprPolicy() {
         <meta name="description" content="GDPR Privacy Policy for QB MASTER explaining data processing, storage, and your rights." />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-gray-50/50">
+      <section className="py-12 lg:py-20 bg-purple-50/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Back Button */}
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-emerald-700 mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           {/* Main Card / Cadre */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-gray-200/60 border border-gray-100 text-gray-700 leading-relaxed space-y-8">
+          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-purple-950/5 border border-purple-100/80 text-gray-700 leading-relaxed space-y-8">
             
             {/* H1 Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
                 GDPR Privacy Policy
               </h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-purple-700 font-semibold">
                 Last Updated: August 2, 2026
               </p>
             </div>
 
             {/* Introduction Banner */}
-            <div className="bg-emerald-50/60 border border-emerald-200/60 p-5 rounded-2xl">
-              <h2 className="text-lg font-bold text-emerald-950 mb-2 flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+            <div className="bg-purple-50/60 border border-purple-200/60 p-5 rounded-2xl">
+              <h2 className="text-lg font-bold text-purple-950 mb-2 flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-purple-600 shrink-0" />
                 Introduction
               </h2>
-              <p className="text-emerald-900 text-sm leading-relaxed mb-2">
+              <p className="text-purple-900 text-sm leading-relaxed mb-2">
                 QB MASTER (“we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information.
               </p>
-              <p className="text-emerald-800 text-xs leading-relaxed">
+              <p className="text-purple-800 text-xs leading-relaxed">
                 This GDPR Privacy Policy explains how we collect, use, protect, and handle personal information when you visit or use our website, <strong className="font-semibold">qbmaster.shop</strong>, or purchase our digital products in accordance with the General Data Protection Regulation (GDPR).
               </p>
             </div>
@@ -52,7 +52,7 @@ export default function GdprPolicy() {
             {/* Personal Information We Collect */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <Database className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Database className="w-5 h-5 text-purple-600 shrink-0" />
                 Personal Information We Collect
               </h2>
               <p className="text-gray-600 mb-3">
@@ -109,13 +109,13 @@ export default function GdprPolicy() {
 
             {/* Payment Information & Cookies */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-5 rounded-2xl bg-gray-50 border border-gray-100">
+              <div className="p-5 rounded-2xl bg-purple-50/40 border border-purple-100">
                 <h3 className="font-bold text-gray-900 text-base mb-2">Payment Information</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Payments are processed through secure third-party providers. We do not intentionally store complete payment card information on our own systems.
                 </p>
               </div>
-              <div className="p-5 rounded-2xl bg-gray-50 border border-gray-100">
+              <div className="p-5 rounded-2xl bg-purple-50/40 border border-purple-100">
                 <h3 className="font-bold text-gray-900 text-base mb-2">Cookies & Technologies</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
                   Our website uses cookies to support essential functions and improve your browsing experience. Please review our Cookies Policy for more details.
@@ -126,7 +126,7 @@ export default function GdprPolicy() {
             {/* Data Security & Retention */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <Lock className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Lock className="w-5 h-5 text-purple-600 shrink-0" />
                 Data Security & Retention
               </h2>
               <p className="text-gray-600 mb-3">
@@ -140,7 +140,7 @@ export default function GdprPolicy() {
             {/* Sharing & International Data Transfers */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <Globe className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Globe className="w-5 h-5 text-purple-600 shrink-0" />
                 Sharing & International Data Transfers
               </h2>
               <p className="text-gray-600 mb-3">
@@ -154,19 +154,19 @@ export default function GdprPolicy() {
             {/* Your GDPR Rights */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <UserCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+                <UserCheck className="w-5 h-5 text-purple-600 shrink-0" />
                 Your GDPR Rights
               </h2>
               <p className="text-gray-600 mb-3">
                 If the GDPR applies to you, you have the following rights regarding your personal information:
               </p>
               <div className="grid sm:grid-cols-2 gap-3 text-xs text-gray-600">
-                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100"><strong className="text-emerald-950 block text-sm mb-0.5">Right of Access</strong> Request a copy of personal information we hold about you.</div>
-                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100"><strong className="text-emerald-950 block text-sm mb-0.5">Right to Rectification</strong> Request correction of inaccurate or incomplete data.</div>
-                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100"><strong className="text-emerald-950 block text-sm mb-0.5">Right to Erasure</strong> Request deletion of your personal data, subject to legal rules.</div>
-                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100"><strong className="text-emerald-950 block text-sm mb-0.5">Right to Restriction</strong> Request restriction of data processing in certain cases.</div>
-                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100"><strong className="text-emerald-950 block text-sm mb-0.5">Right to Data Portability</strong> Request data in a structured, machine-readable format.</div>
-                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100"><strong className="text-emerald-950 block text-sm mb-0.5">Right to Object</strong> Object to processing based on legitimate business interests.</div>
+                <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-100"><strong className="text-purple-950 block text-sm mb-0.5">Right of Access</strong> Request a copy of personal information we hold about you.</div>
+                <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-100"><strong className="text-purple-950 block text-sm mb-0.5">Right to Rectification</strong> Request correction of inaccurate or incomplete data.</div>
+                <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-100"><strong className="text-purple-950 block text-sm mb-0.5">Right to Erasure</strong> Request deletion of your personal data, subject to legal rules.</div>
+                <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-100"><strong className="text-purple-950 block text-sm mb-0.5">Right to Restriction</strong> Request restriction of data processing in certain cases.</div>
+                <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-100"><strong className="text-purple-950 block text-sm mb-0.5">Right to Data Portability</strong> Request data in a structured, machine-readable format.</div>
+                <div className="p-3 bg-purple-50/40 rounded-xl border border-purple-100"><strong className="text-purple-950 block text-sm mb-0.5">Right to Object</strong> Object to processing based on legitimate business interests.</div>
               </div>
             </div>
 
@@ -176,7 +176,7 @@ export default function GdprPolicy() {
                 How to Submit a Request & Complaints
               </h2>
               <p className="text-gray-600 mb-3">
-                To exercise any of your GDPR rights, please contact us at <a href="mailto:contact@qbmaster.shop" className="text-emerald-600 font-semibold underline">contact@qbmaster.shop</a>. We may need to verify your identity before completing requests.
+                To exercise any of your GDPR rights, please contact us at <a href="mailto:contact@qbmaster.shop" className="text-purple-600 font-semibold underline">contact@qbmaster.shop</a>. We may need to verify your identity before completing requests.
               </p>
               <p className="text-xs text-gray-500">
                 If you believe your personal information has been processed in violation of applicable data protection laws, you also have the right to lodge a complaint with your local data protection supervisory authority.
@@ -204,9 +204,9 @@ export default function GdprPolicy() {
               <p className="mb-3 text-sm text-gray-600">
                 If you have any questions, concerns, or requests regarding this GDPR Privacy Policy, reach out to us:
               </p>
-              <div className="inline-flex items-center gap-2 p-3.5 bg-emerald-50 rounded-xl text-emerald-900 font-semibold text-sm border border-emerald-200/60">
-                <Mail className="w-4 h-4 text-emerald-600" />
-                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-emerald-700">contact@qbmaster.shop</a></span>
+              <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
+                <Mail className="w-4 h-4 text-purple-600" />
+                <span>Email: <a href="mailto:contact@qbmaster.shop" className="underline hover:text-purple-700">contact@qbmaster.shop</a></span>
               </div>
             </div>
 
