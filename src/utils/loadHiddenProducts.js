@@ -2,15 +2,22 @@
 
 export async function fetchCsvProducts() {
   try {
-    const response = await fetch('/home-and-garden.csv.csv') // أو '/home-and-garden.csv' على حسب التسمية في فولدر public
-    if (!response.ok) throw new Error('Failed to load Shopify CSV file')
+    // محاولة قراءة الملف بالمسارين المحتملين
+    let response = await fetch('/home-and-garden.csv.csv')
+    if (!response.ok) {
+      response = await fetch('/home-and-garden.csv')
+    }
+    if (!response.ok) {
+      console.warn('Shopify CSV file not found in public folder.')
+      return []
+    }
     
     const text = await response.text()
-    const lines = text.split('\n')
+    const lines = text.split(/\r?\n/)
     
     if (lines.length < 2) return []
 
-    // تحليل الـ CSV مع مراعاة النصوص اللي بين علامات التنصيص (Quotes)
+    // تحليل الـ CSV مع مراعاة النصوص اللي بين علامات التنصيص
     const parseCSVLine = (line) => {
       const result = []
       let insideQuote = false
@@ -40,6 +47,7 @@ export async function fetchCsvProducts() {
     const comparePriceIdx = headers.indexOf('Variant Compare At Price')
     const imageIdx = headers.indexOf('Image Src')
     const typeIdx = headers.indexOf('Type')
+    const optValIdx = headers.indexOf('Option1 Value')
 
     const productsMap = new Map()
 
@@ -53,23 +61,26 @@ export async function fetchCsvProducts() {
 
       // إذا كان السطر فيه Title جديد (منتج رئيسي)
       if (title && title !== '') {
-        const price = parseFloat(cols[priceIdx]) || 19.99
-        const comparePrice = cols[comparePriceIdx] ? parseFloat(cols[comparePriceIdx]) : null
+        const price = parseFloat(cols[priceIdx]) || 127
+        const comparePrice = cols[comparePriceIdx] ? parseFloat(cols[comparePriceIdx]) : Number((price * 1.5).toFixed(2))
+        const categoryName = cols[typeIdx] || 'Home & Garden'
         
         productsMap.set(handle, {
           id: `shopify-csv-${i}`,
           slug: handle,
           name: title,
-          category: cols[typeIdx] || 'HOME',
+          category: categoryName,
           tag: 'Secret Item',
           rating: 4.9,
-          reviewsCount: 35,
-          description: cols[bodyIdx] ? cols[bodyIdx].replace(/<[^>]*>?/gm, '') : 'Exclusive home & garden product.',
+          reviewsCount: 48,
+          description: cols[bodyIdx] ? cols[bodyIdx].replace(/<[^>]*>?/gm, '').slice(0, 160) : 'Exclusive product edition with instant delivery.',
           features: [
             'Exclusive collection item',
             'High quality verified build',
             'Direct secure delivery'
           ],
+          price: price,
+          comparePrice: comparePrice,
           variants: [
             {
               id: `var-${i}`,
@@ -78,11 +89,11 @@ export async function fetchCsvProducts() {
               comparePrice: comparePrice,
               users: 1,
               bestselling: true,
-              paymentLink: '#' // يمكنك ربطه برابط الدفع لاحقاً
+              paymentLink: '#'
             }
           ],
           image: cols[imageIdx] || '/images/pro.jpg',
-          hidden: true // 👈 ديما مخفي من الهوم والـ Shop وبايّن غير بالرابط المباشر
+          hidden: true
         })
       } 
       else if (!title && handle && productsMap.has(handle)) {
@@ -90,10 +101,12 @@ export async function fetchCsvProducts() {
         const product = productsMap.get(handle)
         const price = parseFloat(cols[priceIdx])
         if (!isNaN(price)) {
+          const compPrice = cols[comparePriceIdx] ? parseFloat(cols[comparePriceIdx]) : Number((price * 1.5).toFixed(2))
           product.variants.push({
             id: `var-sub-${i}`,
-            label: cols[8] || `Option ${product.variants.length + 1}`, // Option1 Value
+            label: (optValIdx !== -1 && cols[optValIdx]) ? cols[optValIdx] : `Option ${product.variants.length + 1}`,
             price: price,
+            comparePrice: compPrice,
             users: 1,
             bestselling: false,
             paymentLink: '#'
