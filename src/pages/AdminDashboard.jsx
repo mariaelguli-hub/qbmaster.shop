@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, Clock, Compass, ShieldAlert, Send, Bot, User, Image as ImageIcon, LogOut, Download, FileSpreadsheet, PackageCheck, EyeOff as EyeOffIcon } from 'lucide-react'
+import { 
+  Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, 
+  Clock, Compass, ShieldAlert, Send, Bot, User, Image as ImageIcon, 
+  LogOut, Download, FileSpreadsheet, PackageCheck, EyeOff as EyeOffIcon,
+  Search, Copy, ExternalLink, SlidersHorizontal, CheckCircle2, XCircle
+} from 'lucide-react'
 import { supabase } from '../utils/supabase'
 import { toast } from 'react-hot-toast'
 import productsData from '../data/products.json' 
@@ -13,11 +18,16 @@ export default function AdminDashboard() {
   const [passwordInput, setPasswordInput] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   
-  const [activeTab, setActiveTab] = useState('visitors')
+  const [activeTab, setActiveTab] = useState('allproducts')
   const [messages, setMessages] = useState([])
   const [visitors, setVisitors] = useState([])
   const [hiddenCsvProducts, setHiddenCsvProducts] = useState([]) 
   
+  // 🎛️ Visibility State (Synced with localStorage for ProductGrid)
+  const [productVisibility, setProductVisibility] = useState({})
+  const [productSearch, setProductSearch] = useState('')
+  const [productFilter, setProductFilter] = useState('all') // 'all', 'visible', 'hidden'
+
   // 💬 States الشات المباشر
   const [chatSessions, setChatSessions] = useState([])
   const [selectedSession, setSelectedSession] = useState(null)
@@ -30,6 +40,9 @@ export default function AdminDashboard() {
     if (localStorage.getItem('qb_admin_auth') === 'true') {
       setIsAuthenticated(true)
     }
+    // Load persisted visibility map
+    const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+    setProductVisibility(savedVisibility)
   }, [])
 
   const handleLogin = (e) => {
@@ -76,7 +89,7 @@ export default function AdminDashboard() {
 
     // 4. جلب منتجات الـ CSV المخفية أوتوماتيكياً
     const csvProds = await fetchCsvProducts()
-    setHiddenCsvProducts(csvProds)
+    setHiddenCsvProducts(csvProds || [])
 
     setLoading(false)
   }
@@ -88,6 +101,52 @@ export default function AdminDashboard() {
       return () => clearInterval(interval)
     }
   }, [isAuthenticated])
+
+  // 🔄 Toggle Visibility for Any Product (JSON or CSV)
+  const toggleProductVisibility = (slugOrId, defaultHidden) => {
+    setProductVisibility(prev => {
+      const currentStatus = prev[slugOrId] !== undefined ? prev[slugOrId] : !defaultHidden
+      const updatedStatus = !currentStatus
+      const updatedMap = { ...prev, [slugOrId]: updatedStatus }
+      
+      localStorage.setItem('qb_products_visibility', JSON.stringify(updatedMap))
+      toast.success(updatedStatus ? 'Product is now VISIBLE on Storefront' : 'Product is now HIDDEN from Storefront')
+      return updatedMap
+    })
+  }
+
+  // 📋 Copy direct product link
+  const copyProductLink = (slugOrId) => {
+    const link = `https://qbdeals.shop/#/product/${slugOrId}`
+    navigator.clipboard.writeText(link)
+    toast.success('Direct link copied to clipboard!')
+  }
+
+  // Combine JSON products with CSV imported products
+  const allCombinedProducts = [
+    ...(productsData || []).map(p => ({ ...p, source: 'JSON Catalog' })),
+    ...(hiddenCsvProducts || []).map(p => ({ ...p, source: 'Shopify CSV', hidden: true }))
+  ]
+
+  // Filter combined products based on search & visibility status
+  const filteredProductsList = allCombinedProducts.filter(p => {
+    const slugOrId = p.slug || p.id
+    const isVisibleOnHome = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+    
+    // Status Filter
+    if (productFilter === 'visible' && !isVisibleOnHome) return false
+    if (productFilter === 'hidden' && isVisibleOnHome) return false
+
+    // Search Query Filter
+    if (!productSearch.trim()) return true
+    const q = productSearch.toLowerCase()
+    return (
+      (p.name || '').toLowerCase().includes(q) ||
+      (p.slug || '').toLowerCase().includes(q) ||
+      (p.category || '').toLowerCase().includes(q) ||
+      (p.id || '').toLowerCase().includes(q)
+    )
+  })
 
   // 📦 دالة الـ Export لـ Google Merchant Center CSV
   const exportGmcCsv = () => {
@@ -123,40 +182,48 @@ export default function AdminDashboard() {
     }
   }
 
-  // 📦 دالة التصدير المباشرة والمبسطة لتفادي أي ملف فارغ
+  // 📦 دالة التصدير الشاملة
   const exportProductsCsv = (onlyHidden = false) => {
     try {
-      const hiddenJson = (productsData || []).filter(p => p.hidden || onlyHidden)
-      const csvProds = hiddenCsvProducts || []
-      const allProds = [...hiddenJson, ...csvProds]
+      const targetProducts = onlyHidden 
+        ? allCombinedProducts.filter(p => {
+            const slugOrId = p.slug || p.id
+            const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+            return !isVisible
+          })
+        : allCombinedProducts
 
-      if (allProds.length === 0) {
-        toast.error('No products found to export!')
+      if (targetProducts.length === 0) {
+        toast.error('No products found matching the criteria!')
         return
       }
 
-      const headers = ['id', 'name', 'slug', 'category', 'price', 'image', 'direct_link']
-      const rows = allProds.map(p => {
+      const headers = ['id', 'name', 'slug', 'category', 'price', 'status', 'source', 'direct_link']
+      const rows = targetProducts.map(p => {
         const price = p.variants?.[0]?.price || p.price || 0
         const name = (p.name || p.title || 'Unknown').replace(/"/g, '""')
         const slug = p.slug || p.id || 'item'
         const category = p.category || 'General'
-        const image = p.image || ''
+        const slugOrId = p.slug || p.id
+        const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+        const status = isVisible ? 'Visible on Home' : 'Hidden from Home'
         const link = `https://qbdeals.shop/#/product/${slug}`
 
-        return [`"${p.id || 'item'}"`, `"${name}"`, `"${slug}"`, `"${category}"`, `"${price}"`, `"${image}"`, `"${link}"`].join(',')
+        return [
+          `"${p.id || 'item'}"`, `"${name}"`, `"${slug}"`, `"${category}"`, `"${price}"`, `"${status}"`, `"${p.source}"`, `"${link}"`
+        ].join(',')
       })
 
       const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows].join('\n')
       const encodedUri = encodeURI(csvContent)
       const link = document.createElement('a')
       link.setAttribute('href', encodedUri)
-      link.setAttribute('download', `hidden_products_${Date.now()}.csv`)
+      link.setAttribute('download', `${onlyHidden ? 'hidden_products' : 'all_products'}_export_${Date.now()}.csv`)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
 
-      toast.success(`Exported ${allProds.length} products successfully!`)
+      toast.success(`Exported ${targetProducts.length} products successfully!`)
     } catch (err) {
       console.error(err)
       toast.error('Failed to export products CSV.')
@@ -334,12 +401,13 @@ export default function AdminDashboard() {
       <Helmet><title>Admin Control Panel — QB DEALS</title></Helmet>
 
       <div className="min-h-screen bg-purple-50/20 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-6">
+        <div className="max-w-7xl mx-auto space-y-6">
           
+          {/* Header Bar */}
           <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-purple-100 shadow-sm">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Control Panel</h1>
-              <p className="text-xs text-gray-500">Visitor logs, live chat, hidden products & GMC feed</p>
+              <p className="text-xs text-gray-500">Universal product manager, live visitor analytics, and real-time support</p>
             </div>
             <div className="flex items-center gap-2">
               <button 
@@ -357,7 +425,19 @@ export default function AdminDashboard() {
             </div>
           </div>
 
+          {/* Navigation Tabs */}
           <div className="flex flex-wrap gap-3 border-b border-purple-100/60 pb-2">
+            <button
+              onClick={() => setActiveTab('allproducts')}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                activeTab === 'allproducts' 
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
+                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
+              }`}
+            >
+              <PackageCheck className="w-4 h-4" /> All Products Manager ({allCombinedProducts.length})
+            </button>
+
             <button
               onClick={() => setActiveTab('visitors')}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
@@ -378,17 +458,6 @@ export default function AdminDashboard() {
               }`}
             >
               <MessageSquare className="w-4 h-4" /> Live Chat ({chatSessions.length})
-            </button>
-
-            <button
-              onClick={() => setActiveTab('hiddenproducts')}
-              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
-                activeTab === 'hiddenproducts' 
-                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20' 
-                  : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
-              }`}
-            >
-              <EyeOffIcon className="w-4 h-4" /> Hidden Products ({productsData.filter(p => p.hidden).length + hiddenCsvProducts.length})
             </button>
 
             <button
@@ -414,6 +483,166 @@ export default function AdminDashboard() {
             </button>
           </div>
 
+          {/* 🛍️ TAB 1: ALL PRODUCTS MANAGER (UNIVERSAL CONTROL) */}
+          {activeTab === 'allproducts' && (
+            <div className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 space-y-6">
+              
+              {/* Controls Bar */}
+              <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-b border-purple-100/60 pb-5">
+                <div>
+                  <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                    <SlidersHorizontal className="w-5 h-5 text-purple-600" /> Universal Catalog & Visibility Control
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Toggle visibility between Storefront Home Page and Hidden URL-only direct access.
+                  </p>
+                </div>
+                
+                {/* Search & Actions */}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <div className="relative flex-1 sm:w-64">
+                    <Search className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
+                    <input 
+                      type="text"
+                      value={productSearch}
+                      onChange={(e) => setProductSearch(e.target.value)}
+                      placeholder="Search by title, slug, ID..."
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-xs outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
+                    />
+                  </div>
+
+                  <div className="flex items-center border border-gray-200 rounded-xl p-0.5 bg-gray-50 text-xs font-semibold">
+                    <button 
+                      onClick={() => setProductFilter('all')}
+                      className={`px-3 py-1.5 rounded-lg transition-all ${productFilter === 'all' ? 'bg-white text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                      All ({allCombinedProducts.length})
+                    </button>
+                    <button 
+                      onClick={() => setProductFilter('visible')}
+                      className={`px-3 py-1.5 rounded-lg transition-all ${productFilter === 'visible' ? 'bg-white text-green-700 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                      Visible
+                    </button>
+                    <button 
+                      onClick={() => setProductFilter('hidden')}
+                      className={`px-3 py-1.5 rounded-lg transition-all ${productFilter === 'hidden' ? 'bg-white text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                      Hidden
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => exportProductsCsv(false)}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Export All CSV
+                  </button>
+                </div>
+              </div>
+
+              {/* Products Grid */}
+              {filteredProductsList.length === 0 ? (
+                <div className="p-12 text-center text-gray-400 text-xs">
+                  No products matched your search or active filter.
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredProductsList.map((p) => {
+                    const slugOrId = p.slug || p.id
+                    const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+                    const price = p.variants?.[0]?.price || p.price || 0
+                    const directUrl = `/#/product/${slugOrId}`
+
+                    return (
+                      <div 
+                        key={slugOrId} 
+                        className={`rounded-2xl border p-4.5 flex flex-col justify-between transition-all ${
+                          isVisible 
+                            ? 'bg-white border-purple-100 shadow-sm' 
+                            : 'bg-purple-50/20 border-dashed border-purple-200 opacity-90'
+                        }`}
+                      >
+                        <div className="space-y-3">
+                          {/* Header badges */}
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-[10px] font-extrabold uppercase bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md">
+                              {p.source}
+                            </span>
+                            
+                            <span className={`inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${
+                              isVisible 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-purple-100 text-purple-800'
+                            }`}>
+                              {isVisible ? <CheckCircle2 className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                              {isVisible ? 'Home Visible' : 'Hidden URL Only'}
+                            </span>
+                          </div>
+
+                          {/* Product Image & Title */}
+                          <div className="flex items-start gap-3">
+                            <img 
+                              src={p.image || '/images/pro.jpg'} 
+                              alt={p.name} 
+                              className="w-14 h-14 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" 
+                            />
+                            <div className="min-w-0">
+                              <h3 className="font-bold text-gray-900 text-xs leading-snug line-clamp-2">{p.name || p.title}</h3>
+                              <p className="text-[11px] font-bold text-purple-700 mt-1">${price}</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Controls & Actions footer */}
+                        <div className="mt-4 pt-3 border-t border-gray-100 space-y-2.5">
+                          <div className="flex items-center justify-between">
+                            <button
+                              onClick={() => toggleProductVisibility(slugOrId, p.hidden)}
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                isVisible
+                                  ? 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200'
+                                  : 'bg-green-50 hover:bg-green-100 text-green-800 border border-green-200'
+                              }`}
+                            >
+                              {isVisible ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                              {isVisible ? 'Hide from Home' : 'Show on Home'}
+                            </button>
+
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => copyProductLink(slugOrId)}
+                                title="Copy direct link"
+                                className="p-1.5 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors cursor-pointer"
+                              >
+                                <Copy className="w-3.5 h-3.5" />
+                              </button>
+
+                              <a
+                                href={directUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                title="Open product page in new tab"
+                                className="p-1.5 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors cursor-pointer"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            </div>
+                          </div>
+
+                          <div className="text-[10px] text-gray-400 font-mono truncate">
+                            {directUrl}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 👥 TAB 2: VISITOR LOGS */}
           {activeTab === 'visitors' && (
             <div className="bg-white rounded-3xl border border-purple-100 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-purple-100/60 flex items-center justify-between">
@@ -484,9 +713,9 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* 💬 TAB 3: LIVE CHAT SESSIONS */}
           {activeTab === 'livechat' && (
             <div className="grid md:grid-cols-3 gap-6 h-[600px]">
-              
               <div className="md:col-span-1 bg-white rounded-3xl border border-purple-100 p-4 overflow-y-auto space-y-2 shadow-sm">
                 <h3 className="font-bold text-gray-900 text-sm mb-3">Chat Conversations ({chatSessions.length})</h3>
                 {chatSessions.length === 0 ? (
@@ -588,104 +817,10 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
-
             </div>
           )}
 
-          {/* 🔒 TAB 3: HIDDEN PRODUCTS MANAGEMENT (JSON + CSV with #) */}
-          {activeTab === 'hiddenproducts' && (
-            <div className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-purple-100/60 pb-4">
-                <div>
-                  <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
-                    <EyeOffIcon className="w-5 h-5 text-purple-600" /> Hidden / Secret Products Manager
-                  </h2>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Includes native JSON hidden items and imported Shopify CSV items. Accessible via direct URLs.
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => exportProductsCsv(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-purple-600/20 cursor-pointer"
-                  >
-                    <Download className="w-3.5 h-3.5" /> Export Hidden CSV
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                {/* 1. عرض منتجات JSON المخفية */}
-                {productsData.filter(p => p.hidden).map((p) => (
-                  <div key={p.id} className="border border-purple-100 rounded-2xl p-5 bg-purple-50/10 flex flex-col justify-between space-y-4">
-                    <div className="flex items-start gap-4">
-                      <img src={p.image} alt={p.name} className="w-16 h-16 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" />
-                      <div>
-                        <span className="text-[10px] font-extrabold uppercase bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-full">
-                          {p.category}
-                        </span>
-                        <h3 className="font-bold text-gray-900 text-sm mt-1">{p.name}</h3>
-                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{p.description}</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 bg-white p-3 rounded-xl border border-purple-100/60 text-xs">
-                      <div className="flex justify-between font-semibold">
-                        <span className="text-gray-500">Price:</span>
-                        <span className="text-purple-700">${p.variants?.[0]?.price || 0}</span>
-                      </div>
-                      <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                        <span className="text-gray-400 font-mono text-[11px]">/#/product/{p.slug}</span>
-                        <a 
-                          href={`/#/product/${p.slug}`} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="text-purple-600 font-bold hover:underline flex items-center gap-1"
-                        >
-                          Visit Page &rarr;
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {/* 2. عرض منتجات الـ CSV القادمة من Shopify CSV */}
-                {hiddenCsvProducts.map((p) => (
-                  <div key={p.id} className="border border-indigo-100 rounded-2xl p-5 bg-indigo-50/10 flex flex-col justify-between space-y-4">
-                    <div className="flex items-start gap-4">
-                      <img src={p.image} alt={p.name} className="w-16 h-16 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" />
-                      <div>
-                        <span className="text-[10px] font-extrabold uppercase bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full">
-                          SHOPIFY CSV
-                        </span>
-                        <h3 className="font-bold text-gray-900 text-sm mt-1">{p.name}</h3>
-                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{p.description}</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 bg-white p-3 rounded-xl border border-indigo-100/60 text-xs">
-                      <div className="flex justify-between font-semibold">
-                        <span className="text-gray-500">Price:</span>
-                        <span className="text-indigo-700">${p.variants?.[0]?.price || 0}</span>
-                      </div>
-                      <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                        <span className="text-gray-400 font-mono text-[11px]">/#/product/{p.slug}</span>
-                        <a 
-                          href={`/#/product/${p.slug}`} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="text-indigo-600 font-bold hover:underline flex items-center gap-1"
-                        >
-                          Visit Page &rarr;
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
+          {/* 📩 TAB 4: CONTACT FORMS */}
           {activeTab === 'messages' && (
             <div className="grid gap-4">
               {messages.length === 0 ? (
@@ -732,6 +867,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* 📊 TAB 5: GMC FEED EXPORTER */}
           {activeTab === 'gmc' && (
             <div className="bg-white rounded-3xl p-8 border border-purple-100 shadow-sm max-w-2xl mx-auto text-center space-y-4">
               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
