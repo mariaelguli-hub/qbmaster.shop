@@ -2,29 +2,48 @@ import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import products from '../data/products.json'
 import categories from '../data/categories.json'
+import { fetchCsvProducts } from '../utils/loadHiddenProducts'
 import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [visibleProducts, setVisibleProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // جلب قائمة الإعدادات المحددة من Admin Dashboard
-    const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+    const loadAllProducts = async () => {
+      setLoading(true)
 
-    // فلترة المنتجات حسب حالة Show / Hide
-    const available = (products || []).filter((p) => {
-      const slugOrId = p.slug || p.id
-      if (savedVisibility[slugOrId] !== undefined) {
-        return savedVisibility[slugOrId] === true
+      let csvProds = []
+      try {
+        csvProds = await fetchCsvProducts()
+      } catch (err) {
+        console.error('Failed to load CSV products', err)
       }
-      return !p.hidden
-    })
 
-    setVisibleProducts(available)
+      // دمج جميع المنتجات (JSON + CSV)
+      const allCombined = [
+        ...(products || []).map(p => ({ ...p, hidden: !!p.hidden })),
+        ...(csvProds || []).map(p => ({ ...p, hidden: true }))
+      ]
+
+      const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+
+      const available = allCombined.filter((p) => {
+        const slugOrId = p.slug || p.id
+        if (savedVisibility[slugOrId] !== undefined) {
+          return savedVisibility[slugOrId] === true
+        }
+        return !p.hidden
+      })
+
+      setVisibleProducts(available)
+      setLoading(false)
+    }
+
+    loadAllProducts()
   }, [])
 
-  // الفلترة حسب الكاتيجوري على المنتجات المتاحة فقط
   const filtered = activeCategory === 'all'
     ? visibleProducts
     : visibleProducts.filter((p) => p.category?.toLowerCase() === activeCategory.toLowerCase())
@@ -61,13 +80,19 @@ export default function Shop() {
             ))}
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-20 text-gray-400 text-sm">
+              Loading catalog...
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map((product) => (
+                <ProductCard key={product.slug || product.id} product={product} />
+              ))}
+            </div>
+          )}
 
-          {filtered.length === 0 && (
+          {!loading && filtered.length === 0 && (
             <div className="text-center py-20 text-gray-500 bg-white rounded-3xl border border-purple-100 shadow-sm p-8">
               <p className="font-semibold">No products found in this category.</p>
             </div>
