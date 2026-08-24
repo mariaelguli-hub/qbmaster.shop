@@ -1,25 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import products from '../data/products.json'
+import { fetchCsvProducts } from '../utils/loadHiddenProducts'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid() {
   const [visibleProducts, setVisibleProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // جلب قائمة الإعدادات المحفوظة من Dashboard
-    const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
-
-    // فلترة المنتجات: إذا كان هناك إعداد يدوي نطبقه، وإلا نعتمد على الحالة الأصلية
-    const filtered = (products || []).filter((p) => {
-      const slugOrId = p.slug || p.id
-      if (savedVisibility[slugOrId] !== undefined) {
-        return savedVisibility[slugOrId] === true
+    const loadAllProducts = async () => {
+      setLoading(true)
+      
+      // جلب منتجات الـ CSV
+      let csvProds = []
+      try {
+        csvProds = await fetchCsvProducts()
+      } catch (err) {
+        console.error('Failed to load CSV products', err)
       }
-      return !p.hidden
-    })
 
-    setVisibleProducts(filtered)
+      // دمج جميع المنتجات (JSON + CSV) = 24 منتج
+      const allCombined = [
+        ...(products || []).map(p => ({ ...p, hidden: !!p.hidden })),
+        ...(csvProds || []).map(p => ({ ...p, hidden: true }))
+      ]
+
+      // قراءة حالة الـ Show / Hide من الـ Dashboard
+      const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+
+      // فلترة المنتجات حسب اختيارك
+      const filtered = allCombined.filter((p) => {
+        const slugOrId = p.slug || p.id
+        if (savedVisibility[slugOrId] !== undefined) {
+          return savedVisibility[slugOrId] === true
+        }
+        return !p.hidden
+      })
+
+      setVisibleProducts(filtered)
+      setLoading(false)
+    }
+
+    loadAllProducts()
   }, [])
 
   return (
@@ -43,14 +66,18 @@ export default function ProductGrid() {
           </Link>
         </div>
         
-        {visibleProducts.length === 0 ? (
+        {loading ? (
           <div className="text-center py-12 text-gray-400 text-sm">
-            No products available at the moment.
+            Loading products...
+          </div>
+        ) : visibleProducts.length === 0 ? (
+          <div className="text-center py-12 text-gray-400 text-sm">
+            No products visible on Home. Turn on "Show on Home" from Admin Dashboard.
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {visibleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.slug || product.id} product={product} />
             ))}
           </div>
         )}
