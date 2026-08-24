@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import products from '../data/products.json'
 import categories from '../data/categories.json'
@@ -6,10 +6,28 @@ import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
   const [activeCategory, setActiveCategory] = useState('all')
+  const [visibleProducts, setVisibleProducts] = useState([])
 
+  useEffect(() => {
+    // جلب قائمة الإعدادات المحددة من Admin Dashboard
+    const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+
+    // فلترة المنتجات حسب حالة Show / Hide
+    const available = (products || []).filter((p) => {
+      const slugOrId = p.slug || p.id
+      if (savedVisibility[slugOrId] !== undefined) {
+        return savedVisibility[slugOrId] === true
+      }
+      return !p.hidden
+    })
+
+    setVisibleProducts(available)
+  }, [])
+
+  // الفلترة حسب الكاتيجوري على المنتجات المتاحة فقط
   const filtered = activeCategory === 'all'
-    ? products
-    : products.filter((p) => p.category.toLowerCase() === activeCategory)
+    ? visibleProducts
+    : visibleProducts.filter((p) => p.category?.toLowerCase() === activeCategory.toLowerCase())
 
   return (
     <>
