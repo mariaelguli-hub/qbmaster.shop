@@ -2,22 +2,39 @@
 
 export async function fetchCsvProducts() {
   try {
-    // محاولة قراءة الملف بالمسارين المحتملين
-    let response = await fetch('/home-and-garden.csv.csv')
-    if (!response.ok) {
-      response = await fetch('/home-and-garden.csv')
+    // 1. تجربة كل المسارات الممكنة لملف الـ CSV داخل public
+    const possiblePaths = [
+      './home-and-garden.csv.csv',
+      '/home-and-garden.csv.csv',
+      './home-and-garden.csv',
+      '/home-and-garden.csv'
+    ]
+
+    let csvText = null
+
+    for (const path of possiblePaths) {
+      try {
+        const res = await fetch(path)
+        const contentType = res.headers.get('content-type') || ''
+        // التأكد من أن الرابط جاب ملف CSV حقيقي وليس صفحة HTML
+        if (res.ok && !contentType.includes('text/html')) {
+          csvText = await res.text()
+          if (csvText && csvText.length > 50) break
+        }
+      } catch (e) {
+        // تجربة المسار الموالي
+      }
     }
-    if (!response.ok) {
-      console.warn('Shopify CSV file not found in public folder.')
+
+    if (!csvText) {
+      console.error('❌ CSV file not found in public folder or returning HTML!')
       return []
     }
-    
-    const text = await response.text()
-    const lines = text.split(/\r?\n/)
-    
+
+    const lines = csvText.split(/\r?\n/)
     if (lines.length < 2) return []
 
-    // تحليل الـ CSV مع مراعاة النصوص اللي بين علامات التنصيص
+    // 2. محلل أسطر الـ CSV
     const parseCSVLine = (line) => {
       const result = []
       let insideQuote = false
@@ -34,50 +51,56 @@ export async function fetchCsvProducts() {
         }
       }
       result.push(currentVal.trim())
-      return result.map(val => val.replace(/^"|"$/g, '').replace(/""/g, '"'))
+      return result.map((val) => val.replace(/^"|"$/g, '').replace(/""/g, '"'))
     }
 
-    const headers = parseCSVLine(lines[0])
-    
-    // إيجاد مؤشرات الأعمدة في Shopify CSV
-    const titleIdx = headers.indexOf('Title')
-    const handleIdx = headers.indexOf('Handle')
-    const bodyIdx = headers.indexOf('Body (HTML)')
-    const priceIdx = headers.indexOf('Variant Price')
-    const comparePriceIdx = headers.indexOf('Variant Compare At Price')
-    const imageIdx = headers.indexOf('Image Src')
-    const typeIdx = headers.indexOf('Type')
-    const optValIdx = headers.indexOf('Option1 Value')
+    // 3. تنظيف الهيدرز من UTF-8 BOM وتوحيد الحروف الصغيرة
+    const rawHeaders = parseCSVLine(lines[0])
+    const cleanHeaders = rawHeaders.map((h) => h.replace(/^\uFEFF/, '').trim().toLowerCase())
+
+    const titleIdx = cleanHeaders.findIndex((h) => h === 'title')
+    const handleIdx = cleanHeaders.findIndex((h) => h === 'handle')
+    const bodyIdx = cleanHeaders.findIndex((h) => h.includes('body') || h.includes('description'))
+    const priceIdx = cleanHeaders.findIndex((h) => h.includes('variant price') || h === 'price')
+    const comparePriceIdx = cleanHeaders.findIndex((h) => h.includes('variant compare') || h.includes('compare'))
+    const imageIdx = cleanHeaders.findIndex((h) => h.includes('image src') || h === 'image')
+    const typeIdx = cleanHeaders.findIndex((h) => h === 'type' || h === 'category')
+    const optValIdx = cleanHeaders.findIndex((h) => h.includes('option1 value'))
 
     const productsMap = new Map()
 
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i].trim()
       if (!line) continue
-      
-      const cols = parseCSVLine(line)
-      const handle = cols[handleIdx] || `product-${i}`
-      const title = cols[titleIdx]
 
-      // إذا كان السطر فيه Title جديد (منتج رئيسي)
+      const cols = parseCSVLine(line)
+      const handle = (handleIdx !== -1 && cols[handleIdx]) ? cols[handleIdx] : `product-${i}`
+      const title = (titleIdx !== -1 && cols[titleIdx]) ? cols[titleIdx] : ''
+
+      // منتج رئيسي جديد
       if (title && title !== '') {
-        const price = parseFloat(cols[priceIdx]) || 127
-        const comparePrice = cols[comparePriceIdx] ? parseFloat(cols[comparePriceIdx]) : Number((price * 1.5).toFixed(2))
-        const categoryName = cols[typeIdx] || 'Home & Garden'
-        
+        const rawPrice = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : 127
+        const price = !isNaN(rawPrice) && rawPrice > 0 ? rawPrice : 127
+        const rawCompPrice = comparePriceIdx !== -1 ? parseFloat(cols[comparePriceIdx]) : null
+        const comparePrice = !isNaN(rawCompPrice) && rawCompPrice > 0 ? rawCompPrice : Number((price * 1.5).toFixed(2))
+        const categoryName = (typeIdx !== -1 && cols[typeIdx]) ? cols[typeIdx] : 'Home & Garden'
+        const imageUrl = (imageIdx !== -1 && cols[imageIdx]) ? cols[imageIdx] : '/images/pro.jpg'
+        const rawDesc = (bodyIdx !== -1 && cols[bodyIdx]) ? cols[bodyIdx] : ''
+        const description = rawDesc.replace(/<[^>]*>?/gm, '').slice(0, 160) || 'Genuine edition with instant digital delivery.'
+
         productsMap.set(handle, {
           id: `shopify-csv-${i}`,
           slug: handle,
           name: title,
           category: categoryName,
-          tag: 'Secret Item',
+          tag: 'Verified License',
           rating: 4.9,
-          reviewsCount: 48,
-          description: cols[bodyIdx] ? cols[bodyIdx].replace(/<[^>]*>?/gm, '').slice(0, 160) : 'Exclusive product edition with instant delivery.',
+          reviewsCount: 38,
+          description: description,
           features: [
-            'Exclusive collection item',
-            'High quality verified build',
-            'Direct secure delivery'
+            'Instant digital delivery',
+            'Full lifetime license',
+            '24/7 dedicated support'
           ],
           price: price,
           comparePrice: comparePrice,
@@ -92,20 +115,20 @@ export async function fetchCsvProducts() {
               paymentLink: '#'
             }
           ],
-          image: cols[imageIdx] || '/images/pro.jpg',
+          image: imageUrl,
           hidden: true
         })
-      } 
-      else if (!title && handle && productsMap.has(handle)) {
-        // إذا كان السطر عبارة عن Variant إضافي لنفس المنتج
+      } else if (!title && handle && productsMap.has(handle)) {
+        // خيار إضافي (Variant) لنفس المنتج
         const product = productsMap.get(handle)
-        const price = parseFloat(cols[priceIdx])
-        if (!isNaN(price)) {
-          const compPrice = cols[comparePriceIdx] ? parseFloat(cols[comparePriceIdx]) : Number((price * 1.5).toFixed(2))
+        const rawPrice = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : NaN
+        if (!isNaN(rawPrice) && rawPrice > 0) {
+          const rawCompPrice = comparePriceIdx !== -1 ? parseFloat(cols[comparePriceIdx]) : null
+          const compPrice = !isNaN(rawCompPrice) && rawCompPrice > 0 ? rawCompPrice : Number((rawPrice * 1.5).toFixed(2))
           product.variants.push({
             id: `var-sub-${i}`,
             label: (optValIdx !== -1 && cols[optValIdx]) ? cols[optValIdx] : `Option ${product.variants.length + 1}`,
-            price: price,
+            price: rawPrice,
             comparePrice: compPrice,
             users: 1,
             bestselling: false,
@@ -115,9 +138,11 @@ export async function fetchCsvProducts() {
       }
     }
 
-    return Array.from(productsMap.values())
+    const finalProducts = Array.from(productsMap.values())
+    console.log(`✅ Loaded ${finalProducts.length} CSV products successfully.`)
+    return finalProducts
   } catch (err) {
-    console.error('Error parsing Shopify CSV:', err)
+    console.error('❌ Error parsing CSV:', err)
     return []
   }
 }
