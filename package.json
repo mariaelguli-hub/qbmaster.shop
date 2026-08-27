@@ -1,5 +1,5 @@
 {
-  "name": "qbdeals.shop",
+  "name": "qbmaster.shop",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -10,17 +10,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.8.2",
     "@supabase/supabase-js": "^2.48.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.0",
-    "react-helmet-async": "^2.0.5",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.3.0",
     "lucide-react": "^0.424.0",
-    "clsx": "^2.1.1",
-    "swiper": "^11.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.52.0",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "react-router-dom": "^6.26.0",
+    "swiper": "^11.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
