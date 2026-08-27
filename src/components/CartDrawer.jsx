@@ -1,26 +1,24 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight, ShieldCheck, Lock } from 'lucide-react'
 import { useCart } from '../context/CartContext'
-import PayPalButton from './PayPalButton'
 
 export default function CartDrawer() {
+  const navigate = useNavigate()
   const {
     cartItems,
     isCartOpen,
     closeCart,
     updateQuantity,
     removeFromCart,
-    clearCart,
     cartTotal,
     totalItemsCount
   } = useCart()
 
-  const handlePayPalSuccess = (details) => {
-    console.log("Cart Order Placed Successfully:", details)
-    alert(`Thank you ${details?.payer?.name?.given_name || 'Customer'}! Your order has been placed successfully.`)
-    clearCart()
+  const handleProceedToCheckout = () => {
     closeCart()
+    navigate('/checkout')
   }
 
   return (
@@ -168,17 +166,21 @@ export default function CartDrawer() {
                     </div>
                   </div>
 
-                  {/* زر الدفع عبر PayPal للمجموع الكلي */}
-                  <div className="pt-1">
-                    <PayPalButton 
-                      amount={cartTotal} 
-                      onSuccess={handlePayPalSuccess} 
-                    />
-                  </div>
+                  {/* زر Proceed to Checkout */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleProceedToCheckout}
+                    className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-sm rounded-2xl shadow-xl shadow-purple-600/25 flex items-center justify-center gap-2.5 transition-all cursor-pointer group"
+                  >
+                    <Lock className="w-4 h-4 text-purple-200" />
+                    <span>Proceed to Checkout</span>
+                    <ArrowRight className="w-4 h-4 text-purple-200 group-hover:translate-x-1 transition-transform" />
+                  </motion.button>
 
-                  <div className="flex items-center justify-center gap-2 text-[10px] text-gray-400 font-medium">
-                    <Lock className="w-3 h-3 text-purple-600" />
-                    <span>256-Bit SSL Encrypted Checkout</span>
+                  <div className="pt-1 flex items-center justify-center gap-2 text-[11px] text-gray-400 font-medium">
+                    <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
+                    <span>Guaranteed 256-Bit Secure Checkout</span>
                   </div>
                 </div>
               )}
