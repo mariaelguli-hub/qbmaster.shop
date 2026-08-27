@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Zap, Minus, Plus, Check, Star, Sparkles, ArrowRight } from 'lucide-react'
+import { ShoppingBag, Zap, Minus, Plus, Check, Star, Sparkles, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useCart } from '../context/CartContext'
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate()
+  const { addToCart } = useCart()
 
   // 🛡️ Safe fallback for Variants (Supports JSON & CSV data)
   const defaultVariants = Array.isArray(product?.variants) && product.variants.length > 0 
@@ -38,7 +40,13 @@ export default function ProductCard({ product }) {
     ? product.features
     : ['Premium high quality guarantee', 'Fast and secure shipping', '24/7 dedicated customer support']
 
-  const handleBuyNow = () => {
+  // 🛒 إضافة المنتج إلى السلة وفتح الـ Drawer مباشرة
+  const handleAddToCart = () => {
+    addToCart(product, selectedVariant, qty)
+  }
+
+  // ⚡ الانتقال المباشر لصفحة تفاصيل المنتج
+  const handleViewProduct = () => {
     navigate(`/product/${product?.slug || product?.id}`, {
       state: { selectedVariant, quantity: qty }
     })
@@ -62,7 +70,7 @@ export default function ProductCard({ product }) {
           <span>{tagLabel}</span>
         </div>
 
-        {/* Floating Pill */}
+        {/* In Stock Pill */}
         <div className="absolute top-3.5 right-3.5 z-10 flex items-center gap-1 px-2.5 py-1 bg-purple-500/10 backdrop-blur-md text-purple-700 text-[10px] font-bold rounded-full border border-purple-500/30">
           <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping" />
           <span>In Stock</span>
@@ -73,7 +81,7 @@ export default function ProductCard({ product }) {
           src={product?.image || '/images/pro.jpg'}
           alt={product?.name || product?.title || 'Product'}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out cursor-pointer"
-          onClick={handleBuyNow}
+          onClick={handleViewProduct}
           onError={(e) => {
             e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(categoryLabel)}`
           }}
@@ -100,7 +108,7 @@ export default function ProductCard({ product }) {
 
         {/* Title */}
         <h3 
-          onClick={handleBuyNow}
+          onClick={handleViewProduct}
           className="font-extrabold text-gray-900 mb-2 leading-snug text-base group-hover:text-purple-700 transition-colors cursor-pointer line-clamp-2"
         >
           {product?.name || product?.title || 'Untitled Product'}
@@ -195,19 +203,19 @@ export default function ProductCard({ product }) {
           </div>
         </div>
 
-        {/* ⚡ Instant Order Button */}
+        {/* 🛒 ADD TO CART BUTTON (مع تأثير Glow وتفاعل مباشر) */}
         <motion.div 
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="relative overflow-hidden rounded-2xl shadow-lg shadow-purple-600/25 group/btn mb-2"
         >
           <button 
-            onClick={handleBuyNow}
+            onClick={handleAddToCart}
             className="w-full relative py-3.5 px-5 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-sm tracking-wide flex items-center justify-center gap-2.5 transition-all duration-300 cursor-pointer"
           >
             <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform transform skew-x-12" />
-            <Zap className="w-4 h-4 fill-white text-white animate-bounce shrink-0" />
-            <span>Order Now</span>
+            <ShoppingBag className="w-4 h-4 text-white shrink-0" />
+            <span>Add to Cart • ${totalPrice.toFixed(2)}</span>
           </button>
         </motion.div>
 
@@ -217,7 +225,7 @@ export default function ProductCard({ product }) {
           state={{ selectedVariant, quantity: qty }}
           className="group/link flex items-center justify-center gap-1 text-xs font-bold text-gray-400 hover:text-purple-700 transition-colors py-1"
         >
-          <span>View product details</span>
+          <span>View full details</span>
           <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
         </Link>
 
