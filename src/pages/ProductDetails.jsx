@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn } from 'lucide-react'
 import productsData from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
+import PayPalButton from '../components/PayPalButton'
 
 const whyUsFeatures = [
   {
@@ -39,22 +40,6 @@ export default function ProductDetails() {
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
-
-  // 🎯 جلب ودمج المنتجات الأصلية مع منتجات ملف الـ CSV المخفية
-  useEffect(() => {
-    async function loadProduct() {
-      setLoading(true)
-      const csvProducts = await fetchCsvProducts()
-      const allProducts = [...productsData, ...csvProducts]
-      
-      const found = allProducts.find((p) => p.slug === slug || String(p.id) === slug)
-      setProduct(found || null)
-      setLoading(false)
-    }
-    loadProduct()
-  }, [slug])
-
-  // 1️⃣ State لتحديد الـ Variant الخيار المختار
   const [selectedVariant, setSelectedVariant] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
 
@@ -63,12 +48,38 @@ export default function ProductDetails() {
   const [isHovered, setIsHovered] = useState(false)
   const imgRef = useRef(null)
 
-  // تعيين الخيار الأول كـ Default عند تحميل المنتج
+  // 🎯 جلب ودمج المنتجات الأصلية مع منتجات ملف الـ CSV
   useEffect(() => {
-    if (product && product.variants && product.variants.length > 0) {
-      setSelectedVariant(product.variants[0])
+    async function loadProduct() {
+      setLoading(true)
+      const csvProducts = await fetchCsvProducts()
+      const allProducts = [...productsData, ...csvProducts]
+      
+      const found = allProducts.find((p) => p.slug === slug || String(p.id) === slug)
+      
+      if (found) {
+        // إنشاء Fallback آمن للـ Variants في حالة منتجات CSV
+        const validVariants = (found.variants && found.variants.length > 0)
+          ? found.variants
+          : [
+              {
+                id: 'default-variant',
+                label: 'Standard Edition',
+                price: Number(found.price || 127),
+                comparePrice: Number(found.comparePrice || Number(found.price || 127) * 1.5),
+                users: 1
+              }
+            ]
+        
+        setProduct({ ...found, variants: validVariants })
+        setSelectedVariant(validVariants[0])
+      } else {
+        setProduct(null)
+      }
+      setLoading(false)
     }
-  }, [product])
+    loadProduct()
+  }, [slug])
 
   const handleMouseMove = (e) => {
     if (!imgRef.current) return
@@ -104,16 +115,28 @@ export default function ProductDetails() {
     )
   }
 
-  // 2️⃣ دالة الشراء الفوري (Buy Now Handler)
+  // حساب السعر الحالي للمنتج أو الـ Variant المختار
+  const currentPrice = selectedVariant?.price || Number(product.price || 127)
+
+  // دالة نجاح الدفع عبر PayPal
+  const handlePaymentSuccess = (orderDetails) => {
+    console.log("Order completed successfully:", orderDetails)
+    alert(`Thank you for your order! A confirmation has been sent to your email.`)
+  }
+
   const handleBuyNow = () => {
     const targetVariant = selectedVariant || (product.variants && product.variants[0])
 
     if (targetVariant && targetVariant.paymentLink && targetVariant.paymentLink !== '#') {
       window.location.href = targetVariant.paymentLink
-    } else if (product.paymentLink) {
+    } else if (product.paymentLink && product.paymentLink !== '#') {
       window.location.href = product.paymentLink
     } else {
-      navigate(`/checkout?id=${product.id}&variant=${targetVariant?.id || 'default'}`)
+      // التمرير لزر PayPal مباشرة
+      const paypalEl = document.getElementById('paypal-button-container')
+      if (paypalEl) {
+        paypalEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
     }
   }
 
@@ -124,7 +147,7 @@ export default function ProductDetails() {
   return (
     <>
       <Helmet>
-        <title>{product.name} — QB MASTER</title>
+        <title>{product.name} — Store</title>
         <meta name="description" content={product.description} />
       </Helmet>
       
@@ -137,10 +160,9 @@ export default function ProductDetails() {
 
           <div className="grid lg:grid-cols-12 gap-10 items-start">
             
-            {/* Left Side: Full Image Display + Zoom & Widget */}
+            {/* Left Side: Product Image & Features */}
             <div className="lg:col-span-5 space-y-6">
               
-              {/* Product Image Container */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -151,7 +173,7 @@ export default function ProductDetails() {
                 className="bg-white rounded-3xl border border-purple-100 p-3 flex items-center justify-center shadow-sm relative overflow-hidden cursor-crosshair group min-h-[350px]"
               >
                 <img
-                  src={product.image}
+                  src={product.image || '/images/pro.jpg'}
                   alt={product.name}
                   style={{
                     transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
@@ -159,17 +181,16 @@ export default function ProductDetails() {
                   }}
                   className="w-full h-auto max-h-[480px] object-contain rounded-2xl transition-transform duration-200 ease-out"
                   onError={(e) => {
-                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(product.category || 'QB')}`
+                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(product.category || 'Product')}`
                   }}
                 />
 
-                {/* Zoom Hint */}
                 <div className={`absolute bottom-3 right-3 bg-gray-900/80 text-white text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 backdrop-blur-xs transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
                   <ZoomIn className="w-3.5 h-3.5" /> Hover to zoom
                 </div>
               </motion.div>
 
-              {/* Horizontal Slide Widget */}
+              {/* Slider Widget */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -182,7 +203,7 @@ export default function ProductDetails() {
                   </h3>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-bold rounded-full border border-purple-200/60">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                    Best Selling
+                    Verified Seller
                   </span>
                 </div>
 
@@ -232,7 +253,7 @@ export default function ProductDetails() {
 
             </div>
 
-            {/* Right Side: Product Details & Interactive Variant Selection */}
+            {/* Right Side: Product Details, Variants & Checkout */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -241,10 +262,10 @@ export default function ProductDetails() {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">
-                  {product.category || 'EXECUTIVE'}
+                  {product.category || 'FEATURED ITEM'}
                 </div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-purple-600 rounded-full animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
                   In Stock • Instant Delivery
                 </span>
               </div>
@@ -262,7 +283,7 @@ export default function ProductDetails() {
                 </div>
                 <span className="text-sm font-black text-gray-900">{ratingValue}</span>
                 <span className="text-gray-300">•</span>
-                <span className="text-xs font-semibold text-gray-500 underline decoration-gray-300 underline-offset-4 hover:text-purple-700 transition-colors cursor-pointer">
+                <span className="text-xs font-semibold text-gray-500 underline decoration-gray-300 underline-offset-4 hover:text-purple-700 transition-colors">
                   ({reviewsCount} verified reviews)
                 </span>
               </div>
@@ -282,77 +303,75 @@ export default function ProductDetails() {
               </ul>
 
               {/* VARIANTS SELECTION LIST */}
-              <div className="space-y-3 mb-8">
-                {(product.variants || []).map((variant) => {
-                  const isSelected = selectedVariant?.id === variant.id
+              {product.variants && product.variants.length > 0 && (
+                <div className="space-y-3 mb-8">
+                  {product.variants.map((variant) => {
+                    const isSelected = selectedVariant?.id === variant.id
 
-                  return (
-                    <div
-                      key={variant.id}
-                      onClick={() => setSelectedVariant(variant)}
-                      className={`relative flex items-center justify-between p-4 rounded-2xl border-2 transition-all cursor-pointer select-none ${
-                        isSelected
-                          ? 'bg-purple-50/40 border-purple-600 shadow-md shadow-purple-600/10'
-                          : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50/50'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
-                          isSelected ? 'bg-purple-600 text-white' : 'border border-gray-300'
-                        }`}>
-                          {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                        </div>
-
-                        <div>
-                          <div className={`font-black text-sm sm:text-base transition-colors ${
-                            isSelected ? 'text-purple-950' : 'text-gray-900'
+                    return (
+                      <div
+                        key={variant.id}
+                        onClick={() => setSelectedVariant(variant)}
+                        className={`relative flex items-center justify-between p-4 rounded-2xl border-2 transition-all cursor-pointer select-none ${
+                          isSelected
+                            ? 'bg-purple-50/40 border-purple-600 shadow-md shadow-purple-600/10'
+                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50/50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                            isSelected ? 'bg-purple-600 text-white' : 'border border-gray-300'
                           }`}>
-                            {variant.label}
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                           </div>
-                          <div className="text-xs text-gray-500 mt-0.5 font-medium">
-                            {variant.users || 1} user license
+
+                          <div>
+                            <div className={`font-black text-sm sm:text-base transition-colors ${
+                              isSelected ? 'text-purple-950' : 'text-gray-900'
+                            }`}>
+                              {variant.label}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-0.5 font-medium">
+                              {variant.users || 1} user license
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <div className={`text-xl font-black ${
-                          isSelected ? 'text-purple-700' : 'text-gray-900'
-                        }`}>
-                          ${Number(variant.price).toFixed(2)}
-                        </div>
-                        {variant.comparePrice && (
-                          <div className="text-xs text-gray-400 line-through">
-                            ${Number(variant.comparePrice).toFixed(2)}
+                        
+                        <div className="text-right">
+                          <div className={`text-xl font-black ${
+                            isSelected ? 'text-purple-700' : 'text-gray-900'
+                          }`}>
+                            ${Number(variant.price).toFixed(2)}
                           </div>
-                        )}
+                          {variant.comparePrice && (
+                            <div className="text-xs text-gray-400 line-through">
+                              ${Number(variant.comparePrice).toFixed(2)}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* 💳 PAYPAL INTEGRATION CHECKOUT SECTION */}
+              <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold text-gray-700">Total Price:</span>
+                  <span className="text-2xl font-black text-purple-700">
+                    ${currentPrice.toFixed(2)}
+                  </span>
+                </div>
+
+                <PayPalButton 
+                  amount={currentPrice} 
+                  onSuccess={handlePaymentSuccess} 
+                />
               </div>
 
-              {/* BUY NOW BUTTON */}
-              <motion.div
-                whileHover={{ scale: 1.015 }}
-                whileTap={{ scale: 0.985 }}
-                className="relative overflow-hidden rounded-2xl shadow-xl shadow-purple-600/35 group cursor-pointer"
-              >
-                <button 
-                  onClick={handleBuyNow}
-                  className="w-full relative py-4 px-6 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-black text-base tracking-wide flex items-center justify-center gap-3 transition-all duration-300 cursor-pointer"
-                >
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform transform skew-x-12" />
-                  
-                  <div className="p-1.5 bg-white/20 rounded-xl">
-                    <Zap className="w-5 h-5 fill-white text-white animate-bounce" />
-                  </div>
-                  <span>Buy Now — Instant Delivery</span>
-                </button>
-              </motion.div>
-
               {/* Payment Badges & Security */}
-              <div className="mt-6 space-y-6">
+              <div className="space-y-6">
                 <div>
                   <div className="flex items-center justify-center gap-1.5 mb-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping"></span>
@@ -423,7 +442,7 @@ export default function ProductDetails() {
                         <Zap className="w-3 h-3" />
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900">100% Activation Guarantee</span> — License activates successfully or your money back.
+                        <span className="font-bold text-gray-900">100% Guaranteed Delivery</span> — Complete order and receive your item directly.
                       </div>
                     </div>
 
@@ -432,16 +451,7 @@ export default function ProductDetails() {
                         <ShieldCheck className="w-3 h-3" />
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900">Instant Delivery by Email</span> — Receive your license key within minutes.
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
-                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
-                        <RefreshCw className="w-3 h-3 animate-spin" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-gray-900">Free Re-Activation</span> — Change or reinstall your PC anytime.
+                        <span className="font-bold text-gray-900">Money-Back Policy</span> — Full support and refund if order issues arise.
                       </div>
                     </div>
                   </div>
@@ -452,7 +462,7 @@ export default function ProductDetails() {
                     <span className="text-purple-400">•</span>
                     <span>Encrypted payments</span>
                     <span className="text-purple-400">•</span>
-                    <span>Trusted by thousands</span>
+                    <span>Trusted globally</span>
                   </div>
                 </div>
 
