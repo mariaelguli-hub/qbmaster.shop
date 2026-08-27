@@ -6,15 +6,15 @@ import { motion } from 'framer-motion'
 export default function ProductCard({ product }) {
   const navigate = useNavigate()
 
-  // 🛡️ Safe fallback for Variants (Supports both JSON & CSV products)
-  const defaultVariants = product.variants && product.variants.length > 0 
+  // 🛡️ Safe fallback for Variants (Supports JSON & CSV data)
+  const defaultVariants = Array.isArray(product?.variants) && product.variants.length > 0 
     ? product.variants 
     : [
         {
           id: 'standard',
-          label: '1 User License (Lifetime)',
-          price: Number(product.price || 127),
-          comparePrice: Number(product.comparePrice || product.original_price || (Number(product.price || 127) * 1.5)),
+          label: 'Standard Edition',
+          price: Number(product?.price || 49.99),
+          comparePrice: Number(product?.comparePrice || product?.original_price || (Number(product?.price || 49.99) * 1.4)),
           bestselling: true
         }
       ]
@@ -22,22 +22,26 @@ export default function ProductCard({ product }) {
   const [selectedVariant, setSelectedVariant] = useState(defaultVariants[0])
   const [qty, setQty] = useState(1)
 
-  const currentPrice = selectedVariant?.price || Number(product.price || 127)
-  const currentComparePrice = selectedVariant?.comparePrice || (currentPrice * 1.5)
-  const discount = Math.round(((currentComparePrice - currentPrice) / currentComparePrice) * 100)
-  
-  const ratingValue = product.rating || 4.95
-  const reviewsCount = product.reviewsCount || 128
-  const tagLabel = product.tag || 'Genuine License'
-  const categoryLabel = product.category || 'Software'
+  const unitPrice = selectedVariant?.price || Number(product?.price || 49.99)
+  const unitComparePrice = selectedVariant?.comparePrice || (unitPrice * 1.4)
+  const totalPrice = unitPrice * qty
+  const totalComparePrice = unitComparePrice * qty
+  const discount = Math.round(((unitComparePrice - unitPrice) / unitComparePrice) * 100)
+
+  const ratingValue = product?.rating || 4.9
+  const reviewsCount = product?.reviewsCount || 48
+  const tagLabel = product?.tag || 'Best Choice'
+  const categoryLabel = product?.category || 'Collection'
   
   // 🛡️ Safe fallback for Features
-  const featuresList = Array.isArray(product.features) && product.features.length > 0
+  const featuresList = Array.isArray(product?.features) && product.features.length > 0
     ? product.features
-    : ['One-time purchase (No subscription)', 'Instant digital license delivery', 'Free technical setup support']
+    : ['Premium high quality guarantee', 'Fast and secure shipping', '24/7 dedicated customer support']
 
   const handleBuyNow = () => {
-    navigate(`/product/${product.slug || product.id}`)
+    navigate(`/product/${product?.slug || product?.id}`, {
+      state: { selectedVariant, quantity: qty }
+    })
   }
 
   return (
@@ -49,7 +53,7 @@ export default function ProductCard({ product }) {
       className="group relative flex flex-col bg-white rounded-3xl border border-gray-200/70 shadow-sm hover:shadow-2xl hover:shadow-purple-900/10 hover:border-purple-500/40 transition-all duration-300 overflow-hidden"
     >
       
-      {/* 📸 Top Image Banner with Premium Glass Badge */}
+      {/* 📸 Top Image Banner */}
       <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-b from-gray-50 to-white">
         
         {/* Tag Badge */}
@@ -58,17 +62,17 @@ export default function ProductCard({ product }) {
           <span>{tagLabel}</span>
         </div>
 
-        {/* Instant Delivery Floating Pill */}
+        {/* Floating Pill */}
         <div className="absolute top-3.5 right-3.5 z-10 flex items-center gap-1 px-2.5 py-1 bg-purple-500/10 backdrop-blur-md text-purple-700 text-[10px] font-bold rounded-full border border-purple-500/30">
           <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping" />
-          <span>Instant Key</span>
+          <span>In Stock</span>
         </div>
 
-        {/* Image with Dynamic Smooth Hover Scale */}
+        {/* Image */}
         <img
-          src={product.image || '/images/pro.jpg'}
-          alt={product.name || product.title}
-          className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out cursor-pointer"
+          src={product?.image || '/images/pro.jpg'}
+          alt={product?.name || product?.title || 'Product'}
+          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out cursor-pointer"
           onClick={handleBuyNow}
           onError={(e) => {
             e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(categoryLabel)}`
@@ -81,13 +85,12 @@ export default function ProductCard({ product }) {
       {/* 📝 Content Area */}
       <div className="p-5 flex-1 flex flex-col pt-1">
         
-        {/* Category & Ratings Header */}
+        {/* Category & Ratings */}
         <div className="flex items-center justify-between mb-2">
           <span className="text-[10px] font-black tracking-widest text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-md uppercase border border-purple-200/50">
             {categoryLabel}
           </span>
 
-          {/* ⭐️ Golden Star Rating */}
           <div className="flex items-center gap-1 bg-amber-50/80 px-2 py-0.5 rounded-full border border-amber-200/50">
             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
             <span className="text-xs font-black text-gray-900">{ratingValue}</span>
@@ -100,12 +103,12 @@ export default function ProductCard({ product }) {
           onClick={handleBuyNow}
           className="font-extrabold text-gray-900 mb-2 leading-snug text-base group-hover:text-purple-700 transition-colors cursor-pointer line-clamp-2"
         >
-          {product.name || product.title}
+          {product?.name || product?.title || 'Untitled Product'}
         </h3>
         
         {/* Description */}
         <p className="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed">
-          {product.description || 'Genuine QuickBooks Desktop edition with permanent activation and setup support.'}
+          {product?.description || 'High quality selection made for durability, aesthetics, and optimal home performance.'}
         </p>
 
         {/* Feature List */}
@@ -134,16 +137,16 @@ export default function ProductCard({ product }) {
               >
                 <input
                   type="radio"
-                  name={`variant-${product.id || product.slug}`}
-                  className="accent-purple-600 w-3.5 h-3.5"
+                  name={`variant-${product?.id || product?.slug}`}
+                  className="accent-purple-600 w-3.5 h-3.5 cursor-pointer"
                   checked={selectedVariant?.id === variant.id}
                   onChange={() => setSelectedVariant(variant)}
                 />
                 <span className="flex-1">{variant.label}</span>
-                <span className="font-black text-gray-900">${variant.price?.toFixed(2)}</span>
+                <span className="font-black text-gray-900">${Number(variant.price).toFixed(2)}</span>
                 {variant.bestselling && (
                   <span className="px-2 py-0.5 bg-purple-600 text-white text-[9px] font-black rounded-full uppercase tracking-wider">
-                    Best Seller
+                    Popular
                   </span>
                 )}
               </label>
@@ -151,20 +154,20 @@ export default function ProductCard({ product }) {
           </div>
         ) : (
           <div className="mb-4 bg-purple-50/40 p-2.5 rounded-xl border border-purple-100 text-xs flex justify-between items-center text-gray-700 font-semibold">
-            <span>License Version</span>
+            <span>Edition</span>
             <span className="text-purple-700 font-extrabold">{defaultVariants[0].label}</span>
           </div>
         )}
 
-        {/* Price & Quantity Selector */}
+        {/* Price & Quantity Controls */}
         <div className="flex items-center justify-between gap-2 mb-4 mt-auto pt-3 border-t border-gray-100">
           <div>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-black text-gray-900 tracking-tight">
-                ${currentPrice.toFixed(2)}
+                ${totalPrice.toFixed(2)}
               </span>
               <span className="text-xs text-gray-400 line-through">
-                ${currentComparePrice.toFixed(2)}
+                ${totalComparePrice.toFixed(2)}
               </span>
             </div>
             {discount > 0 && (
@@ -174,7 +177,7 @@ export default function ProductCard({ product }) {
             )}
           </div>
 
-          {/* Qty Controls */}
+          {/* Qty Selector */}
           <div className="flex items-center border border-gray-200 rounded-xl bg-gray-50/80 p-0.5 shadow-inner">
             <button
               onClick={() => setQty(Math.max(1, qty - 1))}
@@ -192,7 +195,7 @@ export default function ProductCard({ product }) {
           </div>
         </div>
 
-        {/* ⚡ Glowing Buy Now Button */}
+        {/* ⚡ Instant Order Button */}
         <motion.div 
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -204,16 +207,17 @@ export default function ProductCard({ product }) {
           >
             <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform transform skew-x-12" />
             <Zap className="w-4 h-4 fill-white text-white animate-bounce shrink-0" />
-            <span>Buy Now — Instant</span>
+            <span>Order Now</span>
           </button>
         </motion.div>
 
         {/* View Details Link */}
         <Link
-          to={`/product/${product.slug || product.id}`}
+          to={`/product/${product?.slug || product?.id}`}
+          state={{ selectedVariant, quantity: qty }}
           className="group/link flex items-center justify-center gap-1 text-xs font-bold text-gray-400 hover:text-purple-700 transition-colors py-1"
         >
-          <span>View full details</span>
+          <span>View product details</span>
           <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
         </Link>
 
