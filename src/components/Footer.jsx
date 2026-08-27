@@ -56,7 +56,7 @@ export default function Footer() {
                   <Sparkles className="w-3.5 h-3.5 text-purple-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
                 </div>
                 <span className="text-[9px] font-extrabold text-purple-700 uppercase tracking-widest -mt-1 opacity-80">
-                  Official Software Store
+                  Official Home & Garden Store
                 </span>
               </div>
 
