@@ -2,45 +2,48 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn } from 'lucide-react'
+import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn, ShoppingBag, Plus, Minus } from 'lucide-react'
 import productsData from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
+import { useCart } from '../context/CartContext'
 import PayPalButton from '../components/PayPalButton'
 
 const whyUsFeatures = [
   {
     id: 0,
     icon: Zap,
-    title: 'One-Time Purchase',
-    desc: 'Pay once. No subscription, no monthly fees, no annual fees.',
+    title: 'High Quality Guarantee',
+    desc: 'Tested and verified products made with durable premium materials.',
   },
   {
     id: 1,
     icon: CheckCircle,
-    title: 'Instant Email Delivery',
-    desc: 'Receive your license key and download link within minutes.',
+    title: 'Fast Tracked Shipping',
+    desc: 'Quick packaging and tracked shipping straight to your address.',
   },
   {
     id: 2,
     icon: Check,
-    title: 'Genuine License',
-    desc: 'Authentic license keys with full activation support.',
+    title: 'Verified Authenticity',
+    desc: '100% genuine items backed by full customer warranty.',
   },
   {
     id: 3,
     icon: ShieldCheck,
     title: 'Money-Back Guarantee',
-    desc: "30-day guarantee. If it doesn't activate, we make it right.",
+    desc: '30-day hassle-free returns and refunds policy.',
   },
 ]
 
 export default function ProductDetails() {
   const { slug } = useParams()
   const navigate = useNavigate()
+  const { addToCart } = useCart()
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedVariant, setSelectedVariant] = useState(null)
+  const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState(0)
 
   // Zoom States
@@ -58,15 +61,14 @@ export default function ProductDetails() {
       const found = allProducts.find((p) => p.slug === slug || String(p.id) === slug)
       
       if (found) {
-        // إنشاء Fallback آمن للـ Variants في حالة منتجات CSV
         const validVariants = (found.variants && found.variants.length > 0)
           ? found.variants
           : [
               {
                 id: 'default-variant',
                 label: 'Standard Edition',
-                price: Number(found.price || 127),
-                comparePrice: Number(found.comparePrice || Number(found.price || 127) * 1.5),
+                price: Number(found.price || 49.99),
+                comparePrice: Number(found.comparePrice || Number(found.price || 49.99) * 1.4),
                 users: 1
               }
             ]
@@ -115,29 +117,16 @@ export default function ProductDetails() {
     )
   }
 
-  // حساب السعر الحالي للمنتج أو الـ Variant المختار
-  const currentPrice = selectedVariant?.price || Number(product.price || 127)
+  const unitPrice = selectedVariant?.price || Number(product.price || 49.99)
+  const calculatedTotal = unitPrice * qty
 
-  // دالة نجاح الدفع عبر PayPal
-  const handlePaymentSuccess = (orderDetails) => {
-    console.log("Order completed successfully:", orderDetails)
-    alert(`Thank you for your order! A confirmation has been sent to your email.`)
+  const handleAddToCart = () => {
+    addToCart(product, selectedVariant, qty)
   }
 
-  const handleBuyNow = () => {
-    const targetVariant = selectedVariant || (product.variants && product.variants[0])
-
-    if (targetVariant && targetVariant.paymentLink && targetVariant.paymentLink !== '#') {
-      window.location.href = targetVariant.paymentLink
-    } else if (product.paymentLink && product.paymentLink !== '#') {
-      window.location.href = product.paymentLink
-    } else {
-      // التمرير لزر PayPal مباشرة
-      const paypalEl = document.getElementById('paypal-button-container')
-      if (paypalEl) {
-        paypalEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
-    }
+  const handlePaymentSuccess = (orderDetails) => {
+    console.log("Order completed successfully:", orderDetails)
+    alert(`Thank you ${orderDetails?.payer?.name?.given_name || 'Customer'}! Payment was successful.`)
   }
 
   const ActiveIcon = whyUsFeatures[activeTab].icon
@@ -199,11 +188,11 @@ export default function ProductDetails() {
               >
                 <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
                   <h3 className="font-extrabold text-gray-900 text-base">
-                    Why buy from us
+                    Why choose us
                   </h3>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-bold rounded-full border border-purple-200/60">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                    Verified Seller
+                    Verified Store
                   </span>
                 </div>
 
@@ -266,7 +255,7 @@ export default function ProductDetails() {
                 </div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                  In Stock • Instant Delivery
+                  In Stock • Fast Shipping
                 </span>
               </div>
               
@@ -304,7 +293,7 @@ export default function ProductDetails() {
 
               {/* VARIANTS SELECTION LIST */}
               {product.variants && product.variants.length > 0 && (
-                <div className="space-y-3 mb-8">
+                <div className="space-y-3 mb-6">
                   {product.variants.map((variant) => {
                     const isSelected = selectedVariant?.id === variant.id
 
@@ -331,9 +320,6 @@ export default function ProductDetails() {
                             }`}>
                               {variant.label}
                             </div>
-                            <div className="text-xs text-gray-500 mt-0.5 font-medium">
-                              {variant.users || 1} user license
-                            </div>
                           </div>
                         </div>
                         
@@ -355,117 +341,92 @@ export default function ProductDetails() {
                 </div>
               )}
 
-              {/* 💳 PAYPAL INTEGRATION CHECKOUT SECTION */}
+              {/* Quantity Controls */}
+              <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-200 mb-6">
+                <span className="text-xs font-bold text-gray-700">Quantity:</span>
+                <div className="flex items-center border border-gray-200 rounded-xl bg-gray-50 p-1">
+                  <button
+                    onClick={() => setQty(Math.max(1, qty - 1))}
+                    className="p-1.5 hover:bg-white rounded-lg text-gray-600 transition-colors cursor-pointer"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="px-4 text-sm font-black text-gray-800">{qty}</span>
+                  <button
+                    onClick={() => setQty(qty + 1)}
+                    className="p-1.5 hover:bg-white rounded-lg text-gray-600 transition-colors cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* 🛒 ADD TO CART BUTTON */}
+              <motion.button
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+                onClick={handleAddToCart}
+                className="w-full py-4 px-6 mb-4 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-base rounded-2xl shadow-xl shadow-purple-600/25 flex items-center justify-center gap-3 transition-all cursor-pointer"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                <span>Add to Cart (${calculatedTotal.toFixed(2)})</span>
+              </motion.button>
+
+              {/* 💳 Direct PayPal Option */}
               <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-gray-700">Total Price:</span>
-                  <span className="text-2xl font-black text-purple-700">
-                    ${currentPrice.toFixed(2)}
+                  <span className="text-xs font-bold text-gray-700">Instant Checkout (PayPal):</span>
+                  <span className="text-xl font-black text-purple-700">
+                    ${calculatedTotal.toFixed(2)}
                   </span>
                 </div>
 
                 <PayPalButton 
-                  amount={currentPrice} 
+                  amount={calculatedTotal} 
                   onSuccess={handlePaymentSuccess} 
                 />
               </div>
 
               {/* Payment Badges & Security */}
-              <div className="space-y-6">
-                <div>
-                  <div className="flex items-center justify-center gap-1.5 mb-2.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping"></span>
-                    <p className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">
-                      Guaranteed Safe & Secure Checkout
-                    </p>
+              <div className="space-y-4">
+                <div className="grid grid-cols-5 gap-2">
+                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center font-black italic text-[#1A1F71] text-sm font-sans">
+                    VISA
                   </div>
-
-                  <div className="grid grid-cols-5 gap-2">
-                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <span className="font-black italic text-[#1A1F71] text-sm tracking-tighter select-none font-sans">
-                        VISA
-                      </span>
-                    </div>
-
-                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <img 
-                        src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
-                        alt="Mastercard" 
-                        className="h-5 w-auto object-contain"
-                      />
-                    </div>
-
-                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <img 
-                        src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
-                        alt="PayPal" 
-                        className="h-4 w-auto object-contain"
-                      />
-                    </div>
-
-                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <img 
-                        src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
-                        alt="Apple Pay" 
-                        className="h-4 w-auto object-contain"
-                      />
-                    </div>
-
-                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <img 
-                        src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
-                        alt="Google Pay" 
-                        className="h-4 w-auto object-contain"
-                      />
-                    </div>
+                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
+                      alt="Mastercard" 
+                      className="h-5 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
+                      alt="PayPal" 
+                      className="h-4 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
+                      alt="Apple Pay" 
+                      className="h-4 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
+                      alt="Google Pay" 
+                      className="h-4 w-auto object-contain"
+                    />
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden bg-gradient-to-br from-purple-50/90 via-white to-purple-50/40 border border-purple-200/80 rounded-2xl p-5 shadow-lg shadow-purple-900/5 backdrop-blur-md">
-                  <div className="absolute -right-12 -top-12 w-36 h-36 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  
-                  <div className="relative z-10 flex items-center justify-between mb-4 pb-3 border-b border-purple-100">
-                    <div className="flex items-center gap-2.5">
-                      <div className="p-2 bg-purple-600 text-white rounded-xl shadow-md shadow-purple-600/30">
-                        <ShieldCheck className="w-4 h-4" />
-                      </div>
-                      <h4 className="font-extrabold text-gray-900 text-xs uppercase tracking-wider">
-                        100% Safe & Secure Purchase Guarantee
-                      </h4>
-                    </div>
-                    <Sparkles className="w-4 h-4 text-purple-600 animate-bounce" />
-                  </div>
-
-                  <div className="relative z-10 space-y-3 text-xs text-gray-700">
-                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
-                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
-                        <Zap className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-gray-900">100% Guaranteed Delivery</span> — Complete order and receive your item directly.
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
-                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
-                        <ShieldCheck className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-gray-900">Money-Back Policy</span> — Full support and refund if order issues arise.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 mt-4 pt-3 border-t border-purple-100/80 flex items-center justify-center gap-1.5 text-[11px] text-gray-500 font-semibold">
-                    <Lock className="w-3 h-3 text-purple-600" />
-                    <span>Secure checkout</span>
-                    <span className="text-purple-400">•</span>
-                    <span>Encrypted payments</span>
-                    <span className="text-purple-400">•</span>
-                    <span>Trusted globally</span>
-                  </div>
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500 font-semibold pt-2">
+                  <Lock className="w-3.5 h-3.5 text-purple-600" />
+                  <span>256-bit SSL Encrypted • 30-Day Money Back Guarantee</span>
                 </div>
-
               </div>
 
             </motion.div>
