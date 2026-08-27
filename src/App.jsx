@@ -1,9 +1,13 @@
-import ChatWidget from './components/ChatWidget'
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { CartProvider } from './context/CartContext'
+import CartDrawer from './components/CartDrawer'
+import ChatWidget from './components/ChatWidget'
 import ScrollToTop from './components/ScrollToTop'
 import VisitorTracker from './components/VisitorTracker'
 import MainLayout from './layouts/MainLayout'
+
+// Pages
 import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ProductDetails from './pages/ProductDetails'
@@ -24,15 +28,19 @@ import AdminDashboard from './pages/AdminDashboard'
 
 export default function App() {
   return (
-    <>
-      {/* 🎯 تتبع الزوار + السكورل لفوق + الشات بوت المباشر */}
+    <CartProvider>
+      {/* 🎯 تتبع الزوار + السكورل لفوق + الشات بوت المباشر + السلة الجانبية */}
       <VisitorTracker />
       <ScrollToTop />
-      <ChatWidget /> {/* 👈 هادي هي اللي كانت ناقصاك فـ JSX وكانت ما كاتبينهاش! */}
+      <ChatWidget />
+      <CartDrawer />
 
-      <Toaster position="top-right" toastOptions={{
-        style: { borderRadius: '10px', fontSize: '14px' }
-      }} />
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+          style: { borderRadius: '10px', fontSize: '14px' }
+        }} 
+      />
 
       <Routes>
         <Route element={<MainLayout />}>
@@ -62,6 +70,6 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </>
+    </CartProvider>
   )
 }
