@@ -56,30 +56,36 @@ export default function ProductDetails() {
   useEffect(() => {
     async function loadProduct() {
       setLoading(true)
-      const csvProducts = await fetchCsvProducts()
-      const allProducts = [...productsData, ...csvProducts]
-      
-      const found = allProducts.find((p) => p.slug === slug || String(p.id) === slug)
-      
-      if (found) {
-        const validVariants = (found.variants && found.variants.length > 0)
-          ? found.variants
-          : [
-              {
-                id: 'default-variant',
-                label: 'Standard Edition',
-                price: Number(found.price || 49.99),
-                comparePrice: Number(found.comparePrice || Number(found.price || 49.99) * 1.4),
-                users: 1
-              }
-            ]
+      try {
+        const csvProducts = await fetchCsvProducts()
+        const allProducts = [...productsData, ...(Array.isArray(csvProducts) ? csvProducts : [])]
         
-        setProduct({ ...found, variants: validVariants })
-        setSelectedVariant(validVariants[0])
-      } else {
+        const found = allProducts.find((p) => String(p.slug) === slug || String(p.id) === slug)
+        
+        if (found) {
+          const validVariants = (found.variants && found.variants.length > 0)
+            ? found.variants
+            : [
+                {
+                  id: 'default-variant',
+                  label: 'Standard Edition',
+                  price: Number(found.price || 49.99),
+                  comparePrice: Number(found.comparePrice || Number(found.price || 49.99) * 1.4),
+                  users: 1
+                }
+              ]
+          
+          setProduct({ ...found, variants: validVariants })
+          setSelectedVariant(validVariants[0])
+        } else {
+          setProduct(null)
+        }
+      } catch (err) {
+        console.error('Error loading product:', err)
         setProduct(null)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     }
     loadProduct()
   }, [slug])
@@ -132,7 +138,6 @@ export default function ProductDetails() {
 
   const isOutOfStock = product.inStock === false || product.stock === 0 || product.availability === 'out_of_stock'
   const stockAvailabilityText = isOutOfStock ? 'out of stock' : 'in stock'
-  const schemaAvailability = isOutOfStock ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock'
 
   const handleAddToCart = () => {
     addToCart(product, selectedVariant, qty)
@@ -143,45 +148,13 @@ export default function ProductDetails() {
     navigate(targetUrl)
   }
 
-  const handlePaymentSuccess = (orderDetails) => {
+  const handlePaymentSuccess = () => {
     navigate(`/checkout?id=${product.slug || product.id}`)
   }
 
-  const ActiveIcon = whyUsFeatures[activeTab].icon
+  const ActiveIcon = whyUsFeatures[activeTab]?.icon || Zap
   const ratingValue = product.rating || 4.96
   const reviewsCount = product.reviewsCount || 142
-
-  // Schema.org Structured Data
-  const schemaData = {
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": product.name,
-    "image": [absoluteImageUrl],
-    "description": product.description,
-    "sku": product.sku || `SKU-${product.id}`,
-    "brand": {
-      "@type": "Brand",
-      "name": "QB MASTER"
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": canonicalUrl,
-      "priceCurrency": "USD",
-      "price": unitPriceFormatted,
-      "priceValidUntil": "2027-12-31",
-      "itemCondition": "https://schema.org/NewCondition",
-      "availability": schemaAvailability,
-      "seller": {
-        "@type": "Organization",
-        "name": "QB MASTER"
-      }
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": String(ratingValue),
-      "reviewCount": String(reviewsCount)
-    }
-  }
 
   return (
     <>
@@ -200,7 +173,7 @@ export default function ProductDetails() {
         <meta property="og:image" content={absoluteImageUrl} />
         <meta property="og:site_name" content="QB MASTER" />
 
-        {/* Product Specific OpenGraph (مطابقة السعر والتوفر) */}
+        {/* Product Specific OpenGraph */}
         <meta property="product:price:amount" content={unitPriceFormatted} />
         <meta property="product:price:currency" content="USD" />
         <meta property="product:availability" content={stockAvailabilityText} />
@@ -211,15 +184,10 @@ export default function ProductDetails() {
         <meta name="twitter:title" content={`${product.name} — QB MASTER`} />
         <meta name="twitter:description" content={product.description} />
         <meta name="twitter:image" content={absoluteImageUrl} />
-
-        {/* Schema.org Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify(schemaData)}
-        </script>
       </Helmet>
 
-      {/* Fallback JSON-LD Component */}
-      {ProductJsonLd && <ProductJsonLd product={product} selectedVariant={selectedVariant} />}
+      {/* 🎯 Schema.org Product Structured Data */}
+      <ProductJsonLd product={product} selectedVariant={selectedVariant} />
       
       <section className="py-12 lg:py-20 bg-purple-50/20 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -292,9 +260,9 @@ export default function ProductDetails() {
                       </div>
                       <div>
                         <h4 className="font-extrabold text-gray-900 text-sm mb-1">
-                          {whyUsFeatures[activeTab].title}
+                          {whyUsFeatures[activeTab]?.title}
                         </h4>
-                        <p className="text-xs text-gray-500 leading-relaxed">{whyUsFeatures[activeTab].desc}</p>
+                        <p className="text-xs text-gray-500 leading-relaxed">{whyUsFeatures[activeTab]?.desc}</p>
                       </div>
                     </motion.div>
                   </AnimatePresence>
