@@ -1,0 +1,28 @@
+# Robots.txt for QB MASTER — Compliant with Google Search & Google Merchant Center
+
+User-agent: *
+Allow: /
+Allow: /images/
+Allow: /assets/
+Disallow: /admin-messages-panel
+Disallow: /checkout
+
+# Explicit Allowance for Google Merchant Center & Shopping Crawlers
+User-agent: Googlebot
+Allow: /
+Allow: /images/
+Allow: /assets/
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /images/
+Allow: /assets/
+
+User-agent: StoreBot-Google
+Allow: /
+
+User-agent: Google-InspectionTool
+Allow: /
+
+# Sitemap Location
+Sitemap: https://qbmaster.shop/sitemap.xml
