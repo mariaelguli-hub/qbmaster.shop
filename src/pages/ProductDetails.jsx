@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn, ShoppingBag, Plus, Minus } from 'lucide-react'
+import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn, ShoppingBag, Plus, Minus, CreditCard } from 'lucide-react'
 import productsData from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
 import { useCart } from '../context/CartContext'
@@ -19,14 +19,14 @@ const whyUsFeatures = [
   {
     id: 1,
     icon: CheckCircle,
-    title: 'Fast Tracked Shipping',
-    desc: 'Quick packaging and tracked shipping straight to your address.',
+    title: 'Fast Digital & Tracked Delivery',
+    desc: 'Quick processing and direct delivery straight to your email inbox.',
   },
   {
     id: 2,
     icon: Check,
     title: 'Verified Authenticity',
-    desc: '100% genuine items backed by full customer warranty.',
+    desc: '100% genuine items backed by full dedicated warranty.',
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ export default function ProductDetails() {
   const [isHovered, setIsHovered] = useState(false)
   const imgRef = useRef(null)
 
-  // 🎯 جلب ودمج المنتجات الأصلية مع منتجات ملف الـ CSV
+  // 🎯 جلب ودمج المنتجات مع دعم الـ Slug والـ ID
   useEffect(() => {
     async function loadProduct() {
       setLoading(true)
@@ -101,7 +101,7 @@ export default function ProductDetails() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center font-sans">
         <h1 className="text-xl font-bold text-gray-500 animate-pulse">Loading product details...</h1>
       </div>
     )
@@ -109,8 +109,8 @@ export default function ProductDetails() {
 
   if (!product) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Product not found</h1>
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center font-sans">
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
         <Link to="/shop" className="text-purple-600 font-semibold hover:underline">
           &larr; Back to shop
         </Link>
@@ -124,42 +124,77 @@ export default function ProductDetails() {
   const unitPriceFormatted = Number(unitPrice).toFixed(2)
 
   // 🌐 معالجة الروابط والـ Metadata
-  const baseUrl = typeof window !== 'undefined' && window.location.origin 
-    ? window.location.origin 
-    : 'https://qbmaster.shop'
-  const canonicalUrl = `${baseUrl}/product/${product.slug || product.id}`
+  const canonicalUrl = `https://qbmaster.shop/product/${product.slug || product.id}`
   const rawImage = product.image || '/images/pro.jpg'
   const absoluteImageUrl = rawImage.startsWith('http') 
     ? rawImage 
-    : `${baseUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
+    : `https://qbmaster.shop${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
 
   const isOutOfStock = product.inStock === false || product.stock === 0 || product.availability === 'out_of_stock'
   const stockAvailabilityText = isOutOfStock ? 'out of stock' : 'in stock'
+  const schemaAvailability = isOutOfStock ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock'
 
   const handleAddToCart = () => {
     addToCart(product, selectedVariant, qty)
   }
 
+  const handleDirectCheckout = () => {
+    const targetUrl = `/checkout?id=${product.slug || product.id}${selectedVariant ? `&variant=${selectedVariant.id}` : ''}`
+    navigate(targetUrl)
+  }
+
   const handlePaymentSuccess = (orderDetails) => {
-    alert(`Thank you ${orderDetails?.payer?.name?.given_name || 'Customer'}! Your order was successful.`)
+    navigate(`/checkout?id=${product.slug || product.id}`)
   }
 
   const ActiveIcon = whyUsFeatures[activeTab].icon
   const ratingValue = product.rating || 4.96
   const reviewsCount = product.reviewsCount || 142
 
+  // Schema.org Structured Data
+  const schemaData = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": [absoluteImageUrl],
+    "description": product.description,
+    "sku": product.sku || `SKU-${product.id}`,
+    "brand": {
+      "@type": "Brand",
+      "name": "QB MASTER"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": canonicalUrl,
+      "priceCurrency": "USD",
+      "price": unitPriceFormatted,
+      "priceValidUntil": "2027-12-31",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": schemaAvailability,
+      "seller": {
+        "@type": "Organization",
+        "name": "QB MASTER"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": String(ratingValue),
+      "reviewCount": String(reviewsCount)
+    }
+  }
+
   return (
     <>
       {/* 🎯 طبقة الميتاداتا المتقدمة للـ SEO و Google Shopping */}
       <Helmet>
         {/* Basic SEO */}
-        <title>{product.name} — Store</title>
+        <title>{`${product.name} — QB MASTER`}</title>
         <meta name="description" content={product.description} />
         <link rel="canonical" href={canonicalUrl} />
 
         {/* OpenGraph / Social & GMC Crawlers */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={`${product.name} — Store`} />
+        <meta property="og:title" content={`${product.name} — QB MASTER`} />
         <meta property="og:description" content={product.description} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={absoluteImageUrl} />
@@ -173,15 +208,20 @@ export default function ProductDetails() {
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${product.name} — Store`} />
+        <meta name="twitter:title" content={`${product.name} — QB MASTER`} />
         <meta name="twitter:description" content={product.description} />
         <meta name="twitter:image" content={absoluteImageUrl} />
+
+        {/* Schema.org Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
       </Helmet>
 
-      {/* 🎯 Schema.org Product Structured Data للمطابقة مع Google Shopping */}
-      <ProductJsonLd product={product} selectedVariant={selectedVariant} />
+      {/* Fallback JSON-LD Component */}
+      {ProductJsonLd && <ProductJsonLd product={product} selectedVariant={selectedVariant} />}
       
-      <section className="py-12 lg:py-20 bg-purple-50/20">
+      <section className="py-12 lg:py-20 bg-purple-50/20 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <Link to="/shop" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-6 transition-colors">
@@ -399,23 +439,35 @@ export default function ProductDetails() {
                 </div>
               </div>
 
-              {/* 🛒 ADD TO CART BUTTON */}
-              <motion.button
-                whileHover={{ scale: 1.015 }}
-                whileTap={{ scale: 0.985 }}
-                onClick={handleAddToCart}
-                className="w-full py-4 px-6 mb-4 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-base rounded-2xl shadow-xl shadow-purple-600/25 flex items-center justify-center gap-3 transition-all cursor-pointer"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                <span>Add to Cart (${calculatedTotal.toFixed(2)})</span>
-              </motion.button>
+              {/* 🛒 Action Buttons (Add to Cart & Direct Buy Now) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                <motion.button
+                  whileHover={{ scale: 1.015 }}
+                  whileTap={{ scale: 0.985 }}
+                  onClick={handleAddToCart}
+                  className="w-full py-4 px-6 bg-purple-50 hover:bg-purple-100 text-purple-700 font-extrabold text-sm rounded-2xl border border-purple-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>Add to Cart</span>
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.015 }}
+                  whileTap={{ scale: 0.985 }}
+                  onClick={handleDirectCheckout}
+                  className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-sm rounded-2xl shadow-xl shadow-purple-600/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  <span>Buy Now (${calculatedTotal.toFixed(2)})</span>
+                </motion.button>
+              </div>
 
               {/* 💳 PAYPAL INTEGRATION CHECKOUT SECTION */}
               <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold text-gray-700">Instant Checkout (PayPal):</span>
                   <span className="text-2xl font-black text-purple-700">
-                    ${calculatedTotal.toFixed(2)}
+                    ${calculatedTotal.toFixed(2)} USD
                   </span>
                 </div>
 
