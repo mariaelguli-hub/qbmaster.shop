@@ -118,8 +118,23 @@ export default function ProductDetails() {
     )
   }
 
+  // 💰 حساب الأسعار والكمية
   const unitPrice = selectedVariant?.price || Number(product.price || 49.99)
   const calculatedTotal = unitPrice * qty
+  const unitPriceFormatted = Number(unitPrice).toFixed(2)
+
+  // 🌐 معالجة الروابط والـ Metadata
+  const baseUrl = typeof window !== 'undefined' && window.location.origin 
+    ? window.location.origin 
+    : 'https://qbmaster.shop'
+  const canonicalUrl = `${baseUrl}/product/${product.slug || product.id}`
+  const rawImage = product.image || '/images/pro.jpg'
+  const absoluteImageUrl = rawImage.startsWith('http') 
+    ? rawImage 
+    : `${baseUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
+
+  const isOutOfStock = product.inStock === false || product.stock === 0 || product.availability === 'out_of_stock'
+  const stockAvailabilityText = isOutOfStock ? 'out of stock' : 'in stock'
 
   const handleAddToCart = () => {
     addToCart(product, selectedVariant, qty)
@@ -135,9 +150,32 @@ export default function ProductDetails() {
 
   return (
     <>
+      {/* 🎯 طبقة الميتاداتا المتقدمة للـ SEO و Google Shopping */}
       <Helmet>
+        {/* Basic SEO */}
         <title>{product.name} — Store</title>
         <meta name="description" content={product.description} />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* OpenGraph / Social & GMC Crawlers */}
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={`${product.name} — Store`} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={absoluteImageUrl} />
+        <meta property="og:site_name" content="QB MASTER" />
+
+        {/* Product Specific OpenGraph (مطابقة السعر والتوفر) */}
+        <meta property="product:price:amount" content={unitPriceFormatted} />
+        <meta property="product:price:currency" content="USD" />
+        <meta property="product:availability" content={stockAvailabilityText} />
+        <meta property="product:condition" content="new" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${product.name} — Store`} />
+        <meta name="twitter:description" content={product.description} />
+        <meta name="twitter:image" content={absoluteImageUrl} />
       </Helmet>
 
       {/* 🎯 Schema.org Product Structured Data للمطابقة مع Google Shopping */}
@@ -216,9 +254,7 @@ export default function ProductDetails() {
                         <h4 className="font-extrabold text-gray-900 text-sm mb-1">
                           {whyUsFeatures[activeTab].title}
                         </h4>
-                        <p className="text-xs text-gray-500 leading-relaxed">
-                          {whyUsFeatures[activeTab].desc}
-                        </p>
+                        <p className="text-xs text-gray-500 leading-relaxed">{whyUsFeatures[activeTab].desc}</p>
                       </div>
                     </motion.div>
                   </AnimatePresence>
@@ -237,9 +273,7 @@ export default function ProductDetails() {
                     ))}
                   </div>
 
-                  <span className="text-[11px] font-bold text-gray-400">
-                    0{activeTab + 1} / 0{whyUsFeatures.length}
-                  </span>
+                  <span className="text-[11px] font-bold text-gray-400">0{activeTab + 1} / 0{whyUsFeatures.length}</span>
                 </div>
               </motion.div>
 
@@ -253,9 +287,7 @@ export default function ProductDetails() {
               className="lg:col-span-7"
             >
               <div className="flex items-center justify-between mb-2">
-                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">
-                  {product.category || 'FEATURED ITEM'}
-                </div>
+                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{product.category || 'FEATURED ITEM'}</div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
                   In Stock • Fast Shipping
@@ -378,7 +410,7 @@ export default function ProductDetails() {
                 <span>Add to Cart (${calculatedTotal.toFixed(2)})</span>
               </motion.button>
 
-              {/* 💳 Direct PayPal Option */}
+              {/* 💳 PAYPAL INTEGRATION CHECKOUT SECTION */}
               <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold text-gray-700">Instant Checkout (PayPal):</span>
