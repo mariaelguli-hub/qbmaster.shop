@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Lock, ShieldCheck, Zap, Sparkles, CheckCircle2, ShoppingBag, Mail } from 'lucide-react'
+import { ArrowLeft, Lock, ShieldCheck, Zap, Sparkles, CheckCircle2, ShoppingBag, Mail, Truck, RefreshCw, FileText } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import PayPalButton from '../components/PayPalButton'
 import productsData from '../data/products.json'
@@ -21,7 +21,7 @@ export default function Checkout() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [orderDetails, setOrderDetails] = useState(null)
 
-  // 🎯 دعم الشراء المباشر عبر روابط الإعلانات و Google Merchant Center (?id=xxx)
+  // 🎯 دعم الشراء المباشر عبر روابط Google Shopping و GMC (?id={id})
   useEffect(() => {
     async function loadDirectProduct() {
       if (productId) {
@@ -41,8 +41,10 @@ export default function Checkout() {
     loadDirectProduct()
   }, [productId, variantId])
 
-  // حساب المجموع النهائي
-  const finalAmount = directProduct ? directProduct.price : cartTotal
+  // حساب المجموع النهائي وتفاصيل الطلب
+  const subtotalAmount = directProduct ? directProduct.price : cartTotal
+  const shippingAmount = 0.00 // Free Shipping
+  const finalAmount = subtotalAmount + shippingAmount
   const hasItems = directProduct || cartItems.length > 0
 
   const handlePaymentSuccess = (details) => {
@@ -53,7 +55,7 @@ export default function Checkout() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-[75vh] flex items-center justify-center px-4 py-16 bg-purple-50/20">
+      <div className="min-h-[75vh] flex items-center justify-center px-4 py-16 bg-purple-50/20 font-sans">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -72,6 +74,7 @@ export default function Checkout() {
           <div className="p-4 bg-gray-50 rounded-2xl text-xs text-left space-y-2 border border-gray-100">
             <div className="flex justify-between"><span className="text-gray-500">Order ID:</span> <span className="font-mono font-bold text-gray-900">{orderDetails?.id || 'COMPLETED'}</span></div>
             <div className="flex justify-between"><span className="text-gray-500">Amount Paid:</span> <span className="font-black text-purple-700">${finalAmount.toFixed(2)} USD</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Shipping:</span> <span className="font-bold text-emerald-600 uppercase">FREE</span></div>
             <div className="flex justify-between"><span className="text-gray-500">Delivery Email:</span> <span className="font-semibold text-gray-800">{email || orderDetails?.payer?.email_address || 'Provided at Checkout'}</span></div>
           </div>
 
@@ -89,7 +92,9 @@ export default function Checkout() {
   return (
     <>
       <Helmet>
-        <title>Secure Checkout — Store</title>
+        <title>Secure Checkout — QB MASTER</title>
+        <meta name="description" content="Complete your order securely with encrypted checkout." />
+        <link rel="canonical" href="https://qbmaster.shop/checkout" />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-gradient-to-b from-purple-50/40 via-white to-purple-50/20 min-h-[85vh] relative overflow-hidden font-sans">
@@ -113,7 +118,7 @@ export default function Checkout() {
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-purple-100/80">
             <div>
               <h1 className="text-3xl font-black text-gray-900 tracking-tight">Secure Checkout</h1>
-              <p className="text-xs text-gray-500 font-medium mt-1">Instant delivery to your email inbox</p>
+              <p className="text-xs text-gray-500 font-medium mt-1">Instant processing & transparent delivery</p>
             </div>
             
             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-800 rounded-full border border-purple-200/60 text-xs font-black">
@@ -135,13 +140,13 @@ export default function Checkout() {
             </div>
           ) : (
             <>
-              {/* 📦 Order Summary Card */}
+              {/* 📦 Order Summary Card with Detailed Transparency */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white rounded-3xl border border-purple-100 p-6 shadow-xl shadow-purple-950/5 mb-6"
               >
-                <h2 className="font-extrabold text-gray-900 text-sm mb-4 border-b border-gray-100 pb-2">
+                <h2 className="font-extrabold text-gray-900 text-base mb-4 border-b border-gray-100 pb-2">
                   Order Summary
                 </h2>
 
@@ -153,7 +158,7 @@ export default function Checkout() {
                         <div>
                           <h4 className="font-bold text-gray-900 truncate max-w-[220px]">{directProduct.name}</h4>
                           <span className="text-[10px] text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md font-semibold">
-                            {directProduct.selectedVariant?.label || 'Standard'}
+                            {directProduct.selectedVariant?.label || 'Standard Edition'}
                           </span>
                         </div>
                       </div>
@@ -175,9 +180,26 @@ export default function Checkout() {
                   )}
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-gray-500">Total Amount:</span>
-                  <span className="text-xl font-black text-purple-700">${finalAmount.toFixed(2)} USD</span>
+                {/* 🏷️ Itemized Transparent Breakdown (GMC Compliance Requirement) */}
+                <div className="mt-4 pt-4 border-t border-gray-100 space-y-2 text-xs">
+                  <div className="flex items-center justify-between text-gray-600">
+                    <span>Subtotal:</span>
+                    <span className="font-bold text-gray-900">${subtotalAmount.toFixed(2)} USD</span>
+                  </div>
+                  <div className="flex items-center justify-between text-gray-600">
+                    <span className="flex items-center gap-1.5">
+                      <Truck className="w-3.5 h-3.5 text-emerald-600" /> Shipping & Handling:
+                    </span>
+                    <span className="font-extrabold text-emerald-600 uppercase">FREE SHIPPING ($0.00)</span>
+                  </div>
+                  <div className="flex items-center justify-between text-gray-600">
+                    <span>Taxes & Duties:</span>
+                    <span className="font-semibold text-gray-500">$0.00 (Included)</span>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-sm">
+                    <span className="font-black text-gray-900">Total Price:</span>
+                    <span className="text-xl font-black text-purple-700">${finalAmount.toFixed(2)} USD</span>
+                  </div>
                 </div>
               </motion.div>
 
@@ -190,14 +212,14 @@ export default function Checkout() {
               >
                 <h2 className="font-extrabold text-gray-900 text-base mb-4 flex items-center justify-between">
                   <span className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-purple-600" /> Contact Information
+                    <Mail className="w-4 h-4 text-purple-600" /> Contact & Delivery Information
                   </span>
                   <span className="text-xs text-purple-700 font-bold bg-purple-50 px-2.5 py-0.5 rounded-md">Step 1 of 2</span>
                 </h2>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs font-black text-gray-700 uppercase tracking-wider mb-1.5">
-                      Email Address (For Order Confirmation & Tracking)
+                      Email Address (For Order Confirmation & Delivery Details)
                     </label>
                     <input 
                       type="email" 
@@ -208,18 +230,18 @@ export default function Checkout() {
                       required
                     />
                     <span className="text-[11px] text-gray-400 font-medium mt-1 inline-block">
-                      ⚡ Your order details and tracking link will be sent here immediately.
+                      ⚡ Your purchase confirmation and receipt will be dispatched to this email immediately.
                     </span>
                   </div>
                 </div>
               </motion.div>
 
-              {/* 2️⃣ Real PayPal Payment Card */}
+              {/* 2️⃣ Real PayPal & Card Payment Card */}
               <motion.div 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="bg-white rounded-3xl border border-purple-100 p-6 sm:p-7 shadow-xl shadow-purple-950/5 mb-8"
+                className="bg-white rounded-3xl border border-purple-100 p-6 sm:p-7 shadow-xl shadow-purple-950/5 mb-6"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-100">
                   <h2 className="font-extrabold text-gray-900 text-base flex items-center gap-2">
@@ -245,7 +267,29 @@ export default function Checkout() {
                 </div>
               </motion.div>
 
-              {/* 🔒 Bottom Micro Trust Indicators */}
+              {/* 🔒 Bottom Legal & Policy Links (Mandatory for GMC Approval) */}
+              <div className="p-5 bg-purple-50/40 rounded-2xl border border-purple-100 mb-6 text-center space-y-3">
+                <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-gray-600">
+                  <Link to="/refund-policy" className="hover:text-purple-700 underline underline-offset-2 flex items-center gap-1">
+                    <RefreshCw className="w-3.5 h-3.5 text-purple-600" /> 30-Day Return & Refund Policy
+                  </Link>
+                  <Link to="/shipping-delivery" className="hover:text-purple-700 underline underline-offset-2 flex items-center gap-1">
+                    <Truck className="w-3.5 h-3.5 text-purple-600" /> Shipping & Delivery Terms
+                  </Link>
+                  <Link to="/terms-conditions" className="hover:text-purple-700 underline underline-offset-2 flex items-center gap-1">
+                    <FileText className="w-3.5 h-3.5 text-purple-600" /> Terms of Service
+                  </Link>
+                  <Link to="/privacy-policy" className="hover:text-purple-700 underline underline-offset-2 flex items-center gap-1">
+                    <Lock className="w-3.5 h-3.5 text-purple-600" /> Privacy Policy
+                  </Link>
+                </div>
+
+                <p className="text-[11px] text-gray-400">
+                  By clicking payment above, you agree to our terms of service and refund policies. All transactions are securely processed with 256-bit encryption.
+                </p>
+              </div>
+
+              {/* 🛡️ Trust Indicators */}
               <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-extrabold text-gray-500 text-center">
                 <span className="flex items-center gap-1.5 text-gray-600">
                   <ShieldCheck className="w-4 h-4 text-purple-600" /> Guaranteed Safe Checkout
