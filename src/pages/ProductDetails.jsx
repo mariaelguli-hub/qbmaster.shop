@@ -7,6 +7,7 @@ import productsData from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
 import { useCart } from '../context/CartContext'
 import PayPalButton from '../components/PayPalButton'
+import ProductJsonLd from '../components/ProductJsonLd'
 
 const whyUsFeatures = [
   {
@@ -125,8 +126,7 @@ export default function ProductDetails() {
   }
 
   const handlePaymentSuccess = (orderDetails) => {
-    console.log("Order completed successfully:", orderDetails)
-    alert(`Thank you ${orderDetails?.payer?.name?.given_name || 'Customer'}! Payment was successful.`)
+    alert(`Thank you ${orderDetails?.payer?.name?.given_name || 'Customer'}! Your order was successful.`)
   }
 
   const ActiveIcon = whyUsFeatures[activeTab].icon
@@ -139,6 +139,9 @@ export default function ProductDetails() {
         <title>{product.name} — Store</title>
         <meta name="description" content={product.description} />
       </Helmet>
+
+      {/* 🎯 Schema.org Product Structured Data للمطابقة مع Google Shopping */}
+      <ProductJsonLd product={product} selectedVariant={selectedVariant} />
       
       <section className="py-12 lg:py-20 bg-purple-50/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -242,7 +245,7 @@ export default function ProductDetails() {
 
             </div>
 
-            {/* Right Side: Product Details, Variants & Checkout */}
+            {/* Right Side: Product Details & Interactive Variant Selection */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -272,7 +275,7 @@ export default function ProductDetails() {
                 </div>
                 <span className="text-sm font-black text-gray-900">{ratingValue}</span>
                 <span className="text-gray-300">•</span>
-                <span className="text-xs font-semibold text-gray-500 underline decoration-gray-300 underline-offset-4 hover:text-purple-700 transition-colors">
+                <span className="text-xs font-semibold text-gray-500 underline decoration-gray-300 underline-offset-4 hover:text-purple-700 transition-colors cursor-pointer">
                   ({reviewsCount} verified reviews)
                 </span>
               </div>
@@ -319,6 +322,9 @@ export default function ProductDetails() {
                               isSelected ? 'text-purple-950' : 'text-gray-900'
                             }`}>
                               {variant.label}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-0.5 font-medium">
+                              {variant.users || 1} item package
                             </div>
                           </div>
                         </div>
@@ -376,7 +382,7 @@ export default function ProductDetails() {
               <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold text-gray-700">Instant Checkout (PayPal):</span>
-                  <span className="text-xl font-black text-purple-700">
+                  <span className="text-2xl font-black text-purple-700">
                     ${calculatedTotal.toFixed(2)}
                   </span>
                 </div>
@@ -388,45 +394,111 @@ export default function ProductDetails() {
               </div>
 
               {/* Payment Badges & Security */}
-              <div className="space-y-4">
-                <div className="grid grid-cols-5 gap-2">
-                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center font-black italic text-[#1A1F71] text-sm font-sans">
-                    VISA
+              <div className="mt-6 space-y-6">
+                <div>
+                  <div className="flex items-center justify-center gap-1.5 mb-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping"></span>
+                    <p className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">
+                      Guaranteed Safe & Secure Checkout
+                    </p>
                   </div>
-                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
-                      alt="Mastercard" 
-                      className="h-5 w-auto object-contain"
-                    />
-                  </div>
-                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
-                      alt="PayPal" 
-                      className="h-4 w-auto object-contain"
-                    />
-                  </div>
-                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
-                      alt="Apple Pay" 
-                      className="h-4 w-auto object-contain"
-                    />
-                  </div>
-                  <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
-                      alt="Google Pay" 
-                      className="h-4 w-auto object-contain"
-                    />
+
+                  <div className="grid grid-cols-5 gap-2">
+                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
+                      <span className="font-black italic text-[#1A1F71] text-sm tracking-tighter select-none font-sans">
+                        VISA
+                      </span>
+                    </div>
+
+                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
+                        alt="Mastercard" 
+                        className="h-5 w-auto object-contain"
+                      />
+                    </div>
+
+                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
+                        alt="PayPal" 
+                        className="h-4 w-auto object-contain"
+                      />
+                    </div>
+
+                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
+                        alt="Apple Pay" 
+                        className="h-4 w-auto object-contain"
+                      />
+                    </div>
+
+                    <div className="h-11 bg-white border border-gray-200/90 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
+                        alt="Google Pay" 
+                        className="h-4 w-auto object-contain"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500 font-semibold pt-2">
-                  <Lock className="w-3.5 h-3.5 text-purple-600" />
-                  <span>256-bit SSL Encrypted • 30-Day Money Back Guarantee</span>
+                {/* Guarantee Box */}
+                <div className="relative overflow-hidden bg-gradient-to-br from-purple-50/90 via-white to-purple-50/40 border border-purple-200/80 rounded-2xl p-5 shadow-lg shadow-purple-900/5 backdrop-blur-md">
+                  <div className="absolute -right-12 -top-12 w-36 h-36 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+                  
+                  <div className="relative z-10 flex items-center justify-between mb-4 pb-3 border-b border-purple-100">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 bg-purple-600 text-white rounded-xl shadow-md shadow-purple-600/30">
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                      <h4 className="font-extrabold text-gray-900 text-xs uppercase tracking-wider">
+                        100% Safe & Secure Purchase Guarantee
+                      </h4>
+                    </div>
+                    <Sparkles className="w-4 h-4 text-purple-600 animate-bounce" />
+                  </div>
+
+                  <div className="relative z-10 space-y-3 text-xs text-gray-700">
+                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
+                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
+                        <Zap className="w-3 h-3" />
+                      </div>
+                      <div>
+                        <span className="font-bold text-gray-900">100% Guaranteed Quality</span> — Premium tested items delivered directly to your doorstep.
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
+                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
+                        <ShieldCheck className="w-3 h-3" />
+                      </div>
+                      <div>
+                        <span className="font-bold text-gray-900">30-Day Money-Back Guarantee</span> — Full support and refund if any issues arise.
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
+                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
+                        <RefreshCw className="w-3 h-3 animate-spin" />
+                      </div>
+                      <div>
+                        <span className="font-bold text-gray-900">Dedicated Customer Support</span> — 24/7 assistance for order tracking and inquiries.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 mt-4 pt-3 border-t border-purple-100/80 flex items-center justify-center gap-1.5 text-[11px] text-gray-500 font-semibold">
+                    <Lock className="w-3.5 h-3.5 text-purple-600" />
+                    <span>Secure checkout</span>
+                    <span className="text-purple-400">•</span>
+                    <span>Encrypted payments</span>
+                    <span className="text-purple-400">•</span>
+                    <span>Trusted by thousands</span>
+                  </div>
                 </div>
+
               </div>
 
             </motion.div>
