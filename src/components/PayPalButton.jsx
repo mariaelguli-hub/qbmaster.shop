@@ -1,7 +1,6 @@
 import React from 'react'
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 
-// 🔴 1. حط الـ Client ID ديالك هنا بين هاد المعقوفتين ""
 const PAYPAL_CLIENT_ID = "BAAR_2_Nb7AxH05XezwsnzZL4f1orQ3w7yXFyJlAsTWA870NvSzWOtYt9S5Rhv228W47AVPaxuCctZi-Wo"
 
 export default function PayPalButton({ amount = 127.00, onSuccess }) {
@@ -10,7 +9,9 @@ export default function PayPalButton({ amount = 127.00, onSuccess }) {
       <PayPalScriptProvider 
         options={{ 
           "client-id": PAYPAL_CLIENT_ID, 
-          currency: "USD" 
+          currency: "USD",
+          components: "buttons,googlepay,applepay",
+          "enable-funding": "venmo,paylater"
         }}
       >
         <PayPalButtons
