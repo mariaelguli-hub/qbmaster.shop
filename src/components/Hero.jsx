@@ -1,40 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, Zap, ShieldCheck, CheckCircle, Star, ArrowRight, Sparkles, Mail, Download, Shield, Timer } from 'lucide-react'
+import { 
+  Check, Truck, ShieldCheck, Star, ArrowRight, Sparkles, 
+  Package, Home, Shield, Clock, Award, ShoppingBag
+} from 'lucide-react'
 
-// الكلمات المتغيرة
-const animatedWords = ['one-time payment', 'no subscription', 'instant delivery', 'lifetime key']
-
-const whyUsFeatures = [
-  {
-    id: 0,
-    icon: Zap,
-    title: 'One-Time Purchase',
-    desc: 'Pay once. No subscription, no monthly fees, no annual fees.',
-  },
-  {
-    id: 1,
-    icon: CheckCircle,
-    title: 'Instant Email Delivery',
-    desc: 'Receive your license key and download link within minutes.',
-  },
-  {
-    id: 2,
-    icon: Check,
-    title: 'Genuine License',
-    desc: 'Authentic license keys with full activation support.',
-  },
-  {
-    id: 3,
-    icon: ShieldCheck,
-    title: 'Money-Back Guarantee',
-    desc: "30-day guarantee. If it doesn't activate, we make it right.",
-  },
-]
+// الكلمات المتغيرة الخاصة بـ Home & Garden
+const animatedWords = ['premium quality', 'fast shipping', 'modern living', 'built to last', 'outdoor comfort']
 
 export default function Hero() {
-  const [activeTab, setActiveTab] = useState(0)
   const [wordIndex, setWordIndex] = useState(0)
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -45,14 +20,6 @@ export default function Hero() {
       setWordIndex((prev) => (prev + 1) % animatedWords.length)
     }, 2800)
     return () => clearInterval(wordInterval)
-  }, [])
-
-  // 🔄 Auto-slide for features
-  useEffect(() => {
-    const cardInterval = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % whyUsFeatures.length)
-    }, 4000)
-    return () => clearInterval(cardInterval)
   }, [])
 
   const scrollToProducts = (e) => {
@@ -66,7 +33,7 @@ export default function Hero() {
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' })
       } else {
-        window.scrollTo({ top: 600, behavior: 'smooth' })
+        window.scrollTo({ top: 650, behavior: 'smooth' })
       }
     }
 
@@ -129,13 +96,13 @@ export default function Hero() {
             {/* Rating Badge */}
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-purple-200/80 mb-5 shadow-xs">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-              <span className="text-xs font-black text-purple-950 tracking-tight">4.8/5 from 22 verified reviews</span>
+              <span className="text-xs font-black text-purple-950 tracking-tight">4.9/5 from 1,420+ happy homeowners</span>
               <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse ml-0.5" />
             </motion.div>
 
             {/* Main Title */}
             <motion.h1 variants={itemVariants} className="text-3xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-5 tracking-tight leading-[1.2]">
-              Genuine QuickBooks Desktop 2024 —{' '}
+              Elevate Your Living Space —{' '}
               <span className="inline-flex items-center overflow-visible py-1">
                 <AnimatePresence mode="wait">
                   <motion.span
@@ -144,7 +111,7 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 font-black px-2 pb-1 inline-block overflow-visible"
+                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 font-black px-2 pb-1 inline-block overflow-visible capitalize"
                   >
                     {animatedWords[wordIndex]}
                     <span className="absolute left-0 bottom-0 w-full h-[3.5px] bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-600 rounded-full shadow-xs" />
@@ -155,19 +122,19 @@ export default function Hero() {
             
             {/* Subtitle */}
             <motion.p variants={itemVariants} className="text-gray-600 text-sm sm:text-base lg:text-lg font-medium leading-relaxed mb-7 max-w-2xl">
-              Stop paying yearly. Get an authentic QuickBooks Desktop license key delivered to your inbox in minutes — no subscription, no monthly fees, backed by a 30-day money-back guarantee.
+              Discover premium garden tools, durable outdoor essentials, and smart home improvements designed for comfort, aesthetics, and long-lasting performance.
             </motion.p>
 
             {/* Perks List */}
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-4 gap-y-2.5 text-xs sm:text-sm font-extrabold text-gray-800 mb-8">
               <span className="flex items-center gap-1.5 text-purple-900 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-purple-200/70 shadow-2xs">
-                <Check className="w-4 h-4 text-purple-600 stroke-[3]" /> No subscription
+                <Truck className="w-4 h-4 text-purple-600 stroke-[2.5]" /> Free Insured Delivery
               </span>
               <span className="flex items-center gap-1.5 text-purple-900 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-purple-200/70 shadow-2xs">
-                <Check className="w-4 h-4 text-purple-600 stroke-[3]" /> Instant delivery
+                <ShieldCheck className="w-4 h-4 text-purple-600 stroke-[2.5]" /> 30-Day Satisfaction Guarantee
               </span>
               <span className="flex items-center gap-1.5 text-purple-900 bg-white/80 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-purple-200/70 shadow-2xs">
-                <Check className="w-4 h-4 text-purple-600 stroke-[3]" /> Genuine license
+                <Award className="w-4 h-4 text-purple-600 stroke-[2.5]" /> High Grade Materials
               </span>
             </motion.div>
 
@@ -178,22 +145,22 @@ export default function Hero() {
                 className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-700 text-white font-extrabold text-base shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform transform skew-x-12" />
-                <Zap className="w-5 h-5 fill-white animate-bounce shrink-0" /> 
-                <span>Buy now — from $127.00</span>
+                <ShoppingBag className="w-5 h-5 fill-white shrink-0" /> 
+                <span>Explore Featured Deals</span>
               </button>
 
               <Link
                 to="/shop"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-white/90 backdrop-blur-md border border-gray-200/90 text-gray-800 font-extrabold text-base hover:bg-white hover:border-gray-300 shadow-2xs hover:shadow-md transition-all duration-200"
               >
-                <span>View all products</span>
+                <span>Browse All Catalog</span>
                 <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
 
           </motion.div>
 
-          {/* 🌟 Right Side: High-Level Animated 3D Floating Dashboard Card 🌟 */}
+          {/* 🌟 Right Side: High-Level Animated 3D Floating Fulfillment Card 🌟 */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, rotateY: -12 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -210,20 +177,20 @@ export default function Hero() {
               {/* Top Header Row */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 bg-gradient-to-br from-purple-600 to-indigo-900 rounded-2xl flex items-center justify-center font-mono font-black text-white text-lg shadow-md shadow-purple-900/20">
-                    QB
+                  <div className="w-11 h-11 bg-gradient-to-br from-purple-600 to-indigo-900 rounded-2xl flex items-center justify-center text-white shadow-md shadow-purple-900/20">
+                    <Home className="w-6 h-6" />
                   </div>
                   <div>
                     <h3 className="font-extrabold text-gray-900 text-sm sm:text-base leading-tight">
-                      QuickBooks Desktop
+                      Premium Home & Garden
                     </h3>
-                    <span className="text-xs text-gray-400 font-medium">Pro Plus 2024 · License key</span>
+                    <span className="text-xs text-gray-400 font-medium">Curated Essentials · Tested Quality</span>
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-50 text-purple-700 text-xs font-black rounded-full border border-purple-200/60">
-                  <span className="w-2 h-2 rounded-full bg-purple-600 animate-ping" />
-                  ACTIVE
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-black rounded-full border border-green-200/60">
+                  <span className="w-2 h-2 rounded-full bg-green-600 animate-ping" />
+                  READY TO SHIP
                 </span>
               </div>
 
@@ -232,11 +199,11 @@ export default function Hero() {
                 <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-purple-200/80 transition-all">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs">
-                      <Mail className="w-4 h-4" />
+                      <Package className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-gray-900 text-xs sm:text-sm">License key delivered</h4>
-                      <p className="text-[11px] text-gray-400 font-medium">To your inbox in 2 min</p>
+                      <h4 className="font-extrabold text-gray-900 text-xs sm:text-sm">Eco-Inspected Packaging</h4>
+                      <p className="text-[11px] text-gray-400 font-medium">Safe box & multi-layer protection</p>
                     </div>
                   </div>
                   <Check className="w-5 h-5 text-purple-600 stroke-[3]" />
@@ -246,11 +213,11 @@ export default function Hero() {
                 <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-purple-200/80 transition-all">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs">
-                      <Download className="w-4 h-4" />
+                      <Truck className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-gray-900 text-xs sm:text-sm">Installer ready to download</h4>
-                      <p className="text-[11px] text-gray-400 font-medium">Windows & macOS</p>
+                      <h4 className="font-extrabold text-gray-900 text-xs sm:text-sm">Fast & Tracked Shipping</h4>
+                      <p className="text-[11px] text-gray-400 font-medium">Doorstep delivery with live updates</p>
                     </div>
                   </div>
                   <Check className="w-5 h-5 text-purple-600 stroke-[3]" />
@@ -260,11 +227,11 @@ export default function Hero() {
                 <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/80 border border-gray-100 hover:border-purple-200/80 transition-all">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs">
-                      <Zap className="w-4 h-4 fill-white" />
+                      <ShieldCheck className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-gray-900 text-xs sm:text-sm">Activation complete</h4>
-                      <p className="text-[11px] text-gray-400 font-medium">Genuine key — lifetime</p>
+                      <h4 className="font-extrabold text-gray-900 text-xs sm:text-sm">Satisfaction Guarantee</h4>
+                      <p className="text-[11px] text-gray-400 font-medium">30 days risk-free home trial</p>
                     </div>
                   </div>
                   <Check className="w-5 h-5 text-purple-600 stroke-[3]" />
@@ -273,13 +240,13 @@ export default function Hero() {
 
               {/* Bottom Card Footer */}
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
-                <span className="font-extrabold text-gray-400">One-time purchase</span>
-                <span className="font-black text-purple-600 text-base font-mono">From $127.00</span>
+                <span className="font-extrabold text-gray-400">Authentic Hardware & Living</span>
+                <span className="font-black text-purple-600 text-base font-mono">Special Offers Live</span>
               </div>
 
             </motion.div>
 
-            {/* 💃 FLOATING 3D BADGE 1 (Top Right - Money Back Guarantee) */}
+            {/* 💃 FLOATING 3D BADGE 1 (Top Right - 30-Day Trial) */}
             <motion.div 
               animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -290,22 +257,22 @@ export default function Hero() {
               </div>
               <div>
                 <h5 className="font-black text-gray-900 text-xs">30-day guarantee</h5>
-                <p className="text-[10px] text-gray-400 font-bold">Money-back, no risk</p>
+                <p className="text-[10px] text-gray-400 font-bold">Hassle-free returns</p>
               </div>
             </motion.div>
 
-            {/* 💃 FLOATING 3D BADGE 2 (Bottom Left - Instant Delivery) */}
+            {/* 💃 FLOATING 3D BADGE 2 (Bottom Left - Quick Dispatch) */}
             <motion.div 
               animate={{ y: [0, 10, 0], rotate: [0, -2, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
               className="absolute -bottom-6 -left-3 sm:-left-6 bg-white/95 backdrop-blur-xl p-3.5 rounded-2xl shadow-xl shadow-purple-950/10 border border-purple-100 flex items-center gap-3 z-20"
             >
               <div className="p-2 rounded-xl bg-purple-50 text-purple-600 border border-purple-200/60">
-                <Timer className="w-5 h-5" />
+                <Clock className="w-5 h-5" />
               </div>
               <div>
-                <h5 className="font-black text-gray-900 text-xs">Instant delivery</h5>
-                <p className="text-[10px] text-gray-400 font-bold">Avg. 2 min</p>
+                <h5 className="font-black text-gray-900 text-xs">Fast Dispatch</h5>
+                <p className="text-[10px] text-gray-400 font-bold">Ships within 24-48h</p>
               </div>
             </motion.div>
 
