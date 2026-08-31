@@ -41,7 +41,7 @@ export default function CookiePolicy() {
                 Introduction
               </h2>
               <p className="mb-3">
-                This Cookies Policy explains how QB MASTER (“we,” “our,” or “us”) uses cookies and similar technologies when you visit or use our website, <span className="font-semibold text-purple-700">qbdeals.shop</span>.
+                This Cookies Policy explains how QB MASTER (“we,” “our,” or “us”) uses cookies and similar technologies when you visit or use our website, <span className="font-semibold text-purple-700">qbmaster.shop</span>.
               </p>
               <p className="mb-3">
                 By accessing or using our website, you acknowledge and agree to the use of cookies as described in this Cookies Policy and our Privacy Policy.
@@ -114,7 +114,7 @@ export default function CookiePolicy() {
                   <h3 className="text-base font-bold text-gray-900 mb-1">
                     Essential Cookies
                   </h3>
-                  <p className="text-xs text-purple-700 font-semibold mb-1">Type: Session Cookies | Administered by: QB DEALS</p>
+                  <p className="text-xs text-purple-700 font-semibold mb-1">Type: Session Cookies | Administered by: QB MATER</p>
                   <p className="text-sm text-gray-600">
                     These cookies are necessary for the proper operation of our website. They support essential functions such as order processing, secure browsing, and fraud prevention. Without these cookies, certain features and services may not function properly.
                   </p>
