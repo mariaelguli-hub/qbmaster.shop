@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Check, Zap, ShieldCheck, CheckCircle, RefreshCw, Lock, Sparkles, Star, ZoomIn, ShoppingBag, Plus, Minus, CreditCard } from 'lucide-react'
+import { ArrowLeft, Check, Zap, ShieldCheck, RefreshCw, Lock, Sparkles, Star, ZoomIn, ShoppingBag, Plus, Minus, CreditCard, Truck, PackageCheck } from 'lucide-react'
 import productsData from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
 import { useCart } from '../context/CartContext'
@@ -13,26 +13,26 @@ const whyUsFeatures = [
   {
     id: 0,
     icon: Zap,
-    title: 'High Quality Guarantee',
-    desc: 'Tested and verified products made with durable premium materials.',
+    title: 'Premium Quality Guarantee',
+    desc: 'Tested and verified products crafted from heavy-duty, durable materials.',
   },
   {
     id: 1,
-    icon: CheckCircle,
-    title: 'Fast Digital & Tracked Delivery',
-    desc: 'Quick processing and direct delivery straight to your email inbox.',
+    icon: Truck,
+    title: 'Fast & Tracked Shipping',
+    desc: 'Insured doorstep delivery with real-time tracking updates straight to your home.',
   },
   {
     id: 2,
-    icon: Check,
-    title: 'Verified Authenticity',
-    desc: '100% genuine items backed by full dedicated warranty.',
+    icon: PackageCheck,
+    title: 'Careful Protective Packaging',
+    desc: 'Multi-layer safe box packaging ensuring items arrive in flawless condition.',
   },
   {
     id: 3,
     icon: ShieldCheck,
-    title: 'Money-Back Guarantee',
-    desc: '30-day hassle-free returns and refunds policy.',
+    title: '30-Day Money-Back Guarantee',
+    desc: '30-day hassle-free return and refund policy with zero risk.',
   },
 ]
 
@@ -68,7 +68,7 @@ export default function ProductDetails() {
             : [
                 {
                   id: 'default-variant',
-                  label: 'Standard Edition',
+                  label: 'Standard Pack',
                   price: Number(found.price || 49.99),
                   comparePrice: Number(found.comparePrice || Number(found.price || 49.99) * 1.4),
                   users: 1
@@ -295,7 +295,7 @@ export default function ProductDetails() {
               className="lg:col-span-7"
             >
               <div className="flex items-center justify-between mb-2">
-                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{product.category || 'FEATURED ITEM'}</div>
+                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{product.category || 'HOME & GARDEN'}</div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
                   In Stock • Fast Shipping
@@ -527,7 +527,7 @@ export default function ProductDetails() {
                         <ShieldCheck className="w-3 h-3" />
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900">30-Day Money-Back Guarantee</span> — Full support and refund if any issues arise.
+                        <span className="font-bold text-gray-900">30-Day Money-Back Guarantee</span> — Full support and replacement/refund if any issues arise.
                       </div>
                     </div>
 
