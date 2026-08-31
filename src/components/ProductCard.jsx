@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingBag, Minus, Plus, Check, Star, ArrowRight } from 'lucide-react'
+import { ShoppingBag, Minus, Plus, Check, Star, ArrowRight, Truck } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useCart } from '../context/CartContext'
 
@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
     : [
         {
           id: 'standard',
-          label: 'Standard Edition',
+          label: 'Standard Pack',
           price: Number(product?.price || 49.99),
           comparePrice: Number(product?.comparePrice || product?.original_price || (Number(product?.price || 49.99) * 1.4)),
           bestselling: true
@@ -32,14 +32,14 @@ export default function ProductCard({ product }) {
 
   const ratingValue = product?.rating || 4.9
   const reviewsCount = product?.reviewsCount || 48
-  const categoryLabel = product?.category || 'Collection'
+  const categoryLabel = product?.category || 'Home & Garden'
   
   // 🛡️ Safe fallback for Features
   const featuresList = Array.isArray(product?.features) && product.features.length > 0
     ? product.features
-    : ['Premium high quality guarantee', 'Fast and secure shipping', '24/7 dedicated customer support']
+    : ['High durability & premium materials', 'Fast & insured standard shipping', '30-day customer satisfaction guarantee']
 
-  // 🛒 إضافة المنتج إلى السلة وفتح الـ Drawer مباشرة
+  // 🛒 إضافة المنتج إلى السلة
   const handleAddToCart = () => {
     addToCart(product, selectedVariant, qty)
   }
@@ -109,7 +109,7 @@ export default function ProductCard({ product }) {
         
         {/* Description */}
         <p className="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed">
-          {product?.description || 'High quality selection made for durability, aesthetics, and optimal home performance.'}
+          {product?.description || 'High quality home & garden selection crafted for durability and everyday performance.'}
         </p>
 
         {/* Feature List */}
@@ -124,7 +124,7 @@ export default function ProductCard({ product }) {
           ))}
         </ul>
 
-        {/* Variants Selection */}
+        {/* Variants Selection أو ميزة الشحن المجاني */}
         {defaultVariants.length > 1 ? (
           <div className="space-y-2 mb-5">
             {defaultVariants.map((variant) => (
@@ -154,9 +154,11 @@ export default function ProductCard({ product }) {
             ))}
           </div>
         ) : (
-          <div className="mb-4 bg-purple-50/40 p-2.5 rounded-xl border border-purple-100 text-xs flex justify-between items-center text-gray-700 font-semibold">
-            <span>Edition</span>
-            <span className="text-purple-700 font-extrabold">{defaultVariants[0].label}</span>
+          <div className="mb-4 bg-purple-50/50 p-2.5 rounded-xl border border-purple-100 text-xs flex justify-between items-center text-gray-700 font-semibold">
+            <span className="flex items-center gap-1.5 text-gray-700">
+              <Truck className="w-3.5 h-3.5 text-purple-600" /> Shipping
+            </span>
+            <span className="text-purple-700 font-extrabold">Free Standard Delivery</span>
           </div>
         )}
 
