@@ -62,7 +62,7 @@ export default function Header() {
             {/* Item 2: Visible everywhere */}
             <div className="flex items-center gap-1.5 text-purple-100/90 cursor-default group">
               <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400/30 group-hover:scale-110 transition-transform shrink-0" />
-              <span>Instant Email Delivery</span>
+              <span>Fast Shipping</span>
             </div>
 
             {/* Item 3: Hidden on mobile, visible from sm screen */}
