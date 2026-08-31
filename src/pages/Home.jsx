@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>QB MASTER — Genuine QuickBooks Desktop Licenses | One-Time Payment</title>
-        <meta name="description" content="Buy genuine QuickBooks Desktop 2024 licenses with one-time payment. Instant email delivery, 30-day money-back guarantee. No subscription." />
+        <title>QB MASTER — Premium Home & Garden Essentials</title>
+        <meta name="description" content="Discover premium home and garden living essentials. Fast tracked shipping, durable quality, and 30-day money-back guarantee." />
       </Helmet>
 
       <main className="bg-white text-gray-900 selection:bg-purple-500 selection:text-white">
