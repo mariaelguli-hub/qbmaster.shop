@@ -86,28 +86,28 @@ export async function fetchCsvProducts() {
         const categoryName = (typeIdx !== -1 && cols[typeIdx]) ? cols[typeIdx] : 'Home & Garden'
         const imageUrl = (imageIdx !== -1 && cols[imageIdx]) ? cols[imageIdx] : '/images/pro.jpg'
         const rawDesc = (bodyIdx !== -1 && cols[bodyIdx]) ? cols[bodyIdx] : ''
-        const description = rawDesc.replace(/<[^>]*>?/gm, '').slice(0, 160) || 'Genuine edition with instant digital delivery.'
+        const description = rawDesc.replace(/<[^>]*>?/gm, '').slice(0, 160) || 'Premium home & garden essential engineered for durability.'
 
         productsMap.set(handle, {
           id: `shopify-csv-${i}`,
           slug: handle,
           name: title,
           category: categoryName,
-          tag: 'Verified License',
+          tag: 'Verified Quality',
           rating: 4.9,
           reviewsCount: 38,
           description: description,
           features: [
-            'Instant digital delivery',
-            'Full lifetime license',
-            '24/7 dedicated support'
+            'Premium build & durable craftsmanship',
+            'Fast insured doorstep delivery',
+            '30-day money-back satisfaction guarantee'
           ],
           price: price,
           comparePrice: comparePrice,
           variants: [
             {
               id: `var-${i}`,
-              label: 'Standard Edition',
+              label: 'Standard Pack',
               price: price,
               comparePrice: comparePrice,
               users: 1,
