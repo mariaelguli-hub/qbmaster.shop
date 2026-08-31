@@ -1,32 +1,32 @@
 [
   {
     "id": 1,
-    "question": "Is this a one-time purchase or a subscription?",
-    "answer": "This is a genuine one-time purchase. You pay once and own the license forever. No recurring fees, no subscriptions, no hidden charges."
+    "question": "How fast is delivery and shipping?",
+    "answer": "Orders are inspected and dispatched within 24 to 48 hours. Standard insured doorstep delivery typically takes 3 to 7 business days with full online tracking."
   },
   {
     "id": 2,
-    "question": "How fast is delivery?",
-    "answer": "Instant! Your license key and download link are sent to your email within minutes of completing your payment."
+    "question": "What is the quality of your home & garden items?",
+    "answer": "All our products are crafted from premium, heavy-duty materials engineered for long-term home and garden durability. Every item undergoes rigorous quality control before shipping."
   },
   {
     "id": 3,
-    "question": "Are the licenses genuine?",
-    "answer": "Yes, 100%. All our license keys are authentic and come with full activation support. We offer a 30-day money-back guarantee if anything doesn't work."
+    "question": "What happens if my package arrives damaged?",
+    "answer": "Every shipment is 100% insured. In the unlikely event that an item is damaged during transit, contact us with a quick photo and we will dispatch a free replacement immediately."
   },
   {
     "id": 4,
     "question": "Which payment methods do you accept?",
-    "answer": "We accept all major credit/debit cards via Stripe, PayPal, Apple Pay, and Google Pay. All transactions are encrypted and PCI-compliant."
+    "answer": "We accept all major credit and debit cards (Visa, Mastercard) and PayPal. All transactions are protected by bank-grade 256-bit SSL encryption."
   },
   {
     "id": 5,
     "question": "Do you offer a money-back guarantee?",
-    "answer": "Absolutely. We offer a 30-day money-back guarantee. If your license doesn't activate or you're not satisfied for any reason, we'll refund you in full."
+    "answer": "Yes! We offer a 30-day hassle-free return and refund policy. If you are not completely satisfied with your purchase, reach out to our team for a smooth return or exchange."
   },
   {
     "id": 6,
-    "question": "Is there support if I need help installing?",
-    "answer": "Yes! We offer 24/7 human support via email and WhatsApp. Our tech team will walk you through installation and activation step by step."
+    "question": "How can I track my package or get assistance?",
+    "answer": "As soon as your parcel ships, you will receive an email with your tracking number and live status link. Our customer support team is available 24/7 to assist with any questions."
   }
 ]
