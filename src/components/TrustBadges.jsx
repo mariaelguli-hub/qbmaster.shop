@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ShieldCheck, Lock, RotateCcw, CheckCircle2 } from 'lucide-react'
+import { ShieldCheck, Lock, RotateCcw, Truck } from 'lucide-react'
 
-// 🔢 Component صغير بزاف لحساب الأرقام بـ Smooth Animation
+// 🔢 Component لحساب الأرقام بـ Smooth Animation
 function AnimatedNumber({ target, decimals = 0, suffix = '' }) {
   const [count, setCount] = useState(0)
   const ref = useRef(null)
@@ -16,9 +16,8 @@ function AnimatedNumber({ target, decimals = 0, suffix = '' }) {
 
     const animate = (currentTime) => {
       if (!startTime) startTime = currentTime
-      const progress = Math.min((currentTime - startTime) / 2000, 1) // 2 ثواني فـ المدة
+      const progress = Math.min((currentTime - startTime) / 2000, 1) // مدة الأنيميشن: 2 ثواني
       
-      // Easing function ناعمة فـ الأخير
       const easeOut = 1 - Math.pow(1 - progress, 3)
       setCount(easeOut * target)
 
@@ -51,7 +50,7 @@ export default function TrustBadges() {
         {/* 🔢 4 Big Numbers Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-10">
           
-          {/* Card 1: 100% */}
+          {/* Card 1: 100% Quality */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -64,11 +63,11 @@ export default function TrustBadges() {
               <AnimatedNumber target={100} suffix="%" />
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Genuine licenses
+              Premium Quality
             </div>
           </motion.div>
 
-          {/* Card 2: 4.8★ */}
+          {/* Card 2: 4.9★ Rating */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -78,14 +77,14 @@ export default function TrustBadges() {
             className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
             <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
-              <AnimatedNumber target={4.8} decimals={1} suffix="★" />
+              <AnimatedNumber target={4.9} decimals={1} suffix="★" />
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Average rating
+              Customer Rating
             </div>
           </motion.div>
 
-          {/* Card 3: 22 */}
+          {/* Card 3: 1,500+ Happy Homes */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -95,14 +94,14 @@ export default function TrustBadges() {
             className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
             <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
-              <AnimatedNumber target={22} />
+              <AnimatedNumber target={1500} suffix="+" />
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Verified reviews
+              Happy Homes
             </div>
           </motion.div>
 
-          {/* Card 4: 24/7 */}
+          {/* Card 4: 24/7 Support */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +114,7 @@ export default function TrustBadges() {
               24/7
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Human support
+              Dedicated Support
             </div>
           </motion.div>
 
@@ -136,7 +135,7 @@ export default function TrustBadges() {
               <RotateCcw className="w-4 h-4 text-purple-600 shrink-0" /> 30-Day Money-Back
             </span>
             <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
-              <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" /> Genuine License
+              <Truck className="w-4 h-4 text-purple-600 shrink-0" /> Fast Insured Shipping
             </span>
           </div>
 
