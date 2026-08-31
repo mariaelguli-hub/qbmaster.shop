@@ -1,32 +1,32 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Infinity, Zap, CheckCircle, ShieldCheck, Lock } from 'lucide-react'
+import { Award, Truck, PackageCheck, ShieldCheck, Lock } from 'lucide-react'
 
 const featuresList = [
   {
-    icon: Infinity,
-    title: 'One-Time Purchase',
-    desc: 'Pay once. No subscription, no monthly fees, no annual fees.',
+    icon: Award,
+    title: 'Premium Quality',
+    desc: 'Heavy-duty materials and tested craftsmanship engineered for lasting home durability.',
   },
   {
-    icon: Zap,
-    title: 'Instant Email Delivery',
-    desc: 'Receive your license key and download link within minutes.',
+    icon: Truck,
+    title: 'Fast Insured Delivery',
+    desc: 'Safe, expedited doorstep shipping with real-time tracking from dispatch to arrival.',
   },
   {
-    icon: CheckCircle,
-    title: 'Genuine License',
-    desc: 'Authentic license keys with full activation support.',
+    icon: PackageCheck,
+    title: 'Secure Packaging',
+    desc: 'Eco-inspected multi-layer box protection ensuring your items arrive in mint condition.',
   },
   {
     icon: ShieldCheck,
-    title: 'Money-Back Guarantee',
-    desc: "30-day guarantee. If it doesn't activate, we make it right.",
+    title: '30-Day Guarantee',
+    desc: 'Love your new home upgrade or return it hassle-free with our satisfaction policy.',
   },
   {
     icon: Lock,
-    title: 'Secure Checkout',
-    desc: '256-bit SSL, PCI-compliant payments via Stripe & PayPal.',
+    title: '100% Secure Checkout',
+    desc: 'Bank-grade 256-bit SSL encryption and certified safe payment processing.',
   },
 ]
 
@@ -70,7 +70,7 @@ export default function Features() {
             Why thousands choose us
           </h2>
           <p className="text-gray-500 mb-12">
-            Everything you need to buy with total confidence.
+            Everything you need to shop home & garden upgrades with total confidence.
           </p>
         </motion.div>
 
