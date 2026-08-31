@@ -139,7 +139,7 @@ export default function TrustBadges() {
             </span>
           </div>
 
-          {/* Payment Method Badges */}
+          {/* Payment Method Badges (Only Supported Gateways) */}
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs font-bold text-gray-400 mr-1 hidden sm:inline">We accept:</span>
             
@@ -164,24 +164,6 @@ export default function TrustBadges() {
               <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
                 alt="PayPal" 
-                className="h-3.5 w-auto object-contain"
-              />
-            </div>
-
-            {/* Apple Pay */}
-            <div className="h-8 px-3 bg-white border border-gray-200/80 rounded-xl flex items-center justify-center shadow-2xs">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
-                alt="Apple Pay" 
-                className="h-3.5 w-auto object-contain"
-              />
-            </div>
-
-            {/* Google Pay */}
-            <div className="h-8 px-3 bg-white border border-gray-200/80 rounded-xl flex items-center justify-center shadow-2xs">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
-                alt="Google Pay" 
                 className="h-3.5 w-auto object-contain"
               />
             </div>
