@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Mail, Phone, MapPin, ShieldCheck, Lock, RotateCcw, CheckCircle, Sparkles } from 'lucide-react'
+import { Mail, Phone, MapPin, ShieldCheck, Lock, RotateCcw, PackageCheck, Sparkles } from 'lucide-react'
 
 export default function Footer() {
   const { pathname } = useLocation()
@@ -14,7 +14,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-white text-gray-600 pt-16 pb-8 border-t border-purple-100">
+    <footer className="bg-white text-gray-600 pt-16 pb-8 border-t border-purple-100 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Columns Grid */}
@@ -29,18 +29,12 @@ export default function Footer() {
               onClick={handleLogoClick}
               className="inline-flex items-center gap-3 group select-none py-1 cursor-pointer"
             >
-              
               {/* Animated Logo Icon Box */}
               <div className="relative flex items-center justify-center">
-                
-                {/* Outer Glow Halo */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 rounded-2xl blur-xs opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
                 
-                {/* Main Icon Container */}
                 <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-950 text-white rounded-2xl flex items-center justify-center font-black text-base shadow-md shadow-purple-950/20 group-hover:rotate-6 group-hover:scale-105 transition-all duration-300 border border-purple-400/30">
                   <span className="tracking-tighter font-mono">QM</span>
-                  
-                  {/* Micro Sparkle Indicator */}
                   <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-white flex items-center justify-center shadow-xs">
                     <span className="w-1 h-1 bg-amber-900 rounded-full animate-ping" />
                   </span>
@@ -56,48 +50,47 @@ export default function Footer() {
                   <Sparkles className="w-3.5 h-3.5 text-purple-500 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300" />
                 </div>
                 <span className="text-[9px] font-extrabold text-purple-700 uppercase tracking-widest -mt-1 opacity-80">
-                  Official Home & Garden Store
+                  Home & Garden Essentials
                 </span>
               </div>
-
             </Link>
             
             <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-              Genuine QuickBooks Desktop licenses. One-time purchase, instant delivery.
+              Your trusted online destination for premium home, garden, and living essentials. Fast tracked doorstep delivery and guaranteed craftsmanship.
             </p>
 
             <div className="space-y-2.5 text-sm pt-2 text-gray-600">
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-gray-400 shrink-0" />
-                <a href="mailto:support@qbmaster.shop" className="hover:text-purple-700 transition-colors">
-                  support@qbmaster.shop
+                <a href="mailto:contact@qbmaster.shop" className="hover:text-purple-700 transition-colors">
+                  contact@qbmaster.shop
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-gray-400 shrink-0" />
-                <a href="tel:+1 (571) 340-7798" className="hover:text-purple-700 transition-colors">
+                <a href="tel:+493028094878" className="hover:text-purple-700 transition-colors">
                   +493028094878
                 </a>
               </div>
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                 <span className="text-xs leading-relaxed text-gray-500">
-                  Torstraße 42, 10119 Berlin, Allemagne 
+                  Torstraße 42, 10119 Berlin, Germany
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Shop */}
+          {/* Quick Links */}
           <div>
             <h4 className="text-gray-900 font-bold text-sm mb-4">
-              Shop
+              Quick Links
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li><Link to="/shop" className="hover:text-purple-700 transition-colors">All Products</Link></li>
-              <li><Link to="/shop?cat=pro" className="hover:text-purple-700 transition-colors">Pro</Link></li>
-              <li><Link to="/shop?cat=enterprise" className="hover:text-purple-700 transition-colors">Enterprise</Link></li>
-              <li><Link to="/shop?cat=mac" className="hover:text-purple-700 transition-colors">Mac</Link></li>
+              <li><a href="/#products" className="hover:text-purple-700 transition-colors">Featured Collection</a></li>
+              <li><Link to="/about" className="hover:text-purple-700 transition-colors">About Us</Link></li>
+              <li><Link to="/shipping-delivery" className="hover:text-purple-700 transition-colors">Track Order</Link></li>
             </ul>
           </div>
 
@@ -133,7 +126,7 @@ export default function Footer() {
 
         </div>
 
-        {/* Middle Bar: Trust Badges & Authentic Payment Logos */}
+        {/* Middle Bar: Trust Badges & Payment Logos */}
         <div className="py-6 border-t border-b border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-6">
           
           {/* Trust Badges */}
@@ -148,21 +141,18 @@ export default function Footer() {
               <RotateCcw className="w-4 h-4 text-purple-600" /> 30-Day Money-Back
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle className="w-4 h-4 text-purple-600" /> Genuine License
+              <PackageCheck className="w-4 h-4 text-purple-600" /> Verified Quality
             </span>
           </div>
 
-          {/* Perfect Authentic Payment Badges */}
+          {/* Payment Badges */}
           <div className="flex items-center gap-2">
-            
-            {/* VISA */}
             <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
               <span className="font-black italic text-[#1A1F71] text-base tracking-tighter select-none font-sans">
                 VISA
               </span>
             </div>
 
-            {/* Mastercard */}
             <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
               <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
@@ -171,7 +161,6 @@ export default function Footer() {
               />
             </div>
 
-            {/* PayPal */}
             <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
               <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
@@ -180,7 +169,6 @@ export default function Footer() {
               />
             </div>
 
-            {/* Apple Pay */}
             <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
               <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
@@ -189,7 +177,6 @@ export default function Footer() {
               />
             </div>
 
-            {/* Google Pay */}
             <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
               <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
@@ -197,16 +184,15 @@ export default function Footer() {
                 className="h-4 w-auto object-contain"
               />
             </div>
-
           </div>
 
         </div>
 
-        {/* Bottom Disclaimer */}
+        {/* Bottom Copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-400 text-center sm:text-left">
           <p>© {new Date().getFullYear()} QB MASTER. All rights reserved.</p>
           <p className="max-w-xl">
-            QuickBooks and Intuit are trademarks of Intuit Inc. QB MASTER is an independent retailer and is not affiliated with Intuit.
+            QB MASTER provides curated home, garden, and outdoor living products with nationwide tracked doorstep shipping and dedicated customer support.
           </p>
         </div>
 
