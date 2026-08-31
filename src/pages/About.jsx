@@ -1,14 +1,17 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import { ArrowLeft, Building2, ShieldCheck, Zap, Award, Mail, Users } from 'lucide-react'
+import { ArrowLeft, ShieldCheck, Truck, Award, Headphones, Mail, Sparkles, CheckCircle2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function About() {
   return (
     <>
       <Helmet>
-        <title>About Us — QB MASTER</title>
-        <meta name="description" content="QB MASTER is an independent retailer specializing in genuine QuickBooks Desktop licenses." />
+        <title>About Us — QB MASTER | Premium Home & Garden</title>
+        <meta 
+          name="description" 
+          content="Discover QB MASTER — your premier destination for high-quality home, garden, and outdoor living essentials. Durable craftsmanship, fast insured shipping, and dedicated support." 
+        />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-purple-50/20">
@@ -22,26 +25,26 @@ export default function About() {
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
-          {/* Main Card / Cadre */}
+          {/* Main Card */}
           <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-purple-950/5 border border-purple-100/80 text-gray-700 leading-relaxed space-y-8">
             
-            {/* H1 Heading */}
+            {/* Heading */}
             <div className="border-b border-gray-100 pb-6">
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
                 About QB MASTER
               </h1>
-              <p className="text-sm text-purple-700 font-semibold">
-                Your Trusted Independent Software License Provider
+              <p className="text-sm text-purple-700 font-semibold flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4" /> Curated Home & Garden Living Essentials
               </p>
             </div>
 
             {/* Introduction */}
             <div className="space-y-4">
               <p className="text-base text-gray-600 leading-relaxed">
-                <strong className="text-gray-900">QB MASTER</strong> is an independent retailer specializing in genuine QuickBooks Desktop licenses. We believe software should be owned, not rented. That is why we offer one-time purchase licenses with lifetime activation — no subscriptions, no hidden fees.
+                Welcome to <strong className="text-gray-900">QB MASTER</strong>, your dedicated destination for premium home, garden, and outdoor living solutions. We believe your living space should reflect comfort, style, and long-lasting quality without the inflated retail markups.
               </p>
               <p className="text-base text-gray-600 leading-relaxed">
-                Every license key is authentic and backed by our 30-day money-back guarantee. Our support team is available to help with installation and activation, trusted by accountants and small business owners across the United States.
+                We work directly with vetted manufacturers and craftsmen to curate functional, aesthetically refined, and heavy-duty products engineered for modern everyday life. Every item in our catalog is rigorously checked for durability, safety, and finish before it ever leaves the warehouse.
               </p>
             </div>
 
@@ -50,56 +53,56 @@ export default function About() {
               
               <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
                 <ShieldCheck className="w-6 h-6 text-purple-600 mb-2" />
-                <h3 className="font-bold text-gray-900 text-base mb-1">Genuine Licenses</h3>
+                <h3 className="font-bold text-gray-900 text-base mb-1">Premium Craftsmanship</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Authentic lifetime activation keys with no subscriptions or hidden fees.
+                  Heavy-duty, weather-resistant, and premium materials designed for long-lasting home use.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
-                <Zap className="w-6 h-6 text-purple-600 mb-2" />
-                <h3 className="font-bold text-gray-900 text-base mb-1">Instant Digital Delivery</h3>
+                <Truck className="w-6 h-6 text-purple-600 mb-2" />
+                <h3 className="font-bold text-gray-900 text-base mb-1">Fast Insured Shipping</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Fast electronic delivery right to your email address after purchase.
+                  Safe doorstep delivery with live tracking numbers dispatched straight to your inbox.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
                 <Award className="w-6 h-6 text-purple-600 mb-2" />
-                <h3 className="font-bold text-gray-900 text-base mb-1">30-Day Guarantee</h3>
+                <h3 className="font-bold text-gray-900 text-base mb-1">30-Day Money-Back</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Every order is backed by a 30-day money-back risk-free guarantee.
+                  Shop with complete peace of mind backed by our hassle-free satisfaction guarantee.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-purple-50/50 border border-purple-100">
-                <Users className="w-6 h-6 text-purple-600 mb-2" />
-                <h3 className="font-bold text-gray-900 text-base mb-1">Trusted Support</h3>
+                <Headphones className="w-6 h-6 text-purple-600 mb-2" />
+                <h3 className="font-bold text-gray-900 text-base mb-1">Dedicated Support</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Assisting accountants and small business owners with installation.
+                  Real human support available 24/7 to assist with orders, tracking, and product inquiries.
                 </p>
               </div>
 
             </div>
 
-            {/* Independent Reseller Notice Box */}
-            <div className="bg-amber-50/60 border border-amber-200/60 p-5 rounded-2xl">
-              <h2 className="text-base font-bold text-amber-950 mb-1 flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-amber-600 shrink-0" />
-                Independent Reseller Notice
+            {/* Quality Commitment Box */}
+            <div className="bg-purple-50/60 border border-purple-200/70 p-6 rounded-2xl">
+              <h2 className="text-base font-bold text-purple-950 mb-1 flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-purple-600 shrink-0" />
+                Our Quality & Delivery Commitment
               </h2>
-              <p className="text-amber-900 text-xs leading-relaxed">
-                QB MASTER operates as an independent reseller of software licenses. We are not directly affiliated with, authorized by, or endorsed by Intuit Inc., QuickBooks, or any related trademark owners.
+              <p className="text-purple-900/90 text-xs sm:text-sm leading-relaxed mt-2">
+                Every package is carefully handled with reinforced protective packaging to ensure it arrives at your doorstep in pristine condition. If any product arrives damaged or falls short of your expectations, our support team will promptly arrange a hassle-free replacement or full refund.
               </p>
             </div>
 
             {/* Contact Support */}
             <div className="pt-6 border-t border-gray-100">
               <h2 className="text-xl font-bold text-gray-900 mb-3">
-                Have Questions? Contact Us
+                Have Questions? We're Here to Help
               </h2>
-              <p className="mb-3 text-sm text-gray-600">
-                If you have any questions about our licenses, feel free to reach out to our team:
+              <p className="mb-4 text-sm text-gray-600">
+                Whether you need tracking assistance, product specifications, or home styling guidance:
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
                 <Mail className="w-4 h-4 text-purple-600" />
