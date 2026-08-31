@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import products from '../data/products.json'
-import categories from '../data/categories.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
+import { supabase } from '../utils/supabase'
 import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
@@ -14,6 +14,7 @@ export default function Shop() {
     const loadAllProducts = async () => {
       setLoading(true)
 
+      // 1. جلب منتجات الـ CSV الفيزيائية
       let csvProds = []
       try {
         csvProds = await fetchCsvProducts()
@@ -21,18 +22,36 @@ export default function Shop() {
         console.error('Failed to load CSV products', err)
       }
 
-      // دمج جميع المنتجات (JSON + CSV)
+      // 2. ضبط الافتراضي: Physical (CSV) ظاهر، والـ Digital (JSON) مخفي
       const allCombined = [
-        ...(products || []).map(p => ({ ...p, hidden: !!p.hidden })),
-        ...(csvProds || []).map(p => ({ ...p, hidden: true }))
+        ...(csvProds || []).map(p => ({ ...p, hidden: false, isPhysical: true })),
+        ...(products || []).map(p => ({ ...p, hidden: true, isPhysical: false }))
       ]
 
-      const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+      // 3. قراءة الإعدادات من Supabase (مع نسخة احتياطية من localStorage)
+      let visibilityMap = {}
+      try {
+        const { data } = await supabase
+          .from('site_settings')
+          .select('value')
+          .eq('key', 'qb_products_visibility')
+          .maybeSingle()
 
+        if (data && data.value) {
+          visibilityMap = data.value
+        } else {
+          visibilityMap = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+        }
+      } catch (e) {
+        console.error('Error fetching visibility settings:', e)
+        visibilityMap = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+      }
+
+      // 4. تصفية المنتجات حسب ما تم تحديده في الداشبورد
       const available = allCombined.filter((p) => {
         const slugOrId = p.slug || p.id
-        if (savedVisibility[slugOrId] !== undefined) {
-          return savedVisibility[slugOrId] === true
+        if (visibilityMap[slugOrId] !== undefined) {
+          return visibilityMap[slugOrId] === true
         }
         return !p.hidden
       })
@@ -44,6 +63,12 @@ export default function Shop() {
     loadAllProducts()
   }, [])
 
+  // استخراج التصنيفات تلقائياً من المنتجات الفيزيائية المعروضة
+  const availableCategories = [
+    'all',
+    ...Array.from(new Set(visibleProducts.map(p => p.category?.trim()).filter(Boolean)))
+  ]
+
   const filtered = activeCategory === 'all'
     ? visibleProducts
     : visibleProducts.filter((p) => p.category?.toLowerCase() === activeCategory.toLowerCase())
@@ -51,34 +76,43 @@ export default function Shop() {
   return (
     <>
       <Helmet>
-        <title>Shop — QBMASTER</title>
-        <meta name="description" content="Browse all genuine QuickBooks Desktop 2024 editions. One-time purchase, instant delivery." />
+        <title>Shop Home & Garden — QBMASTER</title>
+        <meta 
+          name="description" 
+          content="Explore our complete catalog of premium home, garden, and hardware essentials. Built for durability with fast insured shipping." 
+        />
       </Helmet>
 
       <section className="py-12 lg:py-20 bg-purple-50/20 min-h-[70vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="mb-8">
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">All Products</h1>
-            <p className="text-gray-500 text-sm font-medium">Genuine QuickBooks Desktop licenses at unbeatable prices.</p>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">
+              Home & Garden Collection
+            </h1>
+            <p className="text-gray-500 text-sm font-medium">
+              Carefully curated tools, equipment, and living upgrades with fast delivery to your door.
+            </p>
           </div>
 
-          {/* Category filter */}
-          <div className="flex flex-wrap gap-2.5 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs ${
-                  activeCategory === cat.id
-                    ? 'bg-purple-600 text-white shadow-md shadow-purple-600/25 ring-2 ring-purple-600/20'
-                    : 'bg-white text-gray-600 border border-gray-200/90 hover:border-purple-300 hover:bg-purple-50/30'
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
+          {/* فلتر التصنيفات الديناميكي (كيظهر فقط إذا كانت المنتجات تحتوي على تصنيفات متعددة) */}
+          {availableCategories.length > 2 && (
+            <div className="flex flex-wrap gap-2.5 mb-10">
+              {availableCategories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer capitalize shadow-xs ${
+                    activeCategory === cat
+                      ? 'bg-purple-600 text-white shadow-md shadow-purple-600/25 ring-2 ring-purple-600/20'
+                      : 'bg-white text-gray-600 border border-gray-200/90 hover:border-purple-300 hover:bg-purple-50/30'
+                  }`}
+                >
+                  {cat === 'all' ? 'All Products' : cat}
+                </button>
+              ))}
+            </div>
+          )}
 
           {loading ? (
             <div className="text-center py-20 text-gray-400 text-sm">
