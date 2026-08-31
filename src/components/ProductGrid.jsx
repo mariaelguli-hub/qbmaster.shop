@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import products from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts'
+import { supabase } from '../utils/supabase'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid() {
@@ -11,8 +12,8 @@ export default function ProductGrid() {
   useEffect(() => {
     const loadAllProducts = async () => {
       setLoading(true)
-      
-      // جلب منتجات الـ CSV
+
+      // 1. جلب منتجات الـ CSV (Physical)
       let csvProds = []
       try {
         csvProds = await fetchCsvProducts()
@@ -20,21 +21,38 @@ export default function ProductGrid() {
         console.error('Failed to load CSV products', err)
       }
 
-      // دمج جميع المنتجات (JSON + CSV) = 24 منتج
+      // 2. ضبط الافتراضي: Physical (CSV) كيبان، والـ Digital (JSON) كيتخبى
       const allCombined = [
-        ...(products || []).map(p => ({ ...p, hidden: !!p.hidden })),
-        ...(csvProds || []).map(p => ({ ...p, hidden: true }))
+        ...(csvProds || []).map(p => ({ ...p, hidden: false, isPhysical: true })),
+        ...(products || []).map(p => ({ ...p, hidden: true, isPhysical: false }))
       ]
 
-      // قراءة حالة الـ Show / Hide من الـ Dashboard
-      const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+      // 3. قراءة الإعدادات المحفوظة من Supabase
+      let visibilityMap = {}
+      try {
+        const { data } = await supabase
+          .from('site_settings')
+          .select('value')
+          .eq('key', 'qb_products_visibility')
+          .maybeSingle()
 
-      // فلترة المنتجات حسب اختيارك
+        if (data && data.value) {
+          visibilityMap = data.value
+        } else {
+          // Backup fallback من الـ localStorage إيلا مكانش نت
+          visibilityMap = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+        }
+      } catch (e) {
+        console.error('Error fetching visibility settings:', e)
+      }
+
+      // 4. فلترة المنتجات حسب إعدادات الـ Admin
       const filtered = allCombined.filter((p) => {
         const slugOrId = p.slug || p.id
-        if (savedVisibility[slugOrId] !== undefined) {
-          return savedVisibility[slugOrId] === true
+        if (visibilityMap[slugOrId] !== undefined) {
+          return visibilityMap[slugOrId] === true
         }
+        // إيلا ما كاينش تعديل، عرض فقط المنتجات الفيزيائية
         return !p.hidden
       })
 
@@ -51,10 +69,10 @@ export default function ProductGrid() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
           <div>
             <h2 className="text-3xl font-extrabold text-gray-900 mb-1">
-              Choose your QuickBooks Desktop
+              Featured Products
             </h2>
             <p className="text-gray-500">
-              Genuine 2024 editions — one-time purchase, instant delivery.
+              Quality home, garden & hardware products — Fast shipping.
             </p>
           </div>
           <Link
@@ -65,7 +83,7 @@ export default function ProductGrid() {
             <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
           </Link>
         </div>
-        
+
         {loading ? (
           <div className="text-center py-12 text-gray-400 text-sm">
             Loading products...
