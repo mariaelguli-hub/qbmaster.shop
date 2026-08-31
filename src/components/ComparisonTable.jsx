@@ -3,13 +3,13 @@ import { Check, X, Sparkles, ShieldCheck } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const rows = [
-  { feature: 'One-time payment', us: true, retail: false, other: 'Sometimes' },
-  { feature: 'No subscription / no yearly fees', us: true, retail: false, other: 'Sometimes' },
-  { feature: 'Instant email delivery', us: true, retail: 'Varies', other: 'Varies' },
-  { feature: 'Genuine license key', us: true, retail: true, other: 'Unclear' },
-  { feature: '24/7 human support', us: true, retail: 'Limited', other: 'Limited' },
-  { feature: '30-day money-back guarantee', us: true, retail: 'Varies', other: 'Rare' },
-  { feature: 'Save up to 90%', us: true, retail: false, other: 'Varies' },
+  { feature: 'Factory-direct pricing (No middlemen)', us: true, retail: false, other: 'Varies' },
+  { feature: 'Tested heavy-duty build & durability', us: true, retail: true, other: 'Hit or miss' },
+  { feature: 'Fast insured doorstep shipping', us: true, retail: 'Extra fee', other: 'Uninsured' },
+  { feature: 'Eco-safe multi-layer packaging', us: true, retail: 'Standard', other: 'Poor' },
+  { feature: '30-day risk-free money-back guarantee', us: true, retail: 'Restocking fee', other: 'Rare' },
+  { feature: '24/7 human support & live tracking', us: true, retail: 'Limited hours', other: 'Bot only' },
+  { feature: 'Save up to 50% vs big brand retail', us: true, retail: false, other: 'Varies' },
 ]
 
 function Cell({ value, isUs }) {
@@ -63,7 +63,7 @@ export default function ComparisonTable() {
           </h2>
           
           <p className="text-gray-500 text-base sm:text-lg font-medium leading-relaxed">
-            See how we compare to yearly subscriptions and other stores.
+            See how we compare to traditional retail stores and other online sellers.
           </p>
         </motion.div>
 
@@ -85,7 +85,7 @@ export default function ComparisonTable() {
                     Feature
                   </th>
                   
-                  {/* Our Store Highlighted Header (With Clean Badge Inside) */}
+                  {/* Our Store Highlighted Header */}
                   <th className="py-4 px-6 text-center bg-purple-500/10 border-x border-purple-500/20 align-middle">
                     <div className="flex flex-col items-center justify-center gap-1">
                       <span className="bg-purple-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
@@ -99,11 +99,11 @@ export default function ComparisonTable() {
                   </th>
 
                   <th className="py-6 px-6 font-bold text-gray-500 text-center align-middle">
-                    Retail Subscription
+                    Big Box Retailers
                   </th>
 
                   <th className="py-6 px-6 font-bold text-gray-500 text-center align-middle">
-                    Other Stores
+                    Other Online Stores
                   </th>
                 </tr>
               </thead>
@@ -120,12 +120,12 @@ export default function ComparisonTable() {
                       {row.feature}
                     </td>
 
-                    {/* Our Store Result (Highlighted Column) */}
+                    {/* Our Store Result */}
                     <td className="py-4 px-6 text-center bg-purple-500/5 border-x border-purple-500/15">
                       <Cell value={row.us} isUs={true} />
                     </td>
 
-                    {/* Retail Subscription Result */}
+                    {/* Big Box Retailers Result */}
                     <td className="py-4 px-6 text-center text-gray-500">
                       <Cell value={row.retail} isUs={false} />
                     </td>
