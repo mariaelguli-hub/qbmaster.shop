@@ -12,6 +12,7 @@ import productsData from '../data/products.json'
 import { fetchCsvProducts } from '../utils/loadHiddenProducts' 
 
 const ADMIN_PASSWORD = "MySecretAdminPassword2026!"
+const SITE_DOMAIN = "https://qbmaster.shop"
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -23,12 +24,12 @@ export default function AdminDashboard() {
   const [visitors, setVisitors] = useState([])
   const [hiddenCsvProducts, setHiddenCsvProducts] = useState([]) 
   
-  // 🎛️ Visibility State (Synced with localStorage for ProductGrid)
+  // 🎛️ Visibility State (Synced with Supabase)
   const [productVisibility, setProductVisibility] = useState({})
   const [productSearch, setProductSearch] = useState('')
-  const [productFilter, setProductFilter] = useState('all') // 'all', 'visible', 'hidden'
+  const [productFilter, setProductFilter] = useState('all')
 
-  // 💬 States الشات المباشر
+  // 💬 Chat States
   const [chatSessions, setChatSessions] = useState([])
   const [selectedSession, setSelectedSession] = useState(null)
   const [chatMessages, setChatMessages] = useState([])
@@ -40,9 +41,6 @@ export default function AdminDashboard() {
     if (localStorage.getItem('qb_admin_auth') === 'true') {
       setIsAuthenticated(true)
     }
-    // Load persisted visibility map
-    const savedVisibility = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
-    setProductVisibility(savedVisibility)
   }, [])
 
   const handleLogin = (e) => {
@@ -65,14 +63,14 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     setLoading(true)
     
-    // 1. جلب رسائل Contact Form
+    // 1. رسائل Contact Form
     const { data: msgData } = await supabase
       .from('messages')
       .select('*')
       .order('created_at', { ascending: false })
     setMessages(msgData || [])
 
-    // 2. جلب سجل الزوار
+    // 2. سجل الزوار
     const { data: visData } = await supabase
       .from('visitors')
       .select('*')
@@ -80,16 +78,39 @@ export default function AdminDashboard() {
       .limit(100)
     setVisitors(visData || [])
 
-    // 3. جلب جلسات الشات
+    // 3. جلسات الشات
     const { data: chatData } = await supabase
       .from('chat_sessions')
       .select('*')
       .order('updated_at', { ascending: false })
     setChatSessions(chatData || [])
 
-    // 4. جلب منتجات الـ CSV المخفية أوتوماتيكياً
-    const csvProds = await fetchCsvProducts()
-    setHiddenCsvProducts(csvProds || [])
+    // 4. جلب منتجات CSV الفيزيائية
+    try {
+      const csvProds = await fetchCsvProducts()
+      setHiddenCsvProducts(csvProds || [])
+    } catch (err) {
+      console.error('Failed to load CSV products', err)
+    }
+
+    // 5. جلب إعدادات Visibility من Supabase
+    try {
+      const { data: settingsData } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'qb_products_visibility')
+        .maybeSingle()
+
+      if (settingsData && settingsData.value) {
+        setProductVisibility(settingsData.value)
+        localStorage.setItem('qb_products_visibility', JSON.stringify(settingsData.value))
+      } else {
+        const local = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
+        setProductVisibility(local)
+      }
+    } catch (err) {
+      console.error('Error reading visibility from Supabase:', err)
+    }
 
     setLoading(false)
   }
@@ -102,68 +123,84 @@ export default function AdminDashboard() {
     }
   }, [isAuthenticated])
 
-  // 🔄 Toggle Visibility for Any Product (JSON or CSV)
-  const toggleProductVisibility = (slugOrId, defaultHidden) => {
-    setProductVisibility(prev => {
-      const currentStatus = prev[slugOrId] !== undefined ? prev[slugOrId] : !defaultHidden
-      const updatedStatus = !currentStatus
-      const updatedMap = { ...prev, [slugOrId]: updatedStatus }
-      
-      localStorage.setItem('qb_products_visibility', JSON.stringify(updatedMap))
+  // 🔄 تبديل الحالة وحفظها مباشرة في Supabase
+  const toggleProductVisibility = async (slugOrId, isInitiallyHidden) => {
+    const currentStatus = productVisibility[slugOrId] !== undefined 
+      ? productVisibility[slugOrId] 
+      : !isInitiallyHidden
+
+    const updatedStatus = !currentStatus
+    const updatedMap = { ...productVisibility, [slugOrId]: updatedStatus }
+
+    setProductVisibility(updatedMap)
+    localStorage.setItem('qb_products_visibility', JSON.stringify(updatedMap))
+
+    try {
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert({
+          key: 'qb_products_visibility',
+          value: updatedMap
+        })
+
+      if (error) throw error
       toast.success(updatedStatus ? 'Product is now VISIBLE on Storefront' : 'Product is now HIDDEN from Storefront')
-      return updatedMap
-    })
+    } catch (err) {
+      console.error('Error saving visibility to Supabase:', err)
+      toast.error('Saved locally, but failed to sync with database')
+    }
   }
 
-  // 📋 Copy direct product link
   const copyProductLink = (slugOrId) => {
-    const link = `https://qbdeals.shop/#/product/${slugOrId}`
+    const link = `${SITE_DOMAIN}/product/${slugOrId}`
     navigator.clipboard.writeText(link)
     toast.success('Direct link copied to clipboard!')
   }
 
-  // Combine JSON products with CSV imported products
+  // الترتيب الافتراضي: Physical (CSV) ظاهر، و Digital (JSON) مخفي
   const allCombinedProducts = [
-    ...(productsData || []).map(p => ({ ...p, source: 'JSON Catalog' })),
-    ...(hiddenCsvProducts || []).map(p => ({ ...p, source: 'Shopify CSV', hidden: true }))
+    ...(hiddenCsvProducts || []).map(p => ({ ...p, source: 'Physical (CSV)', hidden: false, isPhysical: true })),
+    ...(productsData || []).map(p => ({ ...p, source: 'Digital (JSON)', hidden: true, isPhysical: false }))
   ]
 
-  // Filter combined products based on search & visibility status
   const filteredProductsList = allCombinedProducts.filter(p => {
     const slugOrId = p.slug || p.id
     const isVisibleOnHome = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
     
-    // Status Filter
     if (productFilter === 'visible' && !isVisibleOnHome) return false
     if (productFilter === 'hidden' && isVisibleOnHome) return false
 
-    // Search Query Filter
     if (!productSearch.trim()) return true
     const q = productSearch.toLowerCase()
     return (
-      (p.name || '').toLowerCase().includes(q) ||
+      (p.name || p.title || '').toLowerCase().includes(q) ||
       (p.slug || '').toLowerCase().includes(q) ||
       (p.category || '').toLowerCase().includes(q) ||
       (p.id || '').toLowerCase().includes(q)
     )
   })
 
-  // 📦 دالة الـ Export لـ Google Merchant Center CSV
+  // تصدير منتجات Google Merchant Center
   const exportGmcCsv = () => {
     try {
-      const domain = 'https://qbdeals.shop'
       const headers = [
         'id', 'title', 'description', 'link', 'image_link', 'availability', 'price', 'brand', 'condition', 'google_product_category'
       ]
 
-      const rows = (productsData || []).map((p) => {
+      const targetProds = allCombinedProducts.filter(p => {
+        const slugOrId = p.slug || p.id
+        return productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+      })
+
+      const rows = targetProds.map((p) => {
         const cleanDesc = (p.description || '').replace(/"/g, '""')
-        const priceFormatted = `${Number(p.variants?.[0]?.price || 127).toFixed(2)} USD`
-        const productLink = `${domain}/#/product/${p.slug || p.id}`
-        const imageLink = p.image && p.image.startsWith('http') ? p.image : `${domain}${p.image || '/images/pro.jpg'}`
+        const priceNum = Number(p.variants?.[0]?.price || p.price || 49).toFixed(2)
+        const priceFormatted = `${priceNum} USD`
+        const productLink = `${SITE_DOMAIN}/product/${p.slug || p.id}`
+        const imageLink = p.image && p.image.startsWith('http') ? p.image : `${SITE_DOMAIN}${p.image || '/images/pro.jpg'}`
 
         return [
-          `"${p.id}"`, `"${p.name}"`, `"${cleanDesc}"`, `"${productLink}"`, `"${imageLink}"`, '"in_stock"', `"${priceFormatted}"`, '"QuickBooks"', '"new"', '"Software > Business & Productivity Software"'
+          `"${p.id}"`, `"${p.name || p.title}"`, `"${cleanDesc}"`, `"${productLink}"`, `"${imageLink}"`, '"in_stock"', `"${priceFormatted}"`, '"QuickBooks"', '"new"', '"Home & Garden"'
         ].join(',')
       })
 
@@ -171,18 +208,18 @@ export default function AdminDashboard() {
       const encodedUri = encodeURI(csvContent)
       const link = document.createElement('a')
       link.setAttribute('href', encodedUri)
-      link.setAttribute('download', `gmc_feed_qbdeals_${new Date().toISOString().slice(0, 10)}.csv`)
+      link.setAttribute('download', `gmc_feed_qbmaster_${new Date().toISOString().slice(0, 10)}.csv`)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
       toast.success('GMC Feed CSV Downloaded!')
     } catch (err) {
       console.error(err)
-      toast.error('Failed to export CSV. Check products.json file.')
+      toast.error('Failed to export CSV.')
     }
   }
 
-  // 📦 دالة التصدير الشاملة
+  // تصدير CSV الشامل
   const exportProductsCsv = (onlyHidden = false) => {
     try {
       const targetProducts = onlyHidden 
@@ -207,7 +244,7 @@ export default function AdminDashboard() {
         const slugOrId = p.slug || p.id
         const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
         const status = isVisible ? 'Visible on Home' : 'Hidden from Home'
-        const link = `https://qbdeals.shop/#/product/${slug}`
+        const link = `${SITE_DOMAIN}/product/${slug}`
 
         return [
           `"${p.id || 'item'}"`, `"${name}"`, `"${slug}"`, `"${category}"`, `"${price}"`, `"${status}"`, `"${p.source}"`, `"${link}"`
@@ -230,7 +267,7 @@ export default function AdminDashboard() {
     }
   }
 
-  // جلب رسائل المحادثة المحددة والاشتراك في Realtime
+  // المحادثات المباشرة
   useEffect(() => {
     if (!selectedSession) return
 
@@ -309,7 +346,7 @@ export default function AdminDashboard() {
       const closeMsg = {
         session_id: selectedSession.id,
         sender: 'agent',
-        message: 'This conversation has been closed by live support. Thank you for contacting QB DEALS!',
+        message: 'This conversation has been closed by live support. Thank you for contacting QB MASTER!',
         created_at: new Date().toISOString()
       }
 
@@ -357,7 +394,7 @@ export default function AdminDashboard() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center bg-purple-50/20 px-4">
-        <Helmet><title>Admin Login — QB DEALS</title></Helmet>
+        <Helmet><title>Admin Login — QB MASTER</title></Helmet>
         <div className="bg-white p-8 rounded-3xl border border-purple-100 shadow-xl max-w-md w-full text-center space-y-6">
           <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
             <Lock className="w-8 h-8" />
@@ -398,12 +435,12 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <Helmet><title>Admin Control Panel — QB DEALS</title></Helmet>
+      <Helmet><title>Admin Control Panel — QB MASTER</title></Helmet>
 
       <div className="min-h-screen bg-purple-50/20 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-6">
           
-          {/* Header Bar */}
+          {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-purple-100 shadow-sm">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Control Panel</h1>
@@ -425,7 +462,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Tabs Navigation */}
           <div className="flex flex-wrap gap-3 border-b border-purple-100/60 pb-2">
             <button
               onClick={() => setActiveTab('allproducts')}
@@ -483,22 +520,20 @@ export default function AdminDashboard() {
             </button>
           </div>
 
-          {/* 🛍️ TAB 1: ALL PRODUCTS MANAGER (UNIVERSAL CONTROL) */}
+          {/* 🛍️ TAB 1: ALL PRODUCTS MANAGER */}
           {activeTab === 'allproducts' && (
             <div className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 space-y-6">
               
-              {/* Controls Bar */}
               <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-b border-purple-100/60 pb-5">
                 <div>
                   <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
-                    <SlidersHorizontal className="w-5 h-5 text-purple-600" /> Universal Catalog & Visibility Control
+                    <SlidersHorizontal className="w-5 h-5 text-purple-600" /> Catalog & Visibility Control
                   </h2>
                   <p className="text-xs text-gray-500 mt-1">
-                    Toggle visibility between Storefront Home Page and Hidden URL-only direct access.
+                    Control store products. Physical products from CSV are displayed on store by default.
                   </p>
                 </div>
                 
-                {/* Search & Actions */}
                 <div className="flex flex-wrap items-center gap-2.5">
                   <div className="relative flex-1 sm:w-64">
                     <Search className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
@@ -541,7 +576,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Products Grid */}
               {filteredProductsList.length === 0 ? (
                 <div className="p-12 text-center text-gray-400 text-xs">
                   No products matched your search or active filter.
@@ -552,7 +586,7 @@ export default function AdminDashboard() {
                     const slugOrId = p.slug || p.id
                     const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
                     const price = p.variants?.[0]?.price || p.price || 0
-                    const directUrl = `/#/product/${slugOrId}`
+                    const directUrl = `/product/${slugOrId}`
 
                     return (
                       <div 
@@ -564,9 +598,10 @@ export default function AdminDashboard() {
                         }`}
                       >
                         <div className="space-y-3">
-                          {/* Header badges */}
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-[10px] font-extrabold uppercase bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md">
+                            <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md ${
+                              p.isPhysical ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-700'
+                            }`}>
                               {p.source}
                             </span>
                             
@@ -576,15 +611,14 @@ export default function AdminDashboard() {
                                 : 'bg-purple-100 text-purple-800'
                             }`}>
                               {isVisible ? <CheckCircle2 className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                              {isVisible ? 'Home Visible' : 'Hidden URL Only'}
+                              {isVisible ? 'Storefront Visible' : 'Hidden URL Only'}
                             </span>
                           </div>
 
-                          {/* Product Image & Title */}
                           <div className="flex items-start gap-3">
                             <img 
                               src={p.image || '/images/pro.jpg'} 
-                              alt={p.name} 
+                              alt={p.name || p.title} 
                               className="w-14 h-14 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" 
                             />
                             <div className="min-w-0">
@@ -594,7 +628,6 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        {/* Controls & Actions footer */}
                         <div className="mt-4 pt-3 border-t border-gray-100 space-y-2.5">
                           <div className="flex items-center justify-between">
                             <button
@@ -606,7 +639,7 @@ export default function AdminDashboard() {
                               }`}
                             >
                               {isVisible ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                              {isVisible ? 'Hide from Home' : 'Show on Home'}
+                              {isVisible ? 'Hide from Store' : 'Show on Store'}
                             </button>
 
                             <div className="flex items-center gap-1">
@@ -713,7 +746,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* 💬 TAB 3: LIVE CHAT SESSIONS */}
+          {/* 💬 TAB 3: LIVE CHAT */}
           {activeTab === 'livechat' && (
             <div className="grid md:grid-cols-3 gap-6 h-[600px]">
               <div className="md:col-span-1 bg-white rounded-3xl border border-purple-100 p-4 overflow-y-auto space-y-2 shadow-sm">
@@ -795,14 +828,14 @@ export default function AdminDashboard() {
                       </div>
                     ) : (
                       <form onSubmit={handleSendAgentReply} className="p-3 border-t border-purple-100/60 flex gap-2">
-                        <input
+                        <input 
                           type="text"
                           value={replyInput}
                           onChange={(e) => setReplyInput(e.target.value)}
                           placeholder="Reply to visitor as Live Agent..."
                           className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-xs outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
                         />
-                        <button
+                        <button 
                           type="submit"
                           className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/20"
                         >
@@ -876,7 +909,7 @@ export default function AdminDashboard() {
               <div>
                 <h2 className="text-xl font-bold text-gray-900">Google Merchant Center Feed Exporter</h2>
                 <p className="text-xs text-gray-500 mt-1 max-w-md mx-auto">
-                  Export all store products formatted strictly according to Google Merchant Center specification (USD prices, full URLs, in_stock status).
+                  Export visible store products formatted strictly according to Google Merchant Center specification (USD prices, full URLs, in_stock status).
                 </p>
               </div>
 
