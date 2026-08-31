@@ -4,9 +4,9 @@ import { supabase } from '../utils/supabase'
 
 const QUICK_QUESTIONS = [
   "What products do you offer?",
-  "Is this a one-time payment?",
-  "How fast will I receive my license key?",
-  "Can I transfer my license to a new PC?"
+  "How fast is shipping & delivery?",
+  "How can I track my order?",
+  "What is your 30-day return policy?"
 ]
 
 export default function ChatWidget() {
@@ -80,7 +80,7 @@ export default function ChatWidget() {
       {
         id: 'welcome',
         sender: 'bot',
-        message: 'Hello! 👋 Welcome to QB DEALS. How can I assist you with your QuickBooks Desktop license today?'
+        message: 'Hello! 👋 Welcome to QB MASTER. How can I assist you with our home & garden collection, delivery, or tracking today?'
       }
     ])
   }
@@ -89,11 +89,10 @@ export default function ChatWidget() {
     initChat()
   }, [])
 
-  // 📡 دمج Realtime مع التحديث التلقائي (Polling) لضمان ظهور الرسائل فوراً بدون Refresh
+  // 📡 دمج Realtime مع التحديث التلقائي لضمان ظهور الرسائل فوراً
   useEffect(() => {
     if (!sessionId) return
 
-    // تحديث دوري كل ثانيتين لضمان ظهور رسائل الأدمن والعميل فوراً حتى لو توقف الـ Realtime
     const interval = setInterval(() => {
       fetchMessages(sessionId)
     }, 2000)
@@ -181,7 +180,7 @@ export default function ChatWidget() {
   const fetchOpenRouterAI = async (userPrompt) => {
     const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
     if (!apiKey) {
-      return "Thank you for reaching out! Please check out our Products section to place your order."
+      return "Thank you for reaching out! Please check out our Products section to explore our full home & garden collection."
     }
 
     try {
@@ -196,7 +195,7 @@ export default function ChatWidget() {
           messages: [
             {
               role: "system",
-              content: "You are a helpful sales assistant for QB DEALS (qbdeals.com). We sell genuine QuickBooks Pro Plus 2024, QuickBooks Plus 2024 Mac, and QuickBooks Enterprise 2024 licenses as one-time payments with instant email delivery (5-15 mins). Answer questions naturally, concisely, and accurately based on user queries. Direct them to the Products section for purchases."
+              content: "You are a helpful, professional, and friendly customer support assistant for QB MASTER (qbmaster.shop). We sell premium, curated Home & Garden physical essentials, outdoor living items, and home improvement hardware. We offer fast insured doorstep shipping (3–7 business days), 100% money-back guarantee (30 days), and secure payments via Visa, Mastercard, and PayPal. Keep answers concise, clear, and focused on physical products, order delivery, and customer care."
             },
             {
               role: "user",
@@ -214,7 +213,7 @@ export default function ChatWidget() {
       console.error("OpenRouter Error:", err)
     }
 
-    return "Thank you for reaching out! We offer genuine QuickBooks licenses with instant email delivery. Check our Products section!"
+    return "Thank you for reaching out! We offer premium home & garden essentials with fast insured delivery and a 30-day money-back guarantee. Check our Products collection!"
   }
 
   const handleSend = async (textToSend = null) => {
@@ -236,7 +235,6 @@ export default function ChatWidget() {
     await supabase.from('chat_messages').insert([userMessage])
     await supabase.from('chat_sessions').update({ updated_at: new Date().toISOString() }).eq('id', sessionId)
     
-    // جلب الرسائل فوراً لتظهر للمستخدم في الحين
     await fetchMessages(sessionId)
 
     // الـ Chatbot يجيب فقط إذا كانت الحالة 'bot'
@@ -285,7 +283,7 @@ export default function ChatWidget() {
                 <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm border transition-all duration-300 ${
                   sessionStatus === 'agent' ? 'bg-amber-600 border-amber-400/50 shadow-lg shadow-amber-500/30' : 'bg-purple-600 border-purple-400/30'
                 }`}>
-                  {sessionStatus === 'agent' ? <Headset className="w-5 h-5 text-white animate-pulse" /> : 'QB'}
+                  {sessionStatus === 'agent' ? <Headset className="w-5 h-5 text-white animate-pulse" /> : 'QM'}
                 </div>
                 <span className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-purple-950 rounded-full ${
                   sessionStatus === 'agent' ? 'bg-amber-400 animate-ping' : 'bg-purple-400'
@@ -293,7 +291,7 @@ export default function ChatWidget() {
               </div>
               <div>
                 <h3 className="font-bold text-sm leading-tight flex items-center gap-1.5">
-                  QB DEALS Support <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300/30" />
+                  QB MASTER Support <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300/30" />
                 </h3>
                 <p className="text-[11px] text-purple-200/80 font-medium">
                   {sessionStatus === 'agent' ? 'Live Support Expert (Active)' : 'Instant AI Assistance'}
