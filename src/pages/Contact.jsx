@@ -123,7 +123,7 @@ export default function Contact() {
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Phone Support</div>
                 <p className="text-xs text-gray-500 mb-2">Mon - Sat from 9am to 6pm EST.</p>
-                <span className="text-sm font-semibold text-gray-800">+1 (505) 399-7162</span>
+                <span className="text-sm font-semibold text-gray-800">+493028094878</span>
               </div>
 
               <div className="bg-white p-6 rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5">
@@ -132,8 +132,8 @@ export default function Contact() {
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Office Address</div>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  4479 New Creek Road,<br />
-                  Birmingham, AL 35203
+                  Torstraße 42, 10119,<br />
+                  Berlin, Allemagne
                 </p>
               </div>
             </div>
