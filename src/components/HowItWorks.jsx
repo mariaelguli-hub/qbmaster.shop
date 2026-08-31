@@ -1,35 +1,35 @@
 import React from 'react'
-import { Search, CreditCard, Mail, Download, Sparkles, ArrowRight } from 'lucide-react'
+import { ShoppingBag, CreditCard, Truck, Home, Sparkles, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const steps = [
   {
     num: '01',
-    icon: Search,
-    title: 'Choose your product',
-    desc: 'Pick the QuickBooks Desktop edition that fits your business.',
+    icon: ShoppingBag,
+    title: 'Choose your essentials',
+    desc: 'Browse our collection of premium home & garden items built for long-lasting quality.',
     tag: 'Step 1'
   },
   {
     num: '02',
     icon: CreditCard,
-    title: 'Secure payment',
-    desc: 'Pay safely with card (Stripe) or PayPal — encrypted end-to-end.',
+    title: 'Secure checkout',
+    desc: 'Pay safely with major debit/credit cards or PayPal through end-to-end encryption.',
     tag: 'Step 2'
   },
   {
     num: '03',
-    icon: Mail,
-    title: 'Receive your license',
-    desc: 'Your genuine key and download link arrive by email in minutes.',
-    tag: 'Instant'
+    icon: Truck,
+    title: 'Fast tracked dispatch',
+    desc: 'Your package is inspected, packed carefully, and shipped with live doorstep tracking.',
+    tag: 'Shipped'
   },
   {
     num: '04',
-    icon: Download,
-    title: 'Download & activate',
-    desc: "Install, enter your key, and you're ready — with 24/7 support.",
-    tag: 'Ready'
+    icon: Home,
+    title: 'Doorstep delivery & enjoy',
+    desc: 'Receive your order safely at your door, backed by our 30-day money-back guarantee.',
+    tag: 'Delivered'
   },
 ]
 
@@ -60,7 +60,7 @@ export default function HowItWorks() {
           </h2>
           
           <p className="text-gray-500 text-base sm:text-lg font-medium leading-relaxed">
-            From purchase to activation in four simple steps.
+            From ordering to doorstep delivery in four simple steps.
           </p>
         </motion.div>
 
