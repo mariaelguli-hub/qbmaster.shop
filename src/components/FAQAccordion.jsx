@@ -5,28 +5,28 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const faqs = [
   {
-    question: 'Is this a one-time purchase or a subscription?',
-    answer: 'All our licenses are genuine, one-time purchases. You pay once and own the license key — there are no monthly, yearly, or recurring subscription fees.'
+    question: 'How fast is shipping and delivery?',
+    answer: 'Orders are processed, inspected, and packed within 24 to 48 hours. Standard insured doorstep delivery typically takes between 3 to 7 business days with live tracking.'
   },
   {
-    question: 'How fast is delivery?',
-    answer: 'Delivery is instant! Once your order and payment are processed, your license key, download details, and setup instructions are sent directly to your email address.'
+    question: 'How do I track my shipment?',
+    answer: 'Once your order leaves our fulfillment center, you will immediately receive a shipping confirmation email containing your direct tracking number and live status link.'
   },
   {
-    question: 'Are the licenses genuine?',
-    answer: 'Yes, 100%. All QuickBooks licenses we offer are authentic, official, and guaranteed to activate fully without issues.'
+    question: 'What is the quality of your home & garden products?',
+    answer: 'All our products are crafted from premium, heavy-duty materials designed for long-lasting everyday use. Each item undergoes strict quality inspections before dispatch.'
   },
   {
     question: 'Which payment methods do you accept?',
-    answer: 'We accept all major credit and debit cards (Visa, MasterCard, American Express, Discover) through a fully secure, encrypted checkout process.'
+    answer: 'We accept all major credit and debit cards (Visa, MasterCard, American Express) as well as PayPal through our bank-grade 256-bit SSL encrypted checkout.'
   },
   {
     question: 'Do you offer a money-back guarantee?',
-    answer: 'Yes! We stand behind our software with a 30-day money-back guarantee. If your license key fails to activate as described, you will receive a full refund.'
+    answer: 'Yes! We stand behind our products with a 30-day risk-free money-back guarantee. If you are not completely satisfied, contact us for a smooth return or replacement.'
   },
   {
-    question: 'Is there support if I need help installing?',
-    answer: 'Absolutely! Our dedicated technical support team is available via email to guide you step-by-step through download, installation, and license activation.'
+    question: 'What if my package arrives damaged during transit?',
+    answer: 'Every shipment is 100% insured. In the rare event that an item arrives damaged or broken, send our support team a quick photo and we will ship a free replacement immediately.'
   }
 ]
 
@@ -63,7 +63,7 @@ export default function FAQAccordion() {
           </h2>
           
           <p className="text-gray-500 text-base sm:text-lg font-medium leading-relaxed">
-            Everything you need to know about our QuickBooks Desktop licenses.
+            Everything you need to know about our home & garden products, shipping, and guarantees.
           </p>
         </motion.div>
 
