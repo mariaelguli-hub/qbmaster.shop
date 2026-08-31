@@ -38,7 +38,7 @@ export default function PrivacyPolicy() {
             {/* Introduction */}
             <div>
               <p className="text-base text-gray-600 leading-relaxed">
-                Your privacy matters to us. This Privacy Policy explains how we collect, use, and safeguard your personal information when you interact with QB DEALS.
+                Your privacy matters to us. This Privacy Policy explains how we collect, use, and safeguard your personal information when you interact with QB MASTER.
               </p>
             </div>
 
