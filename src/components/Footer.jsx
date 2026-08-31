@@ -145,44 +145,28 @@ export default function Footer() {
             </span>
           </div>
 
-          {/* Payment Badges */}
-          <div className="flex items-center gap-2">
-            <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
+          {/* Clean Payment Badges (Only Supported Gateways) */}
+          <div className="flex items-center gap-2.5">
+            {/* Visa */}
+            <div className="h-9 px-3.5 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow-xs">
               <span className="font-black italic text-[#1A1F71] text-base tracking-tighter select-none font-sans">
                 VISA
               </span>
             </div>
 
-            <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
-                alt="Mastercard" 
-                className="h-5 w-auto object-contain"
-              />
+            {/* Mastercard */}
+            <div className="h-9 px-3.5 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow-xs">
+              <svg className="h-5 w-auto" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="13" cy="12" r="9" fill="#EB001B" />
+                <circle cx="23" cy="12" r="9" fill="#F79E1B" fillOpacity="0.85" />
+              </svg>
             </div>
 
-            <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" 
-                alt="PayPal" 
-                className="h-4 w-auto object-contain"
-              />
-            </div>
-
-            <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" 
-                alt="Apple Pay" 
-                className="h-4 w-auto object-contain"
-              />
-            </div>
-
-            <div className="h-9 px-3 bg-gray-50 border border-gray-200/80 rounded-lg flex items-center justify-center">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" 
-                alt="Google Pay" 
-                className="h-4 w-auto object-contain"
-              />
+            {/* PayPal */}
+            <div className="h-9 px-3.5 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow-xs">
+              <span className="font-black italic text-[#003087] text-sm tracking-tight select-none">
+                Pay<span className="text-[#0079C1]">Pal</span>
+              </span>
             </div>
           </div>
 
