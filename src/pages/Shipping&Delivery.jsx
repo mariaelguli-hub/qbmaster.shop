@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Mail, ArrowLeft, Truck, Clock, AlertCircle } from 'lucide-react'
+import { Mail, ArrowLeft, Truck, Clock, AlertCircle, PackageCheck, ShieldCheck, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function ShippingDelivery() {
@@ -8,10 +8,13 @@ export default function ShippingDelivery() {
     <>
       <Helmet>
         <title>Shipping & Delivery Policy — QB MASTER</title>
-        <meta name="description" content="Shipping & Delivery Policy for QB MASTER digital licenses." />
+        <meta 
+          name="description" 
+          content="Shipping and delivery policy for QB MASTER. Learn about our handling times, transit times, shipping rates, and tracking for physical home & garden goods." 
+        />
       </Helmet>
 
-      <section className="py-12 lg:py-20 bg-purple-50/20">
+      <section className="py-12 lg:py-20 bg-purple-50/20 font-sans">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Back Button */}
@@ -31,111 +34,120 @@ export default function ShippingDelivery() {
                 Shipping & Delivery Policy
               </h1>
               <p className="text-sm text-purple-700 font-semibold">
-                Last Updated: August 2, 2026
+                Last Updated: August 2026
               </p>
             </div>
 
-            {/* Digital Products Only Banner */}
-            <div className="bg-purple-50/60 border border-purple-200/60 p-5 rounded-2xl">
+            {/* Free Insured Shipping Banner */}
+            <div className="bg-purple-50/60 border border-purple-200/60 p-6 rounded-2xl">
               <h2 className="text-lg font-bold text-purple-950 mb-2 flex items-center gap-2">
                 <Truck className="w-5 h-5 text-purple-600 shrink-0" />
-                Digital Products Only
+                Fast & Insured Doorstep Shipping
               </h2>
-              <p className="text-purple-900 text-sm mb-3">
-                All products available on our website are digital goods delivered electronically. We do not ship any physical products.
+              <p className="text-purple-900 text-sm mb-3 leading-relaxed">
+                At QB MASTER, all items in our Home & Garden catalog are physical products safely packaged and shipped directly to your residential or commercial address. Every order is 100% insured against loss or transit damage.
               </p>
-              <p className="text-xs font-semibold text-purple-800">
-                Digital orders are fulfilled online and may be delivered through:
-              </p>
-              <ul className="list-disc pl-5 mt-1 text-xs text-purple-800 space-y-1">
-                <li>Instant on-screen order confirmation</li>
-                <li>Email delivery to the address provided during checkout</li>
-              </ul>
-              <p className="text-xs text-purple-700 mt-3 font-medium">
-                Because our products are delivered digitally, delivery is free and typically immediate for customers worldwide, including customers in the United States.
-              </p>
+              <div className="grid sm:grid-cols-2 gap-3 pt-2 text-xs font-semibold text-purple-900">
+                <div className="flex items-center gap-2 bg-white/80 p-2.5 rounded-xl border border-purple-100">
+                  <ShieldCheck className="w-4 h-4 text-purple-600 shrink-0" />
+                  <span>Free Standard Insured Shipping</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/80 p-2.5 rounded-xl border border-purple-100">
+                  <PackageCheck className="w-4 h-4 text-purple-600 shrink-0" />
+                  <span>Real-Time Online Tracking</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Shipping Estimates & Timeline Table */}
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-purple-600 shrink-0" />
+                Shipping Times & Rates
+              </h2>
+              <div className="overflow-hidden rounded-2xl border border-gray-200">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-gray-50 border-b border-gray-200 text-gray-900 font-bold">
+                    <tr>
+                      <th className="p-4">Shipping Method</th>
+                      <th className="p-4">Handling Time</th>
+                      <th className="p-4">Transit Time</th>
+                      <th className="p-4">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    <tr>
+                      <td className="p-4 font-semibold text-gray-900">Standard Insured Delivery</td>
+                      <td className="p-4 text-gray-600">1 – 2 Business Days (Mon–Fri)</td>
+                      <td className="p-4 text-gray-600">3 – 7 Business Days (Mon–Sat)</td>
+                      <td className="p-4 font-black text-purple-700">FREE</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Order Cut-Off Time */}
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-purple-600 shrink-0" />
+              <h2 className="text-xl font-bold text-gray-900 mb-3">
                 Order Cut-Off Time
               </h2>
               <p className="mb-2">
-                Orders placed before <strong className="text-gray-900">5:00 PM Eastern Time (ET)</strong> are typically processed on the same business day.
+                Orders placed before <strong className="text-gray-900">5:00 PM Eastern Standard Time (EST)</strong>, Monday through Friday, will begin handling and processing on the same business day.
               </p>
-              <p>
-                Orders placed after 5:00 PM ET are generally processed on the next business day.
+              <p className="text-sm text-gray-500">
+                Orders placed after 5:00 PM EST or over weekends/public holidays will be processed the following business day.
               </p>
             </div>
 
-            {/* Processing & Handling Time */}
+            {/* Order Tracking */}
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-3">
-                Processing & Handling Time
+              <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-purple-600 shrink-0" />
+                Tracking Your Order
               </h2>
               <p className="mb-3">
-                Our standard processing time is <strong className="text-gray-900">0–1 business day</strong>, Monday through Saturday.
+                As soon as your package has been inspected and picked up by our courier service (such as FedEx, UPS, or USPS), you will automatically receive an email confirmation with your unique tracking number and direct tracking link.
               </p>
-              <p>
-                In most cases, digital products are delivered immediately after successful payment. However, some orders may require additional payment verification or security checks before delivery.
-              </p>
-            </div>
-
-            {/* Delivery Time */}
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-3">
-                Delivery Time
-              </h2>
-              <p className="mb-3">
-                Because all products are delivered digitally, there is no physical transit time.
-              </p>
-              <p>
-                Once your order has been successfully processed, your license key, product information, or access details will be delivered electronically to the email address provided during checkout.
+              <p className="text-sm text-gray-500">
+                Please allow up to 24 hours for carrier tracking updates to register in their online system after dispatch.
               </p>
             </div>
 
-            {/* Public Holidays & Non-Business Days */}
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-3">
-                Public Holidays & Non-Business Days
-              </h2>
-              <p className="mb-2">
-                Processing and delivery times may vary during public holidays and other non-business days.
-              </p>
-              <p>
-                Orders placed during these periods will be processed as soon as normal business operations resume.
-              </p>
-            </div>
-
-            {/* Delivery Issues */}
+            {/* Damaged or Lost Packages */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 text-amber-500 shrink-0" />
-                Delivery Issues
+                Damaged or Missing Shipments
               </h2>
               <p className="mb-3">
-                If you have not received your digital order, please:
+                Your satisfaction and peace of mind are guaranteed. If your order arrives damaged or is lost in transit:
               </p>
-              <ul className="list-disc pl-5 space-y-2 text-gray-600 mb-4">
-                <li>Check your Spam, Junk, or Promotions folder.</li>
-                <li>Confirm that the email address entered during checkout was correct.</li>
-                <li>Allow additional time if your order is undergoing payment verification or security review.</li>
-                <li>Contact our support team if your order is still missing.</li>
+              <ul className="list-disc pl-5 space-y-2 text-gray-600 text-sm mb-4">
+                <li>Inspect your parcel upon delivery.</li>
+                <li>If the product is damaged, take a quick photo of the item and its packaging.</li>
+                <li>Contact our support team within 7 days of delivery at <a href="mailto:contact@qbmaster.shop" className="text-purple-700 font-semibold underline">contact@qbmaster.shop</a>.</li>
+                <li>We will immediately arrange a free express replacement or issue a full refund.</li>
               </ul>
-              <p className="text-sm font-medium text-gray-800">
-                If necessary, we will review your order and resend the applicable delivery information at no additional cost.
+            </div>
+
+            {/* Address Corrections */}
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 mb-3">
+                Address Changes & Cancellations
+              </h2>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                If you notice an error in your shipping address after placing an order, please email us immediately. We can update shipping addresses or cancel orders freely before the shipment is dispatched from our fulfillment center.
               </p>
             </div>
 
-            {/* Contact Us */}
+            {/* Contact Support */}
             <div className="pt-6 border-t border-gray-100">
               <h2 className="text-xl font-bold text-gray-900 mb-3">
-                Contact Us
+                Need Help with a Shipment?
               </h2>
-              <p className="mb-3">
-                If you have any questions regarding this Shipping & Delivery Policy, please contact us at:
+              <p className="mb-3 text-sm text-gray-600">
+                If you have questions regarding shipping status, delivery addresses, or transit times:
               </p>
               <div className="inline-flex items-center gap-2 p-3.5 bg-purple-50 rounded-xl text-purple-900 font-semibold text-sm border border-purple-200/60">
                 <Mail className="w-4 h-4 text-purple-600" />
