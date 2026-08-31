@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingBag, Zap, Minus, Plus, Check, Star, Sparkles, ArrowRight } from 'lucide-react'
+import { ShoppingBag, Minus, Plus, Check, Star, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useCart } from '../context/CartContext'
 
@@ -32,7 +32,6 @@ export default function ProductCard({ product }) {
 
   const ratingValue = product?.rating || 4.9
   const reviewsCount = product?.reviewsCount || 48
-  const tagLabel = product?.tag || 'Best Choice'
   const categoryLabel = product?.category || 'Collection'
   
   // 🛡️ Safe fallback for Features
@@ -63,12 +62,6 @@ export default function ProductCard({ product }) {
       
       {/* 📸 Top Image Banner */}
       <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-b from-gray-50 to-white">
-        
-        {/* Tag Badge */}
-        <div className="absolute top-3.5 left-3.5 z-10 flex items-center gap-1.5 px-3 py-1 bg-gray-900/80 backdrop-blur-md text-white text-[11px] font-extrabold rounded-full shadow-lg border border-white/20">
-          <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" />
-          <span>{tagLabel}</span>
-        </div>
 
         {/* In Stock Pill */}
         <div className="absolute top-3.5 right-3.5 z-10 flex items-center gap-1 px-2.5 py-1 bg-purple-500/10 backdrop-blur-md text-purple-700 text-[10px] font-bold rounded-full border border-purple-500/30">
@@ -124,7 +117,7 @@ export default function ProductCard({ product }) {
           {featuresList.map((feat, i) => (
             <li key={i} className="flex items-center gap-2 text-xs font-medium text-gray-700">
               <div className="p-0.5 rounded-full bg-purple-100 text-purple-600 shrink-0">
-                <Check className="w-3 h-3 stroke-[3]" />
+                <Check className="w-3.5 h-3.5 stroke-[3]" />
               </div>
               <span className="truncate">{feat}</span>
             </li>
@@ -203,7 +196,7 @@ export default function ProductCard({ product }) {
           </div>
         </div>
 
-        {/* 🛒 ADD TO CART BUTTON (مع تأثير Glow وتفاعل مباشر) */}
+        {/* 🛒 ADD TO CART BUTTON */}
         <motion.div 
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
