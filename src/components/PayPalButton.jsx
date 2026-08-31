@@ -10,8 +10,10 @@ export default function PayPalButton({ amount = 127.00, onSuccess }) {
         options={{ 
           "client-id": PAYPAL_CLIENT_ID, 
           currency: "USD",
-          components: "buttons,googlepay,applepay",
-          "enable-funding": "venmo,paylater"
+          locale: "en_US", // يفورسي لغة الواجهة بالإنجليزية
+          components: "buttons", // حيدنا applepay و googlepay
+          "enable-funding": "card", // تأكيد تفعيل بطاقات الائتمان/الخصم
+          "disable-funding": "paylater,venmo" // تعطيل الوسائل غير المذكورة فـ السيت
         }}
       >
         <PayPalButtons
