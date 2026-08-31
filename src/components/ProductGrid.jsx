@@ -72,7 +72,7 @@ export default function ProductGrid() {
               Featured Products
             </h2>
             <p className="text-gray-500">
-              Quality home, garden & hardware products — Fast shipping.
+              Quality home, garden & Garden products — Fast shipping.
             </p>
           </div>
           <Link
