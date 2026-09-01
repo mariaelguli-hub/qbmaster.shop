@@ -1,4 +1,4 @@
-import rawCsvData from '../data/home-and-garden.csv?raw'
+// src/utils/loadHiddenProducts.js
 
 function parseCSVRows(text) {
   if (!text) return []
@@ -24,7 +24,9 @@ function parseCSVRows(text) {
     } else if ((char === '\r' || char === '\n') && !inQuotes) {
       if (char === '\r' && nextChar === '\n') i++
       row.push(col.trim())
-      if (row.some((cell) => cell.length > 0)) rows.push(row)
+      if (row.some((cell) => cell.length > 0)) {
+        rows.push(row)
+      }
       row = []
       col = ''
     } else {
@@ -33,14 +35,47 @@ function parseCSVRows(text) {
   }
   if (col.length > 0 || row.length > 0) {
     row.push(col.trim())
-    if (row.some((cell) => cell.length > 0)) rows.push(row)
+    if (row.some((cell) => cell.length > 0)) {
+      rows.push(row)
+    }
   }
   return rows
 }
 
 export async function fetchCsvProducts() {
   try {
-    const rows = parseCSVRows(rawCsvData)
+    const possiblePaths = [
+      '/home-and-garden.csv.csv',
+      '/home-and-garden.csv',
+      './home-and-garden.csv.csv',
+      './home-and-garden.csv'
+    ]
+
+    let csvText = null
+
+    for (const path of possiblePaths) {
+      try {
+        const res = await fetch(path, { cache: 'no-store' })
+        if (res.ok) {
+          const text = await res.text()
+          const trimmed = text.trim()
+          if (
+            trimmed.length > 30 &&
+            !trimmed.startsWith('<!DOCTYPE') &&
+            !trimmed.startsWith('<html')
+          ) {
+            csvText = trimmed
+            break
+          }
+        }
+      } catch (e) {
+        // try next path
+      }
+    }
+
+    if (!csvText) return []
+
+    const rows = parseCSVRows(csvText)
     if (!rows || rows.length < 2) return []
 
     const headers = rows[0].map((h) =>
@@ -67,21 +102,46 @@ export async function fetchCsvProducts() {
         const rawPrice = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : 127
         const price = !isNaN(rawPrice) && rawPrice > 0 ? rawPrice : 127
         const rawCompPrice = comparePriceIdx !== -1 ? parseFloat(cols[comparePriceIdx]) : null
-        const comparePrice = !isNaN(rawCompPrice) && rawCompPrice > 0 ? rawCompPrice : Number((price * 1.5).toFixed(2))
+        const comparePrice =
+          !isNaN(rawCompPrice) && rawCompPrice > 0
+            ? rawCompPrice
+            : Number((price * 1.5).toFixed(2))
+
+        const categoryName = typeIdx !== -1 && cols[typeIdx] ? cols[typeIdx] : 'Home & Garden'
+        const imageUrl = imageIdx !== -1 && cols[imageIdx] ? cols[imageIdx] : '/images/pro.jpg'
+        const rawDesc = bodyIdx !== -1 && cols[bodyIdx] ? cols[bodyIdx] : ''
+        const description =
+          rawDesc.replace(/<[^>]*>?/gm, '').slice(0, 160) ||
+          'Premium home & garden essential engineered for durability.'
 
         productsMap.set(handle, {
           id: `shopify-csv-${i}`,
           slug: handle,
           name: title,
-          category: typeIdx !== -1 && cols[typeIdx] ? cols[typeIdx] : 'Home & Garden',
+          category: categoryName,
           tag: 'Verified Quality',
           rating: 4.9,
           reviewsCount: 38,
-          description: (bodyIdx !== -1 && cols[bodyIdx] ? cols[bodyIdx] : '').replace(/<[^>]*>?/gm, '').slice(0, 160) || 'Premium essential.',
+          description: description,
+          features: [
+            'Premium build & durable craftsmanship',
+            'Fast insured doorstep delivery',
+            '30-day money-back satisfaction guarantee'
+          ],
           price: price,
           comparePrice: comparePrice,
-          variants: [{ id: `var-${i}`, label: 'Standard Pack', price: price, comparePrice: comparePrice, users: 1, bestselling: true, paymentLink: '#' }],
-          image: imageIdx !== -1 && cols[imageIdx] ? cols[imageIdx] : '/images/pro.jpg',
+          variants: [
+            {
+              id: `var-${i}`,
+              label: 'Standard Pack',
+              price: price,
+              comparePrice: comparePrice,
+              users: 1,
+              bestselling: true,
+              paymentLink: '#'
+            }
+          ],
+          image: imageUrl,
           hidden: false,
           isPhysical: true
         })
@@ -89,10 +149,18 @@ export async function fetchCsvProducts() {
         const product = productsMap.get(handle)
         const rawPrice = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : NaN
         if (!isNaN(rawPrice) && rawPrice > 0) {
-          const compPrice = !isNaN(parseFloat(cols[comparePriceIdx])) ? parseFloat(cols[comparePriceIdx]) : Number((rawPrice * 1.5).toFixed(2))
+          const rawCompPrice = comparePriceIdx !== -1 ? parseFloat(cols[comparePriceIdx]) : null
+          const compPrice =
+            !isNaN(rawCompPrice) && rawCompPrice > 0
+              ? rawCompPrice
+              : Number((rawPrice * 1.5).toFixed(2))
+
           product.variants.push({
             id: `var-sub-${i}`,
-            label: optValIdx !== -1 && cols[optValIdx] ? cols[optValIdx] : `Option ${product.variants.length + 1}`,
+            label:
+              optValIdx !== -1 && cols[optValIdx]
+                ? cols[optValIdx]
+                : `Option ${product.variants.length + 1}`,
             price: rawPrice,
             comparePrice: compPrice,
             users: 1,
