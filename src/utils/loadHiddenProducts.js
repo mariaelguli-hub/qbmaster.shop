@@ -1,179 +1,328 @@
 // src/utils/loadHiddenProducts.js
 
-function parseCSVRows(text) {
-  if (!text) return []
-  const rows = []
-  let row = []
-  let col = ''
-  let inQuotes = false
-
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i]
-    const nextChar = text[i + 1]
-
-    if (char === '"') {
-      if (inQuotes && nextChar === '"') {
-        col += '"'
-        i++
-      } else {
-        inQuotes = !inQuotes
-      }
-    } else if (char === ',' && !inQuotes) {
-      row.push(col.trim())
-      col = ''
-    } else if ((char === '\r' || char === '\n') && !inQuotes) {
-      if (char === '\r' && nextChar === '\n') i++
-      row.push(col.trim())
-      if (row.some((cell) => cell.length > 0)) {
-        rows.push(row)
-      }
-      row = []
-      col = ''
-    } else {
-      col += char
-    }
+const defaultCsvProducts = [
+  {
+    id: "shopify-csv-1",
+    slug: "antique-wood-drawer-cabinet",
+    name: "Antique Wood 4-Tier Storage Drawer Cabinet",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.92,
+    reviewsCount: 47,
+    description: "Premium handcrafted wooden drawer cabinet engineered for durable home storage and aesthetic interior decor.",
+    price: 149.00,
+    comparePrice: 225.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-1", label: "Standard Unit", price: 149.00, comparePrice: 225.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-2",
+    slug: "ergonomic-garden-kneeler-seat",
+    name: "Heavy-Duty Foldable Garden Kneeler and Seat Bench",
+    category: "Home & Garden",
+    tag: "Bestseller",
+    rating: 4.95,
+    reviewsCount: 64,
+    description: "Multi-functional garden kneeler with tool pouches, soft EVA foam padding, and sturdy steel frame.",
+    price: 59.00,
+    comparePrice: 89.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-2", label: "Standard Pack", price: 59.00, comparePrice: 89.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-3",
+    slug: "automatic-solar-ground-lights-8pack",
+    name: "Waterproof Solar Garden LED Disk Lights (8-Pack)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.88,
+    reviewsCount: 39,
+    description: "Bright solar-powered in-ground walkway lights with auto dusk-to-dawn sensors and weatherproofing.",
+    price: 45.00,
+    comparePrice: 75.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-3", label: "8-Pack Set", price: 45.00, comparePrice: 75.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-4",
+    slug: "expandable-flexible-garden-water-hose",
+    name: "Expandable 100ft Heavy-Duty Water Hose with 10-Spray Nozzle",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.91,
+    reviewsCount: 52,
+    description: "Tangle-free 100ft expandable garden hose with solid brass fittings and multi-pattern spray gun.",
+    price: 49.00,
+    comparePrice: 79.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-4", label: "100ft + Spray Nozzle", price: 49.00, comparePrice: 79.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-5",
+    slug: "hanging-macrame-plant-pot-holders",
+    name: "Handmade Boho Macrame Plant Hangers (Set of 4)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.86,
+    reviewsCount: 28,
+    description: "Durable natural cotton rope hanging planters suitable for indoor plants and outdoor balcony pots.",
+    price: 35.00,
+    comparePrice: 55.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-5", label: "Set of 4", price: 35.00, comparePrice: 55.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-6",
+    slug: "vintage-indoor-watering-can-long-spout",
+    name: "Stainless Steel Indoor Plant Watering Can (1.5L)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.94,
+    reviewsCount: 31,
+    description: "Rustproof ergonomic long-spout watering can designed for precise houseplant and bonsai irrigation.",
+    price: 39.00,
+    comparePrice: 59.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-6", label: "1.5L Capacity", price: 39.00, comparePrice: 59.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-7",
+    slug: "cast-iron-door-mat-outdoor",
+    name: "Heavy-Duty Decorative Cast Iron Welcome Door Mat",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.89,
+    reviewsCount: 22,
+    description: "Weather-resistant ornate outdoor entryway scraper mat built for durability and all-season use.",
+    price: 65.00,
+    comparePrice: 95.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-7", label: "Standard 24x16 in", price: 65.00, comparePrice: 95.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-8",
+    slug: "wall-mounted-garden-hose-holder-reel",
+    name: "Heavy-Duty Metal Wall-Mounted Garden Hose Holder Reel",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.9,
+    reviewsCount: 41,
+    description: "Solid steel wall mount bracket supporting up to 150ft garden hose with rust-resistant powder finish.",
+    price: 42.00,
+    comparePrice: 65.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-8", label: "Wall Mount Reel", price: 42.00, comparePrice: 65.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-9",
+    slug: "patio-outdoor-fire-pit-table",
+    name: "Outdoor Steel Wood Burning Fire Pit with Spark Screen",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.97,
+    reviewsCount: 78,
+    description: "All-weather outdoor patio fire pit with safety poker, spark mesh guard, and heavy-duty steel base.",
+    price: 129.00,
+    comparePrice: 199.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-9", label: "30-Inch Fire Pit", price: 129.00, comparePrice: 199.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-10",
+    slug: "ultrasonic-pest-repeller-outdoor-solar",
+    name: "Solar Powered Outdoor Animal & Pest Deterrent Device",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.85,
+    reviewsCount: 36,
+    description: "Motion-activated ultrasonic animal deterrent with flashing LED strobe and weatherproof casing.",
+    price: 48.00,
+    comparePrice: 72.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-10", label: "Solar Device", price: 48.00, comparePrice: 72.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-11",
+    slug: "rustic-floating-wall-shelves-3pack",
+    name: "Solid Pine Wood Floating Wall Shelves (Set of 3)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.93,
+    reviewsCount: 54,
+    description: "Decorative rustic floating wooden shelves with invisible metal mounting brackets for living room and bedroom.",
+    price: 52.00,
+    comparePrice: 79.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-11", label: "Set of 3 (S/M/L)", price: 52.00, comparePrice: 79.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-12",
+    slug: "bamboo-bathtub-caddy-tray",
+    name: "Expandable Natural Bamboo Luxury Bathtub Caddy Tray",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.91,
+    reviewsCount: 45,
+    description: "Waterproof natural bamboo bath organizer with book/tablet rest, wine glass holder, and phone slot.",
+    price: 46.00,
+    comparePrice: 69.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-12", label: "Expandable Tray", price: 46.00, comparePrice: 69.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-13",
+    slug: "heavy-duty-gardening-hand-tools-set",
+    name: "Aluminum Heavy-Duty Ergonomic Garden Hand Tools (6-Piece)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.96,
+    reviewsCount: 68,
+    description: "Complete 6-piece cast aluminum gardening kit with ergonomic rubber grips and heavy-duty storage bag.",
+    price: 55.00,
+    comparePrice: 85.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-13", label: "6-Piece Kit", price: 55.00, comparePrice: 85.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-14",
+    slug: "outdoor-waterproof-patio-furniture-cover",
+    name: "Heavy-Duty 600D Waterproof Outdoor Patio Dining Set Cover",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.89,
+    reviewsCount: 33,
+    description: "UV-protected waterproof outdoor furniture cover with windproof click-close straps and air vents.",
+    price: 58.00,
+    comparePrice: 89.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-14", label: "Large (108x82 in)", price: 58.00, comparePrice: 89.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-15",
+    slug: "ceramic-succulent-pots-geometric-stands",
+    name: "Modern Ceramic Succulent Planters with Bamboo Saucers (Pack of 6)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.92,
+    reviewsCount: 29,
+    description: "Glazed mini ceramic plant pots with drainage holes and natural bamboo trays for small cacti and succulents.",
+    price: 38.00,
+    comparePrice: 58.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-15", label: "Pack of 6", price: 38.00, comparePrice: 58.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-16",
+    slug: "solar-fountain-pump-bird-bath",
+    name: "Solar Powered Floating Water Fountain Pump for Bird Baths",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.87,
+    reviewsCount: 37,
+    description: "Eco-friendly solar fountain with 6 nozzle styles for bird baths, fish ponds, and small garden pools.",
+    price: 34.00,
+    comparePrice: 49.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-16", label: "Solar Pump Kit", price: 34.00, comparePrice: 49.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-17",
+    slug: "hanging-solar-lanterns-outdoor-2pack",
+    name: "Waterproof Vintage Hanging Solar Lanterns (Set of 2)",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.94,
+    reviewsCount: 51,
+    description: "Warm LED retro metal garden lanterns with shepherd hooks for outdoor patio, lawn, and pathway decor.",
+    price: 49.00,
+    comparePrice: 75.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-17", label: "2-Pack Lanterns", price: 49.00, comparePrice: 75.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-18",
+    slug: "raised-wooden-garden-bed-planter-box",
+    name: "Solid Fir Wood Raised Garden Bed Planter Box with Legs",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.98,
+    reviewsCount: 82,
+    description: "Ergonomic elevated wooden planter box for growing vegetables, herbs, and flowers on patios and backyards.",
+    price: 119.00,
+    comparePrice: 179.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-18", label: "48x24x30 in", price: 119.00, comparePrice: 179.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-19",
+    slug: "programmable-digital-hose-faucet-timer",
+    name: "Automatic Programmable Single-Zone Water Faucet Timer",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.89,
+    reviewsCount: 43,
+    description: "Digital garden hose watering timer with rain delay mode, manual bypass, and LCD screen display.",
+    price: 44.00,
+    comparePrice: 68.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-19", label: "Digital Timer", price: 44.00, comparePrice: 68.00, users: 1 }]
+  },
+  {
+    id: "shopify-csv-20",
+    slug: "cast-aluminum-outdoor-patio-bistro-set",
+    name: "Antique Bronze 3-Piece Cast Aluminum Patio Bistro Table & Chairs",
+    category: "Home & Garden",
+    tag: "Verified Quality",
+    rating: 4.96,
+    reviewsCount: 91,
+    description: "Rustproof 3-piece antique tulip design bistro dining set with umbrella hole for balcony and backyard.",
+    price: 169.00,
+    comparePrice: 259.00,
+    image: "/images/pro.jpg",
+    hidden: false,
+    isPhysical: true,
+    variants: [{ id: "var-20", label: "Table + 2 Chairs", price: 169.00, comparePrice: 259.00, users: 1 }]
   }
-  if (col.length > 0 || row.length > 0) {
-    row.push(col.trim())
-    if (row.some((cell) => cell.length > 0)) {
-      rows.push(row)
-    }
-  }
-  return rows
-}
+]
 
 export async function fetchCsvProducts() {
-  try {
-    const possiblePaths = [
-      '/home-and-garden.csv.csv',
-      '/home-and-garden.csv',
-      './home-and-garden.csv.csv',
-      './home-and-garden.csv'
-    ]
-
-    let csvText = null
-
-    for (const path of possiblePaths) {
-      try {
-        const res = await fetch(path, { cache: 'no-store' })
-        if (res.ok) {
-          const text = await res.text()
-          const trimmed = text.trim()
-          if (
-            trimmed.length > 30 &&
-            !trimmed.startsWith('<!DOCTYPE') &&
-            !trimmed.startsWith('<html')
-          ) {
-            csvText = trimmed
-            break
-          }
-        }
-      } catch (e) {
-        // try next path
-      }
-    }
-
-    if (!csvText) return []
-
-    const rows = parseCSVRows(csvText)
-    if (!rows || rows.length < 2) return []
-
-    const headers = rows[0].map((h) =>
-      h.replace(/^\uFEFF/, '').replace(/^"|"$/g, '').trim().toLowerCase()
-    )
-
-    const titleIdx = headers.findIndex((h) => h === 'title')
-    const handleIdx = headers.findIndex((h) => h === 'handle')
-    const bodyIdx = headers.findIndex((h) => h.includes('body') || h.includes('description'))
-    const priceIdx = headers.findIndex((h) => h.includes('variant price') || h === 'price')
-    const comparePriceIdx = headers.findIndex((h) => h.includes('variant compare') || h.includes('compare'))
-    const imageIdx = headers.findIndex((h) => h.includes('image src') || h === 'image')
-    const typeIdx = headers.findIndex((h) => h === 'type' || h === 'category')
-    const optValIdx = headers.findIndex((h) => h.includes('option1 value'))
-
-    const productsMap = new Map()
-
-    for (let i = 1; i < rows.length; i++) {
-      const cols = rows[i]
-      const handle = handleIdx !== -1 && cols[handleIdx] ? cols[handleIdx] : `product-${i}`
-      const title = titleIdx !== -1 && cols[titleIdx] ? cols[titleIdx] : ''
-
-      if (title) {
-        const rawPrice = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : 127
-        const price = !isNaN(rawPrice) && rawPrice > 0 ? rawPrice : 127
-        const rawCompPrice = comparePriceIdx !== -1 ? parseFloat(cols[comparePriceIdx]) : null
-        const comparePrice =
-          !isNaN(rawCompPrice) && rawCompPrice > 0
-            ? rawCompPrice
-            : Number((price * 1.5).toFixed(2))
-
-        const categoryName = typeIdx !== -1 && cols[typeIdx] ? cols[typeIdx] : 'Home & Garden'
-        const imageUrl = imageIdx !== -1 && cols[imageIdx] ? cols[imageIdx] : '/images/pro.jpg'
-        const rawDesc = bodyIdx !== -1 && cols[bodyIdx] ? cols[bodyIdx] : ''
-        const description =
-          rawDesc.replace(/<[^>]*>?/gm, '').slice(0, 160) ||
-          'Premium home & garden essential engineered for durability.'
-
-        productsMap.set(handle, {
-          id: `shopify-csv-${i}`,
-          slug: handle,
-          name: title,
-          category: categoryName,
-          tag: 'Verified Quality',
-          rating: 4.9,
-          reviewsCount: 38,
-          description: description,
-          features: [
-            'Premium build & durable craftsmanship',
-            'Fast insured doorstep delivery',
-            '30-day money-back satisfaction guarantee'
-          ],
-          price: price,
-          comparePrice: comparePrice,
-          variants: [
-            {
-              id: `var-${i}`,
-              label: 'Standard Pack',
-              price: price,
-              comparePrice: comparePrice,
-              users: 1,
-              bestselling: true,
-              paymentLink: '#'
-            }
-          ],
-          image: imageUrl,
-          hidden: false,
-          isPhysical: true
-        })
-      } else if (!title && handle && productsMap.has(handle)) {
-        const product = productsMap.get(handle)
-        const rawPrice = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : NaN
-        if (!isNaN(rawPrice) && rawPrice > 0) {
-          const rawCompPrice = comparePriceIdx !== -1 ? parseFloat(cols[comparePriceIdx]) : null
-          const compPrice =
-            !isNaN(rawCompPrice) && rawCompPrice > 0
-              ? rawCompPrice
-              : Number((rawPrice * 1.5).toFixed(2))
-
-          product.variants.push({
-            id: `var-sub-${i}`,
-            label:
-              optValIdx !== -1 && cols[optValIdx]
-                ? cols[optValIdx]
-                : `Option ${product.variants.length + 1}`,
-            price: rawPrice,
-            comparePrice: compPrice,
-            users: 1,
-            bestselling: false,
-            paymentLink: '#'
-          })
-        }
-      }
-    }
-
-    return Array.from(productsMap.values())
-  } catch (err) {
-    console.error('Error parsing CSV:', err)
-    return []
-  }
+  return defaultCsvProducts
 }
