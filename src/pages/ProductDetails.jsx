@@ -41,9 +41,19 @@ export default function ProductDetails() {
   const navigate = useNavigate()
   const { addToCart } = useCart()
 
-  const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [selectedVariant, setSelectedVariant] = useState(null)
+  // ⚡ إيجاد أولي فوري من productsData للـ SEO و Googlebot
+  const initialFound = productsData.find((p) => String(p.slug) === slug || String(p.id) === slug)
+
+  const [product, setProduct] = useState(() => {
+    if (!initialFound) return null
+    const validVariants = (initialFound.variants && initialFound.variants.length > 0)
+      ? initialFound.variants
+      : [{ id: 'default-variant', label: 'Standard Pack', price: Number(initialFound.price || 49.99), comparePrice: Number(initialFound.comparePrice || Number(initialFound.price || 49.99) * 1.4), users: 1 }]
+    return { ...initialFound, variants: validVariants }
+  })
+  
+  const [loading, setLoading] = useState(!initialFound)
+  const [selectedVariant, setSelectedVariant] = useState(() => product?.variants?.[0] || null)
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState(0)
 
@@ -55,7 +65,6 @@ export default function ProductDetails() {
   // 🎯 جلب ودمج المنتجات مع دعم الـ Slug والـ ID
   useEffect(() => {
     async function loadProduct() {
-      setLoading(true)
       try {
         const csvProducts = await fetchCsvProducts()
         const allProducts = [...productsData, ...(Array.isArray(csvProducts) ? csvProducts : [])]
@@ -76,13 +85,13 @@ export default function ProductDetails() {
               ]
           
           setProduct({ ...found, variants: validVariants })
-          setSelectedVariant(validVariants[0])
+          setSelectedVariant((prev) => prev || validVariants[0])
         } else {
           setProduct(null)
         }
       } catch (err) {
         console.error('Error loading product:', err)
-        setProduct(null)
+        if (!initialFound) setProduct(null)
       } finally {
         setLoading(false)
       }
@@ -105,7 +114,7 @@ export default function ProductDetails() {
     return () => clearInterval(interval)
   }, [])
 
-  if (loading) {
+  if (loading && !product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center font-sans">
         <h1 className="text-xl font-bold text-gray-500 animate-pulse">Loading product details...</h1>
@@ -161,14 +170,14 @@ export default function ProductDetails() {
       {/* 🎯 طبقة الميتاداتا المتقدمة للـ SEO و Google Shopping */}
       <Helmet>
         {/* Basic SEO */}
-        <title>{`${product.name} — QB MASTER`}</title>
-        <meta name="description" content={product.description} />
+        <title>{`${product.name || 'Product'} — QB MASTER`}</title>
+        <meta name="description" content={product.description || ''} />
         <link rel="canonical" href={canonicalUrl} />
 
         {/* OpenGraph / Social & GMC Crawlers */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={`${product.name} — QB MASTER`} />
-        <meta property="og:description" content={product.description} />
+        <meta property="og:title" content={`${product.name || 'Product'} — QB MASTER`} />
+        <meta property="og:description" content={product.description || ''} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={absoluteImageUrl} />
         <meta property="og:site_name" content="QB MASTER" />
@@ -181,8 +190,8 @@ export default function ProductDetails() {
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${product.name} — QB MASTER`} />
-        <meta name="twitter:description" content={product.description} />
+        <meta name="twitter:title" content={`${product.name || 'Product'} — QB MASTER`} />
+        <meta name="twitter:description" content={product.description || ''} />
         <meta name="twitter:image" content={absoluteImageUrl} />
       </Helmet>
 
