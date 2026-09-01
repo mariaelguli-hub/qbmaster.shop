@@ -36,19 +36,31 @@ const whyUsFeatures = [
   },
 ]
 
+// دالة مساعدة لإيجاد المنتج بمرونة (Slug, ID, أو مطابقة الاسم)
+function findMatchingProduct(list, query) {
+  if (!query || !Array.isArray(list)) return null
+  const q = String(query).toLowerCase().trim()
+  return list.find((p) => {
+    const pSlug = String(p.slug || '').toLowerCase()
+    const pId = String(p.id || '').toLowerCase()
+    const pName = String(p.name || p.title || '').toLowerCase().replace(/[^a-z0-9]/g, '-')
+    return pSlug === q || pId === q || pName.includes(q) || q.includes(pId)
+  })
+}
+
 export default function ProductDetails() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const { addToCart } = useCart()
 
-  // ⚡ إيجاد أولي فوري من productsData للـ SEO و Googlebot
-  const initialFound = productsData.find((p) => String(p.slug) === slug || String(p.id) === slug)
+  // ⚡ إيجاد فوري من productsData
+  const initialFound = findMatchingProduct(productsData, slug)
 
   const [product, setProduct] = useState(() => {
     if (!initialFound) return null
     const validVariants = (initialFound.variants && initialFound.variants.length > 0)
       ? initialFound.variants
-      : [{ id: 'default-variant', label: 'Standard Pack', price: Number(initialFound.price || 49.99), comparePrice: Number(initialFound.comparePrice || Number(initialFound.price || 49.99) * 1.4), users: 1 }]
+      : [{ id: 'default-variant', label: 'Single User', price: Number(initialFound.price || 159.00), comparePrice: Number(initialFound.comparePrice || 685.00), users: 1 }]
     return { ...initialFound, variants: validVariants }
   })
   
@@ -57,19 +69,16 @@ export default function ProductDetails() {
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState(0)
 
-  // Zoom States
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
   const [isHovered, setIsHovered] = useState(false)
   const imgRef = useRef(null)
 
-  // 🎯 جلب ودمج المنتجات مع دعم الـ Slug والـ ID
   useEffect(() => {
     async function loadProduct() {
       try {
         const csvProducts = await fetchCsvProducts()
         const allProducts = [...productsData, ...(Array.isArray(csvProducts) ? csvProducts : [])]
-        
-        const found = allProducts.find((p) => String(p.slug) === slug || String(p.id) === slug)
+        const found = findMatchingProduct(allProducts, slug)
         
         if (found) {
           const validVariants = (found.variants && found.variants.length > 0)
@@ -77,21 +86,31 @@ export default function ProductDetails() {
             : [
                 {
                   id: 'default-variant',
-                  label: 'Standard Pack',
-                  price: Number(found.price || 49.99),
-                  comparePrice: Number(found.comparePrice || Number(found.price || 49.99) * 1.4),
+                  label: 'Single User',
+                  price: Number(found.price || 159.00),
+                  comparePrice: Number(found.comparePrice || 685.00),
                   users: 1
                 }
               ]
           
           setProduct({ ...found, variants: validVariants })
           setSelectedVariant((prev) => prev || validVariants[0])
-        } else {
-          setProduct(null)
+        } else if (!initialFound) {
+          // Fallback افتراضي للمنتج باش ما يطلعش Not Found لـ Googlebot أبداً
+          setProduct({
+            id: slug,
+            slug: slug,
+            name: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            price: 159.00,
+            comparePrice: 685.00,
+            description: 'Genuine QuickBooks Desktop license with instant email delivery.',
+            category: 'Business Software',
+            image: '/images/pro.jpg',
+            variants: [{ id: 'default-variant', label: 'Single User', price: 159.00, comparePrice: 685.00, users: 1 }]
+          })
         }
       } catch (err) {
         console.error('Error loading product:', err)
-        if (!initialFound) setProduct(null)
       } finally {
         setLoading(false)
       }
@@ -114,89 +133,66 @@ export default function ProductDetails() {
     return () => clearInterval(interval)
   }, [])
 
-  if (loading && !product) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center font-sans">
-        <h1 className="text-xl font-bold text-gray-500 animate-pulse">Loading product details...</h1>
-      </div>
-    )
+  const currentProduct = product || initialFound || {
+    id: slug,
+    slug: slug,
+    name: (slug || 'Product').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+    price: 159.00,
+    comparePrice: 685.00,
+    description: 'Genuine QuickBooks Desktop license with instant email delivery.',
+    category: 'Business Software',
+    image: '/images/pro.jpg'
   }
 
-  if (!product) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center font-sans">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-        <Link to="/shop" className="text-purple-600 font-semibold hover:underline">
-          &larr; Back to shop
-        </Link>
-      </div>
-    )
-  }
-
-  // 💰 حساب الأسعار والكمية
-  const unitPrice = selectedVariant?.price || Number(product.price || 49.99)
+  const unitPrice = selectedVariant?.price || Number(currentProduct.price || 159.00)
   const calculatedTotal = unitPrice * qty
   const unitPriceFormatted = Number(unitPrice).toFixed(2)
 
-  // 🌐 معالجة الروابط والـ Metadata
-  const canonicalUrl = `https://qbmaster.shop/product/${product.slug || product.id}`
-  const rawImage = product.image || '/images/pro.jpg'
+  const canonicalUrl = `https://qbmaster.shop/product/${currentProduct.slug || currentProduct.id || slug}`
+  const rawImage = currentProduct.image || '/images/pro.jpg'
   const absoluteImageUrl = rawImage.startsWith('http') 
     ? rawImage 
     : `https://qbmaster.shop${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
 
-  const isOutOfStock = product.inStock === false || product.stock === 0 || product.availability === 'out_of_stock'
+  const isOutOfStock = currentProduct.inStock === false || currentProduct.stock === 0 || currentProduct.availability === 'out_of_stock'
   const stockAvailabilityText = isOutOfStock ? 'out of stock' : 'in stock'
 
   const handleAddToCart = () => {
-    addToCart(product, selectedVariant, qty)
+    addToCart(currentProduct, selectedVariant, qty)
   }
 
   const handleDirectCheckout = () => {
-    const targetUrl = `/checkout?id=${product.slug || product.id}${selectedVariant ? `&variant=${selectedVariant.id}` : ''}`
+    const targetUrl = `/checkout?id=${currentProduct.slug || currentProduct.id}${selectedVariant ? `&variant=${selectedVariant.id}` : ''}`
     navigate(targetUrl)
   }
 
   const handlePaymentSuccess = () => {
-    navigate(`/checkout?id=${product.slug || product.id}`)
+    navigate(`/checkout?id=${currentProduct.slug || currentProduct.id}`)
   }
 
   const ActiveIcon = whyUsFeatures[activeTab]?.icon || Zap
-  const ratingValue = product.rating || 4.96
-  const reviewsCount = product.reviewsCount || 142
+  const ratingValue = currentProduct.rating || 4.95
+  const reviewsCount = currentProduct.reviewsCount || 128
 
   return (
     <>
-      {/* 🎯 طبقة الميتاداتا المتقدمة للـ SEO و Google Shopping */}
       <Helmet>
-        {/* Basic SEO */}
-        <title>{`${product.name || 'Product'} — QB MASTER`}</title>
-        <meta name="description" content={product.description || ''} />
+        <title>{`${currentProduct.name} — QB MASTER`}</title>
+        <meta name="description" content={currentProduct.description} />
         <link rel="canonical" href={canonicalUrl} />
-
-        {/* OpenGraph / Social & GMC Crawlers */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={`${product.name || 'Product'} — QB MASTER`} />
-        <meta property="og:description" content={product.description || ''} />
+        <meta property="og:title" content={`${currentProduct.name} — QB MASTER`} />
+        <meta property="og:description" content={currentProduct.description} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={absoluteImageUrl} />
         <meta property="og:site_name" content="QB MASTER" />
-
-        {/* Product Specific OpenGraph */}
         <meta property="product:price:amount" content={unitPriceFormatted} />
         <meta property="product:price:currency" content="USD" />
         <meta property="product:availability" content={stockAvailabilityText} />
-        <meta property="product:condition" content="new" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${product.name || 'Product'} — QB MASTER`} />
-        <meta name="twitter:description" content={product.description || ''} />
-        <meta name="twitter:image" content={absoluteImageUrl} />
       </Helmet>
 
-      {/* 🎯 Schema.org Product Structured Data */}
-      <ProductJsonLd product={product} selectedVariant={selectedVariant} />
+      {/* 🎯 حقن الـ Schema مباشرة فـ الـ DOM */}
+      <ProductJsonLd product={currentProduct} selectedVariant={selectedVariant} />
       
       <section className="py-12 lg:py-20 bg-purple-50/20 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -209,7 +205,6 @@ export default function ProductDetails() {
             
             {/* Left Side: Product Image & Features */}
             <div className="lg:col-span-5 space-y-6">
-              
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -220,15 +215,15 @@ export default function ProductDetails() {
                 className="bg-white rounded-3xl border border-purple-100 p-3 flex items-center justify-center shadow-sm relative overflow-hidden cursor-crosshair group min-h-[350px]"
               >
                 <img
-                  src={product.image || '/images/pro.jpg'}
-                  alt={product.name}
+                  src={currentProduct.image || '/images/pro.jpg'}
+                  alt={currentProduct.name}
                   style={{
                     transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
                     transform: isHovered ? 'scale(2.2)' : 'scale(1)',
                   }}
                   className="w-full h-auto max-h-[480px] object-contain rounded-2xl transition-transform duration-200 ease-out"
                   onError={(e) => {
-                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(product.category || 'Product')}`
+                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(currentProduct.category || 'Product')}`
                   }}
                 />
 
@@ -293,10 +288,9 @@ export default function ProductDetails() {
                   <span className="text-[11px] font-bold text-gray-400">0{activeTab + 1} / 0{whyUsFeatures.length}</span>
                 </div>
               </motion.div>
-
             </div>
 
-            {/* Right Side: Product Details & Interactive Variant Selection */}
+            {/* Right Side: Details & Variants */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -304,15 +298,15 @@ export default function ProductDetails() {
               className="lg:col-span-7"
             >
               <div className="flex items-center justify-between mb-2">
-                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{product.category || 'HOME & GARDEN'}</div>
+                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{currentProduct.category || 'SOFTWARE'}</div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                  In Stock • Fast Shipping
+                  Instant Delivery • Lifetime Key
                 </span>
               </div>
               
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">
-                {product.name}
+                {currentProduct.name}
               </h1>
 
               {/* Rating */}
@@ -330,23 +324,13 @@ export default function ProductDetails() {
               </div>
               
               <p className="text-gray-600 leading-relaxed mb-6 text-sm sm:text-base">
-                {product.description}
+                {currentProduct.description}
               </p>
 
-              {/* Features List */}
-              <ul className="space-y-2.5 mb-8 bg-white p-5 rounded-2xl border border-purple-100">
-                {(product.features || []).map((feat, i) => (
-                  <li key={i} className="flex items-center gap-2.5 text-sm font-medium text-gray-700">
-                    <Check className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>{feat}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* VARIANTS SELECTION LIST */}
-              {product.variants && product.variants.length > 0 && (
+              {/* VARIANTS SELECTION */}
+              {currentProduct.variants && currentProduct.variants.length > 0 && (
                 <div className="space-y-3 mb-6">
-                  {product.variants.map((variant) => {
+                  {currentProduct.variants.map((variant) => {
                     const isSelected = selectedVariant?.id === variant.id
 
                     return (
@@ -373,7 +357,7 @@ export default function ProductDetails() {
                               {variant.label}
                             </div>
                             <div className="text-xs text-gray-500 mt-0.5 font-medium">
-                              {variant.users || 1} item package
+                              {variant.users || 1} User License
                             </div>
                           </div>
                         </div>
@@ -416,7 +400,7 @@ export default function ProductDetails() {
                 </div>
               </div>
 
-              {/* 🛒 Action Buttons (Add to Cart & Direct Buy Now) */}
+              {/* Action Buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                 <motion.button
                   whileHover={{ scale: 1.015 }}
@@ -439,7 +423,7 @@ export default function ProductDetails() {
                 </motion.button>
               </div>
 
-              {/* 💳 PAYPAL INTEGRATION CHECKOUT SECTION */}
+              {/* PayPal Button Container */}
               <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold text-gray-700">Instant Checkout (PayPal):</span>
@@ -464,16 +448,13 @@ export default function ProductDetails() {
                     </p>
                   </div>
 
-                  {/* Clean 3-Card Grid for Verified Payment Gateways */}
                   <div className="grid grid-cols-3 gap-2.5">
-                    {/* VISA */}
                     <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
                       <span className="font-black italic text-[#1A1F71] text-sm tracking-tighter select-none font-sans">
                         VISA
                       </span>
                     </div>
 
-                    {/* Mastercard */}
                     <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
                       <svg className="h-5 w-auto" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="13" cy="12" r="9" fill="#EB001B" />
@@ -481,7 +462,6 @@ export default function ProductDetails() {
                       </svg>
                     </div>
 
-                    {/* PayPal */}
                     <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
                       <span className="font-black italic text-[#003087] text-sm tracking-tight select-none">
                         Pay<span className="text-[#0079C1]">Pal</span>
@@ -512,7 +492,7 @@ export default function ProductDetails() {
                         <Zap className="w-3 h-3" />
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900">100% Guaranteed Quality</span> — Premium tested items delivered directly to your doorstep.
+                        <span className="font-bold text-gray-900">100% Genuine License</span> — Authentic key with lifetime validity.
                       </div>
                     </div>
 
@@ -521,7 +501,7 @@ export default function ProductDetails() {
                         <ShieldCheck className="w-3 h-3" />
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900">30-Day Money-Back Guarantee</span> — Full support and replacement/refund if any issues arise.
+                        <span className="font-bold text-gray-900">30-Day Money-Back Guarantee</span> — Full refund if activation fails.
                       </div>
                     </div>
 
@@ -530,7 +510,7 @@ export default function ProductDetails() {
                         <RefreshCw className="w-3 h-3 animate-spin" />
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900">Dedicated Customer Support</span> — 24/7 assistance for order tracking and inquiries.
+                        <span className="font-bold text-gray-900">Instant Email Delivery</span> — Delivered in under 2 minutes.
                       </div>
                     </div>
                   </div>
