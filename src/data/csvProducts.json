@@ -1,0 +1,592 @@
+[
+  {
+    "id": "shopify-csv-1",
+    "slug": "clay-plant-pot",
+    "name": "Clay Plant Pot",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 35,
+    "description": "Classic blown clay pot for plants",
+    "price": 9.99,
+    "comparePrice": 13.99,
+    "image": "https://burst.shopifycdn.com/photos/single-sprout-in-a-pot_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/single-sprout-in-a-pot_925x.jpg",
+      "https://burst.shopifycdn.com/photos/pot-with-a-single-sprout_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-1-1",
+        "label": "Regular",
+        "price": 9.99,
+        "comparePrice": 13.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      },
+      {
+        "id": "var-shopify-csv-1-2",
+        "label": "Large",
+        "price": 15.99,
+        "comparePrice": 22.39,
+        "users": 1,
+        "bestselling": false,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-2",
+    "slug": "copper-light",
+    "name": "Copper Light",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 38,
+    "description": "Stylish copper bedside light",
+    "price": 59.99,
+    "comparePrice": 75.0,
+    "image": "https://burst.shopifycdn.com/photos/copper-light-in-bedroom_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/copper-light-in-bedroom_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-2-1",
+        "label": "Standard",
+        "price": 59.99,
+        "comparePrice": 75.0,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-3",
+    "slug": "cream-sofa",
+    "name": "Cream Sofa",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 41,
+    "description": "Comfortable 3 person cream-colored sofa",
+    "price": 289.99,
+    "comparePrice": 405.99,
+    "image": "https://burst.shopifycdn.com/photos/condominium-interior-livingroom_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/condominium-interior-livingroom_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-3-1",
+        "label": "Standard",
+        "price": 289.99,
+        "comparePrice": 405.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-4",
+    "slug": "antique-drawers",
+    "name": "Antique Drawers",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 44,
+    "description": "Set of 3 rustic white painted wooden drawers",
+    "price": 49.99,
+    "comparePrice": 69.99,
+    "image": "https://burst.shopifycdn.com/photos/babys-room_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/babys-room_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-4-1",
+        "label": "Standard",
+        "price": 49.99,
+        "comparePrice": 69.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-5",
+    "slug": "white-bed-clothes",
+    "name": "White Bed Clothes",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 47,
+    "description": "Hotel quality 100% white cotton sheets",
+    "price": 29.99,
+    "comparePrice": 41.99,
+    "image": "https://burst.shopifycdn.com/photos/bright-hotel-room-bed_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/bright-hotel-room-bed_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-5-1",
+        "label": "Standard",
+        "price": 29.99,
+        "comparePrice": 41.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-6",
+    "slug": "pink-armchair",
+    "name": "Pink Armchair",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 50,
+    "description": "Soft pink cushioned armchair in stately salon",
+    "price": 129.99,
+    "comparePrice": 181.99,
+    "image": "https://burst.shopifycdn.com/photos/soft-pink-cushioned-armchair-in-stately-salon_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/soft-pink-cushioned-armchair-in-stately-salon_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-6-1",
+        "label": "Standard",
+        "price": 129.99,
+        "comparePrice": 181.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-7",
+    "slug": "wooden-outdoor-table",
+    "name": "Wooden Outdoor Table",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 53,
+    "description": "Solid cafe style patio table with iron legs",
+    "price": 89.99,
+    "comparePrice": 125.99,
+    "image": "https://burst.shopifycdn.com/photos/cafe-patio_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/cafe-patio_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-7-1",
+        "label": "Standard",
+        "price": 89.99,
+        "comparePrice": 125.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-8",
+    "slug": "brown-throw-pillows",
+    "name": "Brown Throw Pillows",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 56,
+    "description": "Pair of brown accent pillows for living room or bedroom",
+    "price": 19.99,
+    "comparePrice": 27.99,
+    "image": "https://burst.shopifycdn.com/photos/bedroom-bed-with-brown-throw-pillows_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/bedroom-bed-with-brown-throw-pillows_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-8-1",
+        "label": "Standard",
+        "price": 19.99,
+        "comparePrice": 27.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-9",
+    "slug": "white-ceramic-pot",
+    "name": "White Ceramic Pot",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 59,
+    "description": "Glazed white ceramic planter pot for houseplants",
+    "price": 14.99,
+    "comparePrice": 20.99,
+    "image": "https://burst.shopifycdn.com/photos/house-plant-in-white-pot_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/house-plant-in-white-pot_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-9-1",
+        "label": "Standard",
+        "price": 14.99,
+        "comparePrice": 20.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-10",
+    "slug": "yellow-watering-can",
+    "name": "Yellow watering can",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 62,
+    "description": "Bright yellow vintage metal watering can",
+    "price": 12.99,
+    "comparePrice": 18.19,
+    "image": "https://burst.shopifycdn.com/photos/flowers-in-yellow-watering-can_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/flowers-in-yellow-watering-can_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-10-1",
+        "label": "Standard",
+        "price": 12.99,
+        "comparePrice": 18.19,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-11",
+    "slug": "gardening-hand-trowel",
+    "name": "Gardening hand trowel",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 65,
+    "description": "Classic wooden handle steel gardening hand trowel",
+    "price": 8.99,
+    "comparePrice": 12.59,
+    "image": "https://burst.shopifycdn.com/photos/spring-gardening-set-up_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/spring-gardening-set-up_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-11-1",
+        "label": "Standard",
+        "price": 8.99,
+        "comparePrice": 12.59,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-12",
+    "slug": "biodegradable-cardboard-pots",
+    "name": "Biodegradable cardboard pots",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 68,
+    "description": "Pack of 12 eco-friendly starter seedling pots",
+    "price": 6.99,
+    "comparePrice": 9.79,
+    "image": "https://burst.shopifycdn.com/photos/potted-seeds_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/potted-seeds_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-12-1",
+        "label": "Standard",
+        "price": 6.99,
+        "comparePrice": 9.79,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-13",
+    "slug": "grey-sofa",
+    "name": "Grey Sofa",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 71,
+    "description": "Modern dark grey 3-seater living room couch",
+    "price": 349.99,
+    "comparePrice": 489.99,
+    "image": "https://burst.shopifycdn.com/photos/large-grey-sofa-by-brick-wall_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/large-grey-sofa-by-brick-wall_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-13-1",
+        "label": "Standard",
+        "price": 349.99,
+        "comparePrice": 489.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-14",
+    "slug": "wooden-outdoor-slats",
+    "name": "Wooden outdoor slats",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 74,
+    "description": "Decorative vertical wooden slat trellis wall panel",
+    "price": 39.99,
+    "comparePrice": 55.99,
+    "image": "https://burst.shopifycdn.com/photos/house-plant-on-wooden-slat-wall_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/house-plant-on-wooden-slat-wall_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-14-1",
+        "label": "Standard",
+        "price": 39.99,
+        "comparePrice": 55.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-15",
+    "slug": "wooden-fence",
+    "name": "Wooden Fence",
+    "category": "Outdoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 77,
+    "description": "White garden border picket fence panel",
+    "price": 24.99,
+    "comparePrice": 34.99,
+    "image": "https://burst.shopifycdn.com/photos/picket-fence-flowers_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/picket-fence-flowers_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-15-1",
+        "label": "Standard",
+        "price": 24.99,
+        "comparePrice": 34.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-16",
+    "slug": "yellow-sofa",
+    "name": "Yellow Sofa",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 80,
+    "description": "Vibrant yellow fabric 2-seater mid-century loveseat",
+    "price": 229.99,
+    "comparePrice": 321.99,
+    "image": "https://burst.shopifycdn.com/photos/yellow-couch-by-black-and-white-mural_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/yellow-couch-by-black-and-white-mural_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-16-1",
+        "label": "Standard",
+        "price": 229.99,
+        "comparePrice": 321.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-17",
+    "slug": "knitted-throw-pillows",
+    "name": "Knitted Throw Pillows",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 83,
+    "description": "Chunky hand-knitted accent cushion cover",
+    "price": 22.99,
+    "comparePrice": 32.19,
+    "image": "https://burst.shopifycdn.com/photos/yellow-sofa-with-throw-pillows_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/yellow-sofa-with-throw-pillows_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-17-1",
+        "label": "Standard",
+        "price": 22.99,
+        "comparePrice": 32.19,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-18",
+    "slug": "vanilla-candle",
+    "name": "Vanilla candle",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 86,
+    "description": "Natural soy wax hand-poured fragrant vanilla candle",
+    "price": 11.99,
+    "comparePrice": 16.79,
+    "image": "https://burst.shopifycdn.com/photos/diy-organic-candle_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/diy-organic-candle_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-18-1",
+        "label": "Standard",
+        "price": 11.99,
+        "comparePrice": 16.79,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-19",
+    "slug": "black-beanbag",
+    "name": "Black Beanbag",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 89,
+    "description": "Ergonomic oversized black lounge bean bag chair",
+    "price": 44.99,
+    "comparePrice": 62.99,
+    "image": "https://burst.shopifycdn.com/photos/comfortable-living-room-cat_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/comfortable-living-room-cat_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-19-1",
+        "label": "Standard",
+        "price": 44.99,
+        "comparePrice": 62.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "shopify-csv-20",
+    "slug": "bedside-table",
+    "name": "Bedside Table",
+    "category": "Indoor",
+    "tag": "Verified Quality",
+    "rating": 4.92,
+    "reviewsCount": 92,
+    "description": "Minimalist Scandinavian wooden nightstand table",
+    "price": 64.99,
+    "comparePrice": 90.99,
+    "image": "https://burst.shopifycdn.com/photos/dark-wall-bedside-table_925x.jpg",
+    "images": [
+      "https://burst.shopifycdn.com/photos/dark-wall-bedside-table_925x.jpg"
+    ],
+    "hidden": false,
+    "isPhysical": true,
+    "variants": [
+      {
+        "id": "var-20-1",
+        "label": "Standard",
+        "price": 64.99,
+        "comparePrice": 90.99,
+        "users": 1,
+        "bestselling": true,
+        "paymentLink": "#"
+      }
+    ]
+  }
+]
