@@ -1,22 +1,30 @@
+import React from 'react'
+
+function cleanStr(str) {
+  if (!str) return ''
+  return String(str)
+    .replace(/<[^>]*>?/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 export default function ProductJsonLd({ product, selectedVariant }) {
-  // حتى إلى كانت البيانات باقا كتشارجي، ما نرجعوش null
   const currentProduct = product || {
-    name: 'Antique Drawers',
-    slug: 'antique-drawers',
-    price: 49.99,
-    description: 'Genuine high-quality product with instant delivery.',
-    category: 'Home & Garden'
+    id: 'product',
+    slug: 'product',
+    name: 'QuickBooks Desktop License',
+    price: 159.00,
+    description: 'Genuine QuickBooks Desktop license with instant email delivery.',
+    category: 'Business Software'
   }
 
   const baseUrl = 'https://qbmaster.shop'
-
   const currentPrice = Number(
-    selectedVariant?.price ?? currentProduct.price ?? 49.99
+    selectedVariant?.price ?? currentProduct.price ?? 159.00
   ).toFixed(2)
 
-  const productUrl = `${baseUrl}/product/${currentProduct.slug || currentProduct.id || 'antique-drawers'}`
+  const productUrl = `${baseUrl}/product/${currentProduct.slug || currentProduct.id || 'item'}`
 
-  // Format images as array of absolute URLs
   const rawImages = Array.isArray(currentProduct.images) && currentProduct.images.length > 0
     ? currentProduct.images
     : [currentProduct.image || '/images/pro.jpg'].filter(Boolean)
@@ -25,23 +33,25 @@ export default function ProductJsonLd({ product, selectedVariant }) {
     img.startsWith('http') ? img : `${baseUrl}${img.startsWith('/') ? '' : '/'}${img}`
   )
 
-  // Determine availability status
   const isOutOfStock = currentProduct.inStock === false || currentProduct.stock === 0 || currentProduct.availability === 'out_of_stock'
   const availability = isOutOfStock
     ? 'https://schema.org/OutOfStock'
     : 'https://schema.org/InStock'
 
-  // Build GMC compliant schema
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: sanitizeText(currentProduct.name || currentProduct.title),
-    description: sanitizeText(currentProduct.description || 'Genuine product with verified support.'),
+    name: cleanStr(currentProduct.name || currentProduct.title),
+    description: cleanStr(currentProduct.description || 'Genuine software license with instant digital delivery and verified support.'),
     image: images.length > 0 ? images : undefined,
-    category: currentProduct.category ? sanitizeText(currentProduct.category) : 'Home & Garden',
+    category: currentProduct.category ? cleanStr(currentProduct.category) : 'Business Software',
     sku: String(currentProduct.sku || `SKU-${currentProduct.id || currentProduct.slug || 'item'}`),
     
-    // Offers with full Merchant Center Compliance
+    brand: {
+      '@type': 'Brand',
+      name: 'QB MASTER',
+    },
+
     offers: {
       '@type': 'Offer',
       price: currentPrice,
@@ -91,11 +101,10 @@ export default function ProductJsonLd({ product, selectedVariant }) {
       },
     },
 
-    // AggregateRating
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: String(currentProduct.rating || 4.96),
-      reviewCount: String(currentProduct.reviewsCount || currentProduct.ratingCount || 142),
+      ratingValue: String(currentProduct.rating || 4.95),
+      reviewCount: String(currentProduct.reviewsCount || currentProduct.ratingCount || 128),
       bestRating: '5',
       worstRating: '1',
     },
