@@ -1,20 +1,34 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>QB MASTER</title>
-    <script type="text/javascript">
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?p=/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
-        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+    <meta charset="UTF-8" />
+
+    <!-- 🌐 Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18410769238"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18410769238');
     </script>
+    
+    <!-- 🔑 Google Merchant Center / Search Console Verification -->
+    <meta name="google-site-verification" content="wEnZKG0ZPtP0uePgvivNTjUXGzMIPv4__PILrUw5dfs" />
+
+    <!-- 🟣 SVG Icon المباشر متدرج بالموڤ (Purple Gradient) وفيه حرفي QM -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%239333ea'/><stop offset='50%25' stop-color='%237c3aed'/><stop offset='100%25' stop-color='%234338ca'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23grad)'/><text x='50' y='67' font-size='44' font-weight='900' fill='white' text-anchor='middle' font-family='system-ui, sans-serif' letter-spacing='-2'>QM</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- 📝 العنوان والوصف -->
+    <title>QB MASTER — Store</title>
+    <meta name="description" content="Shop high quality products with instant processing, verified guarantees, and secure checkout." />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
