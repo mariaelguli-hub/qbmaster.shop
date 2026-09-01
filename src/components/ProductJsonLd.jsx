@@ -1,5 +1,4 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
 
 /**
  * Clean string mn HTML tags w dangerous characters
@@ -13,7 +12,7 @@ function sanitizeText(str) {
 }
 
 /**
- * Format dynamic Product Schema.org JSON-LD (Fully GMC & Rich Results Compliant)
+ * Format dynamic Product Schema.org JSON-LD (Direct DOM Injection)
  */
 export default function ProductJsonLd({ product, selectedVariant }) {
   if (!product) return null
@@ -127,10 +126,9 @@ export default function ProductJsonLd({ product, selectedVariant }) {
   const cleanSchema = JSON.parse(JSON.stringify(schema))
 
   return (
-    <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(cleanSchema)}
-      </script>
-    </Helmet>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(cleanSchema) }}
+    />
   )
 }
