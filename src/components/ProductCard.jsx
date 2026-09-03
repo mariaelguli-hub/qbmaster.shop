@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingBag, Minus, Plus, Check, Star, ArrowRight, Truck } from 'lucide-react'
+import { ShoppingBag, Minus, Plus, Check, ArrowRight, Truck } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useCart } from '../context/CartContext'
 
@@ -30,8 +30,6 @@ export default function ProductCard({ product }) {
   const totalComparePrice = unitComparePrice * qty
   const discount = Math.round(((unitComparePrice - unitPrice) / unitComparePrice) * 100)
 
-  const ratingValue = product?.rating || 4.9
-  const reviewsCount = product?.reviewsCount || 48
   const categoryLabel = product?.category || 'Home & Garden'
   
   // 🛡️ Safe fallback for Features
@@ -71,7 +69,7 @@ export default function ProductCard({ product }) {
 
         {/* Image */}
         <img
-          src={product?.image || '/images/pro.jpg'}
+          src={product?.image || product?.image_link || '/images/default.jpg'}
           alt={product?.name || product?.title || 'Product'}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out cursor-pointer"
           onClick={handleViewProduct}
@@ -86,17 +84,11 @@ export default function ProductCard({ product }) {
       {/* 📝 Content Area */}
       <div className="p-5 flex-1 flex flex-col pt-1">
         
-        {/* Category & Ratings */}
-        <div className="flex items-center justify-between mb-2">
+        {/* Category Label */}
+        <div className="mb-2">
           <span className="text-[10px] font-black tracking-widest text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-md uppercase border border-purple-200/50">
             {categoryLabel}
           </span>
-
-          <div className="flex items-center gap-1 bg-amber-50/80 px-2 py-0.5 rounded-full border border-amber-200/50">
-            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-            <span className="text-xs font-black text-gray-900">{ratingValue}</span>
-            <span className="text-[10px] font-semibold text-gray-400">({reviewsCount})</span>
-          </div>
         </div>
 
         {/* Title */}
