@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Check, Truck, ShieldCheck, Star, ArrowRight, Sparkles, 
+  Check, Truck, ShieldCheck, ArrowRight, Sparkles, 
   Package, Home, Shield, Clock, Award, ShoppingBag
 } from 'lucide-react'
 
@@ -93,11 +93,10 @@ export default function Hero() {
             animate="visible"
             className="lg:col-span-6 text-left"
           >
-            {/* Rating Badge */}
+            {/* Verified Catalog Badge (بدون تقييمات وهمية) */}
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-purple-200/80 mb-5 shadow-xs">
-              <Star className="w-4 h-4 fill-amber-400 text-amber-400 shrink-0" />
-              <span className="text-xs font-black text-purple-950 tracking-tight">4.9/5 from 1,420+ happy homeowners</span>
-              <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse ml-0.5" />
+              <Sparkles className="w-4 h-4 text-purple-600 shrink-0" />
+              <span className="text-xs font-black text-purple-950 tracking-tight">Curated Home & Garden Living Essentials</span>
             </motion.div>
 
             {/* Main Title */}
@@ -160,7 +159,7 @@ export default function Hero() {
 
           </motion.div>
 
-          {/* 🌟 Right Side: High-Level Animated 3D Floating Fulfillment Card 🌟 */}
+          {/* 🌟 Right Side: High-Level Animated 3D Floating Card 🌟 */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, rotateY: -12 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
