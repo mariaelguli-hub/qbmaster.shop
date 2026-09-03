@@ -12,22 +12,22 @@ export default function ProductJsonLd({ product, selectedVariant }) {
   const currentProduct = product || {
     id: 'product',
     slug: 'product',
-    name: 'QuickBooks Desktop License',
-    price: 159.00,
-    description: 'Genuine QuickBooks Desktop license with instant email delivery.',
-    category: 'Business Software'
+    name: 'Home & Garden Essential',
+    price: 49.99,
+    description: 'Durable and heavy-duty home and garden equipment.',
+    category: 'Home & Garden'
   }
 
   const baseUrl = 'https://qbmaster.shop'
   const currentPrice = Number(
-    selectedVariant?.price ?? currentProduct.price ?? 159.00
+    selectedVariant?.price ?? currentProduct.price ?? 49.99
   ).toFixed(2)
 
   const productUrl = `${baseUrl}/product/${currentProduct.slug || currentProduct.id || 'item'}`
 
   const rawImages = Array.isArray(currentProduct.images) && currentProduct.images.length > 0
     ? currentProduct.images
-    : [currentProduct.image || '/images/pro.jpg'].filter(Boolean)
+    : [currentProduct.image_link || currentProduct.image || '/images/default.jpg'].filter(Boolean)
 
   const images = rawImages.map((img) => 
     img.startsWith('http') ? img : `${baseUrl}${img.startsWith('/') ? '' : '/'}${img}`
@@ -42,14 +42,14 @@ export default function ProductJsonLd({ product, selectedVariant }) {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: cleanStr(currentProduct.name || currentProduct.title),
-    description: cleanStr(currentProduct.description || 'Genuine software license with instant digital delivery and verified support.'),
+    description: cleanStr(currentProduct.description || 'Premium quality home and garden hardware designed for durability and outdoor comfort.'),
     image: images.length > 0 ? images : undefined,
-    category: currentProduct.category ? cleanStr(currentProduct.category) : 'Business Software',
+    category: cleanStr(currentProduct.category || 'Home & Garden'),
     sku: String(currentProduct.sku || `SKU-${currentProduct.id || currentProduct.slug || 'item'}`),
     
     brand: {
       '@type': 'Brand',
-      name: 'QB MASTER',
+      name: 'QB Master',
     },
 
     offers: {
@@ -62,7 +62,7 @@ export default function ProductJsonLd({ product, selectedVariant }) {
       url: productUrl,
       seller: {
         '@type': 'Organization',
-        name: 'QB MASTER',
+        name: 'QB Master',
       },
       shippingDetails: {
         '@type': 'OfferShippingDetails',
@@ -79,14 +79,14 @@ export default function ProductJsonLd({ product, selectedVariant }) {
           '@type': 'ShippingDeliveryTime',
           handlingTime: {
             '@type': 'QuantitativeValue',
-            minValue: 0,
-            maxValue: 0,
+            minValue: 1,
+            maxValue: 2,
             unitCode: 'DAY',
           },
           transitTime: {
             '@type': 'QuantitativeValue',
-            minValue: 0,
-            maxValue: 1,
+            minValue: 3,
+            maxValue: 7,
             unitCode: 'DAY',
           },
         },
@@ -99,14 +99,6 @@ export default function ProductJsonLd({ product, selectedVariant }) {
         returnMethod: 'https://schema.org/ReturnByMail',
         returnFees: 'https://schema.org/FreeReturn',
       },
-    },
-
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: String(currentProduct.rating || 4.95),
-      reviewCount: String(currentProduct.reviewsCount || currentProduct.ratingCount || 128),
-      bestRating: '5',
-      worstRating: '1',
     },
   }
 
