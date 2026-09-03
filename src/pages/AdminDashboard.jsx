@@ -3,13 +3,12 @@ import { Helmet } from 'react-helmet-async'
 import { 
   Trash2, RefreshCw, MessageSquare, Lock, Eye, EyeOff, Globe, Users, 
   Clock, Compass, ShieldAlert, Send, Bot, User, Image as ImageIcon, 
-  LogOut, Download, FileSpreadsheet, PackageCheck, EyeOff as EyeOffIcon,
+  LogOut, Download, FileSpreadsheet, PackageCheck,
   Search, Copy, ExternalLink, SlidersHorizontal, CheckCircle2, XCircle
 } from 'lucide-react'
 import { supabase } from '../utils/supabase'
 import { toast } from 'react-hot-toast'
-import productsData from '../data/products.json' 
-import { fetchCsvProducts } from '../utils/loadHiddenProducts' 
+import productsData from '../data/csvProducts.json'
 
 const ADMIN_PASSWORD = "MySecretAdminPassword2026!"
 const SITE_DOMAIN = "https://qbmaster.shop"
@@ -22,7 +21,6 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('allproducts')
   const [messages, setMessages] = useState([])
   const [visitors, setVisitors] = useState([])
-  const [hiddenCsvProducts, setHiddenCsvProducts] = useState([]) 
   
   // 🎛️ Visibility State (Synced with Supabase)
   const [productVisibility, setProductVisibility] = useState({})
@@ -85,15 +83,7 @@ export default function AdminDashboard() {
       .order('updated_at', { ascending: false })
     setChatSessions(chatData || [])
 
-    // 4. جلب منتجات CSV الفيزيائية
-    try {
-      const csvProds = await fetchCsvProducts()
-      setHiddenCsvProducts(csvProds || [])
-    } catch (err) {
-      console.error('Failed to load CSV products', err)
-    }
-
-    // 5. جلب إعدادات Visibility من Supabase
+    // 4. جلب إعدادات Visibility من Supabase
     try {
       const { data: settingsData } = await supabase
         .from('site_settings')
@@ -123,11 +113,11 @@ export default function AdminDashboard() {
     }
   }, [isAuthenticated])
 
-  // 🔄 تبديل الحالة وحفظها مباشرة في Supabase
-  const toggleProductVisibility = async (slugOrId, isInitiallyHidden) => {
+  // 🔄 تبديل الحالة وحفظها في Supabase
+  const toggleProductVisibility = async (slugOrId) => {
     const currentStatus = productVisibility[slugOrId] !== undefined 
       ? productVisibility[slugOrId] 
-      : !isInitiallyHidden
+      : true
 
     const updatedStatus = !currentStatus
     const updatedMap = { ...productVisibility, [slugOrId]: updatedStatus }
@@ -157,15 +147,15 @@ export default function AdminDashboard() {
     toast.success('Direct link copied to clipboard!')
   }
 
-  // الترتيب الافتراضي: Physical (CSV) ظاهر، و Digital (JSON) مخفي
-  const allCombinedProducts = [
-    ...(hiddenCsvProducts || []).map(p => ({ ...p, source: 'Physical (CSV)', hidden: false, isPhysical: true })),
-    ...(productsData || []).map(p => ({ ...p, source: 'Digital (JSON)', hidden: true, isPhysical: false }))
-  ]
+  const allCombinedProducts = (Array.isArray(productsData) ? productsData : []).map(p => ({
+    ...p,
+    source: 'Physical (Catalog)',
+    isPhysical: true
+  }))
 
   const filteredProductsList = allCombinedProducts.filter(p => {
     const slugOrId = p.slug || p.id
-    const isVisibleOnHome = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+    const isVisibleOnHome = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : true
     
     if (productFilter === 'visible' && !isVisibleOnHome) return false
     if (productFilter === 'hidden' && isVisibleOnHome) return false
@@ -180,7 +170,7 @@ export default function AdminDashboard() {
     )
   })
 
-  // تصدير منتجات Google Merchant Center
+  // تصدير منتجات Google Merchant Center (Home & Garden)
   const exportGmcCsv = () => {
     try {
       const headers = [
@@ -189,18 +179,19 @@ export default function AdminDashboard() {
 
       const targetProds = allCombinedProducts.filter(p => {
         const slugOrId = p.slug || p.id
-        return productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+        return productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : true
       })
 
       const rows = targetProds.map((p) => {
         const cleanDesc = (p.description || '').replace(/"/g, '""')
-        const priceNum = Number(p.variants?.[0]?.price || p.price || 49).toFixed(2)
+        const priceNum = Number(p.price || 49.99).toFixed(2)
         const priceFormatted = `${priceNum} USD`
         const productLink = `${SITE_DOMAIN}/product/${p.slug || p.id}`
-        const imageLink = p.image && p.image.startsWith('http') ? p.image : `${SITE_DOMAIN}${p.image || '/images/pro.jpg'}`
+        const rawImg = p.image_link || p.image || '/images/default.jpg'
+        const imageLink = rawImg.startsWith('http') ? rawImg : `${SITE_DOMAIN}${rawImg}`
 
         return [
-          `"${p.id}"`, `"${p.name || p.title}"`, `"${cleanDesc}"`, `"${productLink}"`, `"${imageLink}"`, '"in_stock"', `"${priceFormatted}"`, '"QuickBooks"', '"new"', '"Home & Garden"'
+          `"${p.id}"`, `"${p.name || p.title}"`, `"${cleanDesc}"`, `"${productLink}"`, `"${imageLink}"`, '"in_stock"', `"${priceFormatted}"`, '"QB Master"', '"new"', '"Home & Garden"'
         ].join(',')
       })
 
@@ -225,7 +216,7 @@ export default function AdminDashboard() {
       const targetProducts = onlyHidden 
         ? allCombinedProducts.filter(p => {
             const slugOrId = p.slug || p.id
-            const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
+            const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : true
             return !isVisible
           })
         : allCombinedProducts
@@ -237,13 +228,13 @@ export default function AdminDashboard() {
 
       const headers = ['id', 'name', 'slug', 'category', 'price', 'status', 'source', 'direct_link']
       const rows = targetProducts.map(p => {
-        const price = p.variants?.[0]?.price || p.price || 0
+        const price = p.price || 49.99
         const name = (p.name || p.title || 'Unknown').replace(/"/g, '""')
         const slug = p.slug || p.id || 'item'
-        const category = p.category || 'General'
+        const category = p.category || 'Home & Garden'
         const slugOrId = p.slug || p.id
-        const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
-        const status = isVisible ? 'Visible on Home' : 'Hidden from Home'
+        const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : true
+        const status = isVisible ? 'Visible on Store' : 'Hidden from Store'
         const link = `${SITE_DOMAIN}/product/${slug}`
 
         return [
@@ -346,7 +337,7 @@ export default function AdminDashboard() {
       const closeMsg = {
         session_id: selectedSession.id,
         sender: 'agent',
-        message: 'This conversation has been closed by live support. Thank you for contacting QB MASTER!',
+        message: 'This conversation has been closed by support. Thank you for contacting QB MASTER!',
         created_at: new Date().toISOString()
       }
 
@@ -401,7 +392,7 @@ export default function AdminDashboard() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Admin Restricted Access</h1>
-            <p className="text-xs text-gray-500 mt-1">Enter your secret password to manage your dashboard.</p>
+            <p className="text-xs text-gray-500 mt-1">Enter password to manage dashboard.</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="relative">
@@ -444,7 +435,7 @@ export default function AdminDashboard() {
           <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-purple-100 shadow-sm">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Admin Control Panel</h1>
-              <p className="text-xs text-gray-500">Universal product manager, live visitor analytics, and real-time support</p>
+              <p className="text-xs text-gray-500">Catalog manager, visitor analytics, and real-time support</p>
             </div>
             <div className="flex items-center gap-2">
               <button 
@@ -472,7 +463,7 @@ export default function AdminDashboard() {
                   : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-100'
               }`}
             >
-              <PackageCheck className="w-4 h-4" /> All Products Manager ({allCombinedProducts.length})
+              <PackageCheck className="w-4 h-4" /> Catalog Manager ({allCombinedProducts.length})
             </button>
 
             <button
@@ -527,10 +518,10 @@ export default function AdminDashboard() {
               <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-b border-purple-100/60 pb-5">
                 <div>
                   <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
-                    <SlidersHorizontal className="w-5 h-5 text-purple-600" /> Catalog & Visibility Control
+                    <SlidersHorizontal className="w-5 h-5 text-purple-600" /> Store Catalog Control
                   </h2>
                   <p className="text-xs text-gray-500 mt-1">
-                    Control store products. Physical products from CSV are displayed on store by default.
+                    Manage active products directly from your verified CSV feed.
                   </p>
                 </div>
                 
@@ -584,8 +575,8 @@ export default function AdminDashboard() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {filteredProductsList.map((p) => {
                     const slugOrId = p.slug || p.id
-                    const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : !p.hidden
-                    const price = p.variants?.[0]?.price || p.price || 0
+                    const isVisible = productVisibility[slugOrId] !== undefined ? productVisibility[slugOrId] : true
+                    const price = p.price || 49.99
                     const directUrl = `/product/${slugOrId}`
 
                     return (
@@ -599,10 +590,8 @@ export default function AdminDashboard() {
                       >
                         <div className="space-y-3">
                           <div className="flex items-center justify-between gap-2">
-                            <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md ${
-                              p.isPhysical ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-700'
-                            }`}>
-                              {p.source}
+                            <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                              Home & Garden
                             </span>
                             
                             <span className={`inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${
@@ -617,13 +606,13 @@ export default function AdminDashboard() {
 
                           <div className="flex items-start gap-3">
                             <img 
-                              src={p.image || '/images/pro.jpg'} 
+                              src={p.image_link || p.image || '/images/default.jpg'} 
                               alt={p.name || p.title} 
                               className="w-14 h-14 object-contain rounded-xl bg-white border border-gray-100 p-1 shrink-0" 
                             />
                             <div className="min-w-0">
                               <h3 className="font-bold text-gray-900 text-xs leading-snug line-clamp-2">{p.name || p.title}</h3>
-                              <p className="text-[11px] font-bold text-purple-700 mt-1">${price}</p>
+                              <p className="text-[11px] font-bold text-purple-700 mt-1">${price} USD</p>
                             </div>
                           </div>
                         </div>
@@ -631,7 +620,7 @@ export default function AdminDashboard() {
                         <div className="mt-4 pt-3 border-t border-gray-100 space-y-2.5">
                           <div className="flex items-center justify-between">
                             <button
-                              onClick={() => toggleProductVisibility(slugOrId, p.hidden)}
+                              onClick={() => toggleProductVisibility(slugOrId)}
                               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                                 isVisible
                                   ? 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200'
@@ -655,7 +644,7 @@ export default function AdminDashboard() {
                                 href={directUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                title="Open product page in new tab"
+                                title="Open product page"
                                 className="p-1.5 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors cursor-pointer"
                               >
                                 <ExternalLink className="w-3.5 h-3.5" />
@@ -909,7 +898,7 @@ export default function AdminDashboard() {
               <div>
                 <h2 className="text-xl font-bold text-gray-900">Google Merchant Center Feed Exporter</h2>
                 <p className="text-xs text-gray-500 mt-1 max-w-md mx-auto">
-                  Export visible store products formatted strictly according to Google Merchant Center specification (USD prices, full URLs, in_stock status).
+                  Export catalog products formatted according to Google Merchant Center Home & Garden specifications.
                 </p>
               </div>
 
