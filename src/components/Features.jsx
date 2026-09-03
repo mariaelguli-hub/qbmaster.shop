@@ -56,7 +56,7 @@ const cardVariants = {
 
 export default function Features() {
   return (
-    <section className="py-16 lg:py-24 bg-white overflow-hidden">
+    <section className="py-16 lg:py-24 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         
         {/* Title Animation */}
@@ -67,7 +67,7 @@ export default function Features() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-extrabold text-gray-900 mb-3">
-            Why thousands choose us
+            Why choose our store
           </h2>
           <p className="text-gray-500 mb-12">
             Everything you need to shop home & garden upgrades with total confidence.
