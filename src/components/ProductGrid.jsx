@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import products from '../data/products.json'
-import { fetchCsvProducts } from '../utils/loadHiddenProducts'
+import productsData from '../data/csvProducts.json'
 import { supabase } from '../utils/supabase'
 import ProductCard from './ProductCard'
 
@@ -13,21 +12,9 @@ export default function ProductGrid() {
     const loadAllProducts = async () => {
       setLoading(true)
 
-      // 1. جلب منتجات الـ CSV (Physical)
-      let csvProds = []
-      try {
-        csvProds = await fetchCsvProducts()
-      } catch (err) {
-        console.error('Failed to load CSV products', err)
-      }
+      const allProducts = Array.isArray(productsData) ? productsData : []
 
-      // 2. ضبط الافتراضي: Physical (CSV) كيبان، والـ Digital (JSON) كيتخبى
-      const allCombined = [
-        ...(csvProds || []).map(p => ({ ...p, hidden: false, isPhysical: true })),
-        ...(products || []).map(p => ({ ...p, hidden: true, isPhysical: false }))
-      ]
-
-      // 3. قراءة الإعدادات المحفوظة من Supabase
+      // قراءة إعدادات الرؤية من Supabase للتحكم فما يظهر فالواجهة
       let visibilityMap = {}
       try {
         const { data } = await supabase
@@ -39,21 +26,19 @@ export default function ProductGrid() {
         if (data && data.value) {
           visibilityMap = data.value
         } else {
-          // Backup fallback من الـ localStorage إيلا مكانش نت
           visibilityMap = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
         }
       } catch (e) {
         console.error('Error fetching visibility settings:', e)
       }
 
-      // 4. فلترة المنتجات حسب إعدادات الـ Admin
-      const filtered = allCombined.filter((p) => {
+      // فلترة المنتجات حسب رغبتك فـ لوحة التحكم
+      const filtered = allProducts.filter((p) => {
         const slugOrId = p.slug || p.id
         if (visibilityMap[slugOrId] !== undefined) {
           return visibilityMap[slugOrId] === true
         }
-        // إيلا ما كاينش تعديل، عرض فقط المنتجات الفيزيائية
-        return !p.hidden
+        return true // افتراضياً معروض للزبون
       })
 
       setVisibleProducts(filtered)
@@ -69,10 +54,10 @@ export default function ProductGrid() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
           <div>
             <h2 className="text-3xl font-extrabold text-gray-900 mb-1">
-              Featured Products
+              Featured Essentials
             </h2>
-            <p className="text-gray-500">
-              Quality home, garden & Garden products — Fast shipping.
+            <p className="text-gray-500 text-sm">
+              Premium home, living & garden essentials — Fast domestic US shipping.
             </p>
           </div>
           <Link
@@ -90,7 +75,7 @@ export default function ProductGrid() {
           </div>
         ) : visibleProducts.length === 0 ? (
           <div className="text-center py-12 text-gray-400 text-sm">
-            No products visible on Home. Turn on "Show on Home" from Admin Dashboard.
+            No products visible on Home. Turn on "Show on Store" from Admin Dashboard.
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
