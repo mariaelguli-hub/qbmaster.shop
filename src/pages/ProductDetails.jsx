@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Check, Zap, ShieldCheck, RefreshCw, Lock, Sparkles, Star, ZoomIn, ShoppingBag, Plus, Minus, CreditCard, Truck, PackageCheck } from 'lucide-react'
-import productsData from '../data/products.json'
-import { fetchCsvProducts } from '../utils/loadHiddenProducts'
+import { ArrowLeft, Check, Zap, ShieldCheck, ZoomIn, ShoppingBag, Plus, Minus, CreditCard, Truck, PackageCheck, Lock, Sparkles } from 'lucide-react'
+import productsData from '../data/csvProducts.json'
 import { useCart } from '../context/CartContext'
 import PayPalButton from '../components/PayPalButton'
 import ProductJsonLd from '../components/ProductJsonLd'
@@ -13,30 +12,29 @@ const whyUsFeatures = [
   {
     id: 0,
     icon: Zap,
-    title: 'Premium Quality Guarantee',
-    desc: 'Tested and verified products crafted from heavy-duty, durable materials.',
+    title: 'Premium Quality Craftsmanship',
+    desc: 'Tested and verified products crafted from heavy-duty, weather-resistant materials.',
   },
   {
     id: 1,
     icon: Truck,
-    title: 'Fast & Tracked Shipping',
-    desc: 'Insured doorstep delivery with real-time tracking updates straight to your home.',
+    title: 'Fast Domestic US Shipping',
+    desc: 'Insured doorstep delivery with real-time tracking updates via USPS / FedEx.',
   },
   {
     id: 2,
     icon: PackageCheck,
-    title: 'Careful Protective Packaging',
-    desc: 'Multi-layer safe box packaging ensuring items arrive in flawless condition.',
+    title: 'Reinforced Safe Packaging',
+    desc: 'Multi-layer box packaging ensuring your items arrive in pristine condition.',
   },
   {
     id: 3,
     icon: ShieldCheck,
     title: '30-Day Money-Back Guarantee',
-    desc: '30-day hassle-free return and refund policy with zero risk.',
+    desc: 'Hassle-free 30-day return policy for complete peace of mind.',
   },
 ]
 
-// دالة مساعدة لإيجاد المنتج بمرونة (Slug, ID, أو مطابقة الاسم)
 function findMatchingProduct(list, query) {
   if (!query || !Array.isArray(list)) return null
   const q = String(query).toLowerCase().trim()
@@ -53,70 +51,24 @@ export default function ProductDetails() {
   const navigate = useNavigate()
   const { addToCart } = useCart()
 
-  // ⚡ إيجاد فوري من productsData
-  const initialFound = findMatchingProduct(productsData, slug)
+  const foundProduct = findMatchingProduct(productsData, slug)
 
   const [product, setProduct] = useState(() => {
-    if (!initialFound) return null
-    const validVariants = (initialFound.variants && initialFound.variants.length > 0)
-      ? initialFound.variants
-      : [{ id: 'default-variant', label: 'Single User', price: Number(initialFound.price || 159.00), comparePrice: Number(initialFound.comparePrice || 685.00), users: 1 }]
-    return { ...initialFound, variants: validVariants }
+    if (!foundProduct) return null
+    return {
+      ...foundProduct,
+      name: foundProduct.title || foundProduct.name,
+      image: foundProduct.image_link || foundProduct.image,
+      price: Number(foundProduct.price || 49.99),
+      description: foundProduct.description || 'Premium home and garden product crafted for durability and everyday use.'
+    }
   })
-  
-  const [loading, setLoading] = useState(!initialFound)
-  const [selectedVariant, setSelectedVariant] = useState(() => product?.variants?.[0] || null)
+
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState(0)
-
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
   const [isHovered, setIsHovered] = useState(false)
   const imgRef = useRef(null)
-
-  useEffect(() => {
-    async function loadProduct() {
-      try {
-        const csvProducts = await fetchCsvProducts()
-        const allProducts = [...productsData, ...(Array.isArray(csvProducts) ? csvProducts : [])]
-        const found = findMatchingProduct(allProducts, slug)
-        
-        if (found) {
-          const validVariants = (found.variants && found.variants.length > 0)
-            ? found.variants
-            : [
-                {
-                  id: 'default-variant',
-                  label: 'Single User',
-                  price: Number(found.price || 159.00),
-                  comparePrice: Number(found.comparePrice || 685.00),
-                  users: 1
-                }
-              ]
-          
-          setProduct({ ...found, variants: validVariants })
-          setSelectedVariant((prev) => prev || validVariants[0])
-        } else if (!initialFound) {
-          // Fallback افتراضي للمنتج باش ما يطلعش Not Found لـ Googlebot أبداً
-          setProduct({
-            id: slug,
-            slug: slug,
-            name: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-            price: 159.00,
-            comparePrice: 685.00,
-            description: 'Genuine QuickBooks Desktop license with instant email delivery.',
-            category: 'Business Software',
-            image: '/images/pro.jpg',
-            variants: [{ id: 'default-variant', label: 'Single User', price: 159.00, comparePrice: 685.00, users: 1 }]
-          })
-        }
-      } catch (err) {
-        console.error('Error loading product:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    loadProduct()
-  }, [slug])
 
   const handleMouseMove = (e) => {
     if (!imgRef.current) return
@@ -133,37 +85,35 @@ export default function ProductDetails() {
     return () => clearInterval(interval)
   }, [])
 
-  const currentProduct = product || initialFound || {
+  const currentProduct = product || {
     id: slug,
     slug: slug,
     name: (slug || 'Product').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-    price: 159.00,
-    comparePrice: 685.00,
-    description: 'Genuine QuickBooks Desktop license with instant email delivery.',
-    category: 'Business Software',
-    image: '/images/pro.jpg'
+    price: 49.99,
+    description: 'High quality home and garden essential with heavy-duty construction.',
+    category: 'Home & Garden',
+    image: '/images/default.jpg'
   }
 
-  const unitPrice = selectedVariant?.price || Number(currentProduct.price || 159.00)
+  const unitPrice = Number(currentProduct.price || 49.99)
   const calculatedTotal = unitPrice * qty
-  const unitPriceFormatted = Number(unitPrice).toFixed(2)
+  const unitPriceFormatted = unitPrice.toFixed(2)
 
   const canonicalUrl = `https://qbmaster.shop/product/${currentProduct.slug || currentProduct.id || slug}`
-  const rawImage = currentProduct.image || '/images/pro.jpg'
+  const rawImage = currentProduct.image || '/images/default.jpg'
   const absoluteImageUrl = rawImage.startsWith('http') 
     ? rawImage 
     : `https://qbmaster.shop${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
 
-  const isOutOfStock = currentProduct.inStock === false || currentProduct.stock === 0 || currentProduct.availability === 'out_of_stock'
+  const isOutOfStock = currentProduct.availability === 'out_of_stock'
   const stockAvailabilityText = isOutOfStock ? 'out of stock' : 'in stock'
 
   const handleAddToCart = () => {
-    addToCart(currentProduct, selectedVariant, qty)
+    addToCart(currentProduct, null, qty)
   }
 
   const handleDirectCheckout = () => {
-    const targetUrl = `/checkout?id=${currentProduct.slug || currentProduct.id}${selectedVariant ? `&variant=${selectedVariant.id}` : ''}`
-    navigate(targetUrl)
+    navigate(`/checkout?id=${currentProduct.slug || currentProduct.id}&qty=${qty}`)
   }
 
   const handlePaymentSuccess = () => {
@@ -171,8 +121,6 @@ export default function ProductDetails() {
   }
 
   const ActiveIcon = whyUsFeatures[activeTab]?.icon || Zap
-  const ratingValue = currentProduct.rating || 4.95
-  const reviewsCount = currentProduct.reviewsCount || 128
 
   return (
     <>
@@ -191,14 +139,13 @@ export default function ProductDetails() {
         <meta property="product:availability" content={stockAvailabilityText} />
       </Helmet>
 
-      {/* 🎯 حقن الـ Schema مباشرة فـ الـ DOM */}
-      <ProductJsonLd product={currentProduct} selectedVariant={selectedVariant} />
+      <ProductJsonLd product={currentProduct} />
       
       <section className="py-12 lg:py-20 bg-purple-50/20 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <Link to="/shop" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-purple-700 mb-6 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to products
+            <ArrowLeft className="w-4 h-4" /> Back to catalog
           </Link>
 
           <div className="grid lg:grid-cols-12 gap-10 items-start">
@@ -215,16 +162,13 @@ export default function ProductDetails() {
                 className="bg-white rounded-3xl border border-purple-100 p-3 flex items-center justify-center shadow-sm relative overflow-hidden cursor-crosshair group min-h-[350px]"
               >
                 <img
-                  src={currentProduct.image || '/images/pro.jpg'}
+                  src={currentProduct.image}
                   alt={currentProduct.name}
                   style={{
                     transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
                     transform: isHovered ? 'scale(2.2)' : 'scale(1)',
                   }}
                   className="w-full h-auto max-h-[480px] object-contain rounded-2xl transition-transform duration-200 ease-out"
-                  onError={(e) => {
-                    e.target.src = `https://placehold.co/400x400/6d28d9/ffffff?text=${encodeURIComponent(currentProduct.category || 'Product')}`
-                  }}
                 />
 
                 <div className={`absolute bottom-3 right-3 bg-gray-900/80 text-white text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 backdrop-blur-xs transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
@@ -232,24 +176,17 @@ export default function ProductDetails() {
                 </div>
               </motion.div>
 
-              {/* Slider Widget */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="bg-white rounded-3xl p-6 shadow-xl shadow-purple-950/5 border border-purple-100/80 relative overflow-hidden"
-              >
+              {/* Quality Commitment Widget */}
+              <div className="bg-white rounded-3xl p-6 shadow-xl shadow-purple-950/5 border border-purple-100/80">
                 <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
-                  <h3 className="font-extrabold text-gray-900 text-base">
-                    Why choose us
-                  </h3>
+                  <h3 className="font-extrabold text-gray-900 text-base">Quality Assurance</h3>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-bold rounded-full border border-purple-200/60">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                    Verified Store
+                    US Domestic Shipping
                   </span>
                 </div>
 
-                <div className="relative min-h-[100px] flex items-center overflow-hidden">
+                <div className="relative min-h-[90px] flex items-center overflow-hidden">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeTab}
@@ -284,13 +221,12 @@ export default function ProductDetails() {
                       />
                     ))}
                   </div>
-
                   <span className="text-[11px] font-bold text-gray-400">0{activeTab + 1} / 0{whyUsFeatures.length}</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
-            {/* Right Side: Details & Variants */}
+            {/* Right Side: Details & Actions */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -298,87 +234,24 @@ export default function ProductDetails() {
               className="lg:col-span-7"
             >
               <div className="flex items-center justify-between mb-2">
-                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{currentProduct.category || 'SOFTWARE'}</div>
+                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">Home & Garden</div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                  Instant Delivery • Lifetime Key
+                  Ready to Ship • Dispatched in 24-48h
                 </span>
               </div>
               
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
                 {currentProduct.name}
               </h1>
 
-              {/* Rating */}
-              <div className="flex items-center gap-2 mb-5">
-                <div className="flex items-center gap-0.5 text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <span className="text-sm font-black text-gray-900">{ratingValue}</span>
-                <span className="text-gray-300">•</span>
-                <span className="text-xs font-semibold text-gray-500 underline decoration-gray-300 underline-offset-4 hover:text-purple-700 transition-colors cursor-pointer">
-                  ({reviewsCount} verified reviews)
-                </span>
+              <div className="text-2xl font-black text-purple-700 mb-4">
+                ${unitPriceFormatted} USD
               </div>
               
               <p className="text-gray-600 leading-relaxed mb-6 text-sm sm:text-base">
                 {currentProduct.description}
               </p>
-
-              {/* VARIANTS SELECTION */}
-              {currentProduct.variants && currentProduct.variants.length > 0 && (
-                <div className="space-y-3 mb-6">
-                  {currentProduct.variants.map((variant) => {
-                    const isSelected = selectedVariant?.id === variant.id
-
-                    return (
-                      <div
-                        key={variant.id}
-                        onClick={() => setSelectedVariant(variant)}
-                        className={`relative flex items-center justify-between p-4 rounded-2xl border-2 transition-all cursor-pointer select-none ${
-                          isSelected
-                            ? 'bg-purple-50/40 border-purple-600 shadow-md shadow-purple-600/10'
-                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50/50'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
-                            isSelected ? 'bg-purple-600 text-white' : 'border border-gray-300'
-                          }`}>
-                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                          </div>
-
-                          <div>
-                            <div className={`font-black text-sm sm:text-base transition-colors ${
-                              isSelected ? 'text-purple-950' : 'text-gray-900'
-                            }`}>
-                              {variant.label}
-                            </div>
-                            <div className="text-xs text-gray-500 mt-0.5 font-medium">
-                              {variant.users || 1} User License
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="text-right">
-                          <div className={`text-xl font-black ${
-                            isSelected ? 'text-purple-700' : 'text-gray-900'
-                          }`}>
-                            ${Number(variant.price).toFixed(2)}
-                          </div>
-                          {variant.comparePrice && (
-                            <div className="text-xs text-gray-400 line-through">
-                              ${Number(variant.comparePrice).toFixed(2)}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
 
               {/* Quantity Controls */}
               <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-200 mb-6">
@@ -426,7 +299,7 @@ export default function ProductDetails() {
               {/* PayPal Button Container */}
               <div id="paypal-button-container" className="bg-white p-5 rounded-3xl border border-purple-100 shadow-lg shadow-purple-900/5 mb-6">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-gray-700">Instant Checkout (PayPal):</span>
+                  <span className="text-xs font-bold text-gray-700">Secure Checkout (PayPal):</span>
                   <span className="text-2xl font-black text-purple-700">
                     ${calculatedTotal.toFixed(2)} USD
                   </span>
@@ -438,93 +311,40 @@ export default function ProductDetails() {
                 />
               </div>
 
-              {/* Payment Badges & Security */}
-              <div className="mt-6 space-y-6">
-                <div>
-                  <div className="flex items-center justify-center gap-1.5 mb-2.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping"></span>
-                    <p className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">
-                      Guaranteed Safe & Secure Checkout
-                    </p>
+              {/* Security & Physical Purchase Guarantee */}
+              <div className="mt-6 space-y-4">
+                <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3 text-xs text-gray-700 shadow-xs">
+                  <div className="flex items-center gap-2 font-bold text-gray-900 pb-2 border-b border-gray-100">
+                    <ShieldCheck className="w-4 h-4 text-purple-600" />
+                    <span>Customer Protection & Logistics</span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2.5">
-                    <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <span className="font-black italic text-[#1A1F71] text-sm tracking-tighter select-none font-sans">
-                        VISA
-                      </span>
+                  <div className="flex items-start gap-3">
+                    <Truck className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-gray-900">Tracked US Shipping</span> — Domestic delivery with live tracking number.
                     </div>
+                  </div>
 
-                    <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <svg className="h-5 w-auto" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="13" cy="12" r="9" fill="#EB001B" />
-                        <circle cx="23" cy="12" r="9" fill="#F79E1B" fillOpacity="0.85" />
-                      </svg>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-gray-900">30-Day Return Policy</span> — Full refund according to our transparent policy.
                     </div>
+                  </div>
 
-                    <div className="h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center shadow-xs hover:border-purple-600 hover:scale-105 transition-all">
-                      <span className="font-black italic text-[#003087] text-sm tracking-tight select-none">
-                        Pay<span className="text-[#0079C1]">Pal</span>
-                      </span>
+                  <div className="flex items-start gap-3">
+                    <PackageCheck className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-gray-900">Inspection & Packaging</span> — All hardware carefully boxed for transit.
                     </div>
                   </div>
                 </div>
 
-                {/* Guarantee Box */}
-                <div className="relative overflow-hidden bg-gradient-to-br from-purple-50/90 via-white to-purple-50/40 border border-purple-200/80 rounded-2xl p-5 shadow-lg shadow-purple-900/5 backdrop-blur-md">
-                  <div className="absolute -right-12 -top-12 w-36 h-36 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  
-                  <div className="relative z-10 flex items-center justify-between mb-4 pb-3 border-b border-purple-100">
-                    <div className="flex items-center gap-2.5">
-                      <div className="p-2 bg-purple-600 text-white rounded-xl shadow-md shadow-purple-600/30">
-                        <ShieldCheck className="w-4 h-4" />
-                      </div>
-                      <h4 className="font-extrabold text-gray-900 text-xs uppercase tracking-wider">
-                        100% Safe & Secure Purchase Guarantee
-                      </h4>
-                    </div>
-                    <Sparkles className="w-4 h-4 text-purple-600 animate-bounce" />
-                  </div>
-
-                  <div className="relative z-10 space-y-3 text-xs text-gray-700">
-                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
-                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
-                        <Zap className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-gray-900">100% Genuine License</span> — Authentic key with lifetime validity.
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
-                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
-                        <ShieldCheck className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-gray-900">30-Day Money-Back Guarantee</span> — Full refund if activation fails.
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 group bg-white/60 p-2.5 rounded-xl border border-purple-100/60 hover:bg-white hover:shadow-sm transition-all">
-                      <div className="mt-0.5 text-purple-600 font-bold bg-purple-100 rounded-full p-1 group-hover:scale-110 transition-transform shadow-xs">
-                        <RefreshCw className="w-3 h-3 animate-spin" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-gray-900">Instant Email Delivery</span> — Delivered in under 2 minutes.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 mt-4 pt-3 border-t border-purple-100/80 flex items-center justify-center gap-1.5 text-[11px] text-gray-500 font-semibold">
-                    <Lock className="w-3.5 h-3.5 text-purple-600" />
-                    <span>Secure checkout</span>
-                    <span className="text-purple-400">•</span>
-                    <span>Encrypted payments</span>
-                    <span className="text-purple-400">•</span>
-                    <span>Trusted by thousands</span>
-                  </div>
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-400 font-semibold">
+                  <Lock className="w-3.5 h-3.5 text-purple-600" />
+                  <span>256-bit SSL Encrypted Checkout</span>
                 </div>
-
               </div>
 
             </motion.div>
