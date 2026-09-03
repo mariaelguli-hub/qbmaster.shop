@@ -16,7 +16,7 @@ function AnimatedNumber({ target, decimals = 0, suffix = '' }) {
 
     const animate = (currentTime) => {
       if (!startTime) startTime = currentTime
-      const progress = Math.min((currentTime - startTime) / 2000, 1) // مدة الأنيميشن: 2 ثواني
+      const progress = Math.min((currentTime - startTime) / 2000, 1)
       
       const easeOut = 1 - Math.pow(1 - progress, 3)
       setCount(easeOut * target)
@@ -40,17 +40,17 @@ function AnimatedNumber({ target, decimals = 0, suffix = '' }) {
 
 export default function TrustBadges() {
   return (
-    <section className="py-12 bg-gradient-to-b from-white via-purple-50/20 to-white border-y border-purple-100/60 relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-b from-white via-purple-50/20 to-white border-y border-purple-100/60 relative overflow-hidden font-sans">
       
       {/* Background Subtle Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[150px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* 🔢 4 Big Numbers Stats Grid */}
+        {/* 🔢 4 Operational Performance Numbers Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-10">
           
-          {/* Card 1: 100% Quality */}
+          {/* Card 1: 100% Insured */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -63,11 +63,11 @@ export default function TrustBadges() {
               <AnimatedNumber target={100} suffix="%" />
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Premium Quality
+              Insured US Shipping
             </div>
           </motion.div>
 
-          {/* Card 2: 4.9★ Rating */}
+          {/* Card 2: 30 Days Trial */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -77,14 +77,14 @@ export default function TrustBadges() {
             className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
             <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
-              <AnimatedNumber target={4.9} decimals={1} suffix="★" />
+              <AnimatedNumber target={30} suffix=" Days" />
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Customer Rating
+              Return Guarantee
             </div>
           </motion.div>
 
-          {/* Card 3: 1,500+ Happy Homes */}
+          {/* Card 3: 24-48h Dispatch */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -94,10 +94,10 @@ export default function TrustBadges() {
             className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl hover:shadow-purple-950/5 hover:border-purple-500/30 transition-all duration-300 text-center group"
           >
             <div className="text-3xl sm:text-4xl font-black text-purple-600 group-hover:scale-105 transition-transform font-mono tracking-tight mb-1">
-              <AnimatedNumber target={1500} suffix="+" />
+              24-48h
             </div>
             <div className="text-xs sm:text-sm font-extrabold text-gray-600 group-hover:text-purple-900 transition-colors">
-              Happy Homes
+              Order Dispatch
             </div>
           </motion.div>
 
@@ -126,20 +126,20 @@ export default function TrustBadges() {
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-bold text-gray-700">
             <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
-              <Lock className="w-4 h-4 text-purple-600 shrink-0" /> SSL Secured
+              <Lock className="w-4 h-4 text-purple-600 shrink-0" /> 256-Bit SSL Encrypted
             </span>
             <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
-              <ShieldCheck className="w-4 h-4 text-purple-600 shrink-0" /> Secure Payment
+              <ShieldCheck className="w-4 h-4 text-purple-600 shrink-0" /> Verified Checkout
             </span>
             <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
               <RotateCcw className="w-4 h-4 text-purple-600 shrink-0" /> 30-Day Money-Back
             </span>
             <span className="flex items-center gap-1.5 hover:text-purple-700 transition-colors">
-              <Truck className="w-4 h-4 text-purple-600 shrink-0" /> Fast Insured Shipping
+              <Truck className="w-4 h-4 text-purple-600 shrink-0" /> Tracked US Delivery
             </span>
           </div>
 
-          {/* Payment Method Badges (Only Supported Gateways) */}
+          {/* Payment Method Badges */}
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs font-bold text-gray-400 mr-1 hidden sm:inline">We accept:</span>
             
