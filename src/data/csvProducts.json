@@ -7,9 +7,9 @@
     "category": "Outdoor",
     "description": "Classic blown clay pot designed for indoor and outdoor plants with natural drainage.",
     "price": 9.99,
-    "image": "https://qbmaster.shop/products/clay-plant-pot.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/clay-plant-pot.jpg",
     "images": [
-      "https://qbmaster.shop/products/clay-plant-pot.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/clay-plant-pot.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -23,9 +23,9 @@
     "category": "Indoor",
     "description": "Minimalist copper bedside and accent reading light fixture.",
     "price": 59.99,
-    "image": "https://qbmaster.shop/products/copper-light.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/copper-light.jpg",
     "images": [
-      "https://qbmaster.shop/products/copper-light.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/copper-light.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -39,9 +39,9 @@
     "category": "Indoor",
     "description": "Comfortable 3-person upholstered cream fabric living room sofa.",
     "price": 289.99,
-    "image": "https://qbmaster.shop/products/cream-sofa.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/cream-sofa.jpg",
     "images": [
-      "https://qbmaster.shop/products/cream-sofa.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/cream-sofa.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -55,9 +55,9 @@
     "category": "Indoor",
     "description": "Set of 3 rustic white wooden storage drawers for bedroom or hallway.",
     "price": 49.99,
-    "image": "https://qbmaster.shop/products/antique-drawers.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/antique-drawers.jpg",
     "images": [
-      "https://qbmaster.shop/products/antique-drawers.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/antique-drawers.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -71,9 +71,9 @@
     "category": "Indoor",
     "description": "Breathable 100% white cotton sheets for standard double and queen beds.",
     "price": 29.99,
-    "image": "https://qbmaster.shop/products/white-bed-clothes.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/white-bed-clothes.jpg",
     "images": [
-      "https://qbmaster.shop/products/white-bed-clothes.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/white-bed-clothes.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -87,9 +87,9 @@
     "category": "Indoor",
     "description": "Soft cushioned pink accent lounge armchair with durable wooden legs.",
     "price": 129.99,
-    "image": "https://qbmaster.shop/products/pink-armchair.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/pink-armchair.jpg",
     "images": [
-      "https://qbmaster.shop/products/pink-armchair.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/pink-armchair.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -103,9 +103,9 @@
     "category": "Outdoor",
     "description": "Solid patio and garden table with weather-resistant iron legs.",
     "price": 89.99,
-    "image": "https://qbmaster.shop/products/wooden-outdoor-table.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/wooden-outdoor-table.jpg",
     "images": [
-      "https://qbmaster.shop/products/wooden-outdoor-table.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/wooden-outdoor-table.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -119,9 +119,9 @@
     "category": "Indoor",
     "description": "Set of 2 soft brown accent pillows for living room sofa or bedding.",
     "price": 19.99,
-    "image": "https://qbmaster.shop/products/brown-throw-pillows.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/brown-throw-pillows.jpg",
     "images": [
-      "https://qbmaster.shop/products/brown-throw-pillows.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/brown-throw-pillows.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -135,9 +135,9 @@
     "category": "Outdoor",
     "description": "Glazed white decorative ceramic planter suitable for indoor and patio greenery.",
     "price": 14.99,
-    "image": "https://qbmaster.shop/products/white-ceramic-pot.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/white-ceramic-pot.jpg",
     "images": [
-      "https://qbmaster.shop/products/white-ceramic-pot.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/white-ceramic-pot.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -151,9 +151,9 @@
     "category": "Outdoor",
     "description": "Vintage styled durable coated metal watering can for home garden use.",
     "price": 12.99,
-    "image": "https://qbmaster.shop/products/yellow-watering-can.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/yellow-watering-can.jpg",
     "images": [
-      "https://qbmaster.shop/products/yellow-watering-can.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/yellow-watering-can.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -167,9 +167,9 @@
     "category": "Outdoor",
     "description": "Heavy-duty ergonomic steel garden trowel with natural wooden handle.",
     "price": 8.99,
-    "image": "https://qbmaster.shop/products/gardening-hand-trowel.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/gardening-hand-trowel.jpg",
     "images": [
-      "https://qbmaster.shop/products/gardening-hand-trowel.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/gardening-hand-trowel.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -183,9 +183,9 @@
     "category": "Outdoor",
     "description": "Pack of 12 organic biodegradable starter seedling pots for gardening.",
     "price": 6.99,
-    "image": "https://qbmaster.shop/products/biodegradable-cardboard-pots.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/biodegradable-cardboard-pots.jpg",
     "images": [
-      "https://qbmaster.shop/products/biodegradable-cardboard-pots.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/biodegradable-cardboard-pots.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -199,9 +199,9 @@
     "category": "Indoor",
     "description": "Modern dark grey 3-seater couch with supportive high-density cushions.",
     "price": 349.99,
-    "image": "https://qbmaster.shop/products/grey-sofa.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/grey-sofa.jpg",
     "images": [
-      "https://qbmaster.shop/products/grey-sofa.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/grey-sofa.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -215,9 +215,9 @@
     "category": "Outdoor",
     "description": "Decorative vertical wood slat trellis panel for garden plants and wall decor.",
     "price": 39.99,
-    "image": "https://qbmaster.shop/products/wooden-outdoor-slats.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/wooden-outdoor-slats.jpg",
     "images": [
-      "https://qbmaster.shop/products/wooden-outdoor-slats.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/wooden-outdoor-slats.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -231,9 +231,9 @@
     "category": "Outdoor",
     "description": "White modular garden border picket fence panel for pathway borders.",
     "price": 24.99,
-    "image": "https://qbmaster.shop/products/wooden-fence.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/wooden-fence.jpg",
     "images": [
-      "https://qbmaster.shop/products/wooden-fence.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/wooden-fence.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -247,9 +247,9 @@
     "category": "Indoor",
     "description": "Mid-century 2-seater upholstered loveseat sofa in warm yellow.",
     "price": 229.99,
-    "image": "https://qbmaster.shop/products/yellow-sofa.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/yellow-sofa.jpg",
     "images": [
-      "https://qbmaster.shop/products/yellow-sofa.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/yellow-sofa.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -263,9 +263,9 @@
     "category": "Indoor",
     "description": "Chunky hand-knitted accent cushion cover for living room sofas.",
     "price": 22.99,
-    "image": "https://qbmaster.shop/products/knitted-throw-pillows.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/knitted-throw-pillows.jpg",
     "images": [
-      "https://qbmaster.shop/products/knitted-throw-pillows.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/knitted-throw-pillows.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -279,9 +279,9 @@
     "category": "Indoor",
     "description": "Hand-poured natural soy wax candle infused with pure vanilla aroma.",
     "price": 11.99,
-    "image": "https://qbmaster.shop/products/vanilla-candle.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/vanilla-candle.jpg",
     "images": [
-      "https://qbmaster.shop/products/vanilla-candle.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/vanilla-candle.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -295,9 +295,9 @@
     "category": "Indoor",
     "description": "Ergonomic oversized black lounge bean bag chair with supportive fill.",
     "price": 44.99,
-    "image": "https://qbmaster.shop/products/black-beanbag.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/black-beanbag.jpg",
     "images": [
-      "https://qbmaster.shop/products/black-beanbag.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/black-beanbag.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
@@ -311,9 +311,9 @@
     "category": "Indoor",
     "description": "Minimalist wooden Scandinavian nightstand and side table with storage shelf.",
     "price": 64.99,
-    "image": "https://qbmaster.shop/products/bedside-table.jpg",
+    "image": "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/bedside-table.jpg",
     "images": [
-      "https://qbmaster.shop/products/bedside-table.jpg"
+      "https://cdn.jsdelivr.net/gh/mariaelguli-hub/qbmaster.shop@main/public/products/bedside-table.jpg"
     ],
     "availability": "in_stock",
     "condition": "new",
