@@ -68,14 +68,14 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-gray-400 shrink-0" />
-                <a href="tel:+493028094878" className="hover:text-purple-700 transition-colors">
-                  +493028094878
+                <a href="tel:+1 (571) 340-7798" className="hover:text-purple-700 transition-colors">
+                  +1 (571) 340-7798
                 </a>
               </div>
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                 <span className="text-xs leading-relaxed text-gray-500">
-                  Torstraße 42, 10119 Berlin, Germany
+                  2236 Loftin Rd, Denton, NC 27239-8752, united states
                 </span>
               </div>
             </div>
