@@ -5,16 +5,12 @@ import { supabase } from '../utils/supabase'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid() {
-  const [visibleProducts, setVisibleProducts] = useState([])
-  const [loading, setLoading] = useState(true)
+  // عرض المنتجات فوراً عند أول رندر لتفادي شاشة التحميل ومساعدة روبوتات جوجل
+  const allProducts = Array.isArray(productsData) ? productsData : []
+  const [visibleProducts, setVisibleProducts] = useState(allProducts)
 
   useEffect(() => {
-    const loadAllProducts = async () => {
-      setLoading(true)
-
-      const allProducts = Array.isArray(productsData) ? productsData : []
-
-      // قراءة إعدادات الرؤية من Supabase للتحكم فما يظهر فالواجهة
+    const checkVisibility = async () => {
       let visibilityMap = {}
       try {
         const { data } = await supabase
@@ -28,28 +24,25 @@ export default function ProductGrid() {
         } else {
           visibilityMap = JSON.parse(localStorage.getItem('qb_products_visibility') || '{}')
         }
-      } catch (e) {
-        console.error('Error fetching visibility settings:', e)
-      }
 
-      // فلترة المنتجات حسب رغبتك فـ لوحة التحكم
-      const filtered = allProducts.filter((p) => {
-        const slugOrId = p.slug || p.id
-        if (visibilityMap[slugOrId] !== undefined) {
-          return visibilityMap[slugOrId] === true
+        // فلترة المنتجات إيلا كان الأدمن مخصص إعدادات معينة
+        if (Object.keys(visibilityMap).length > 0) {
+          const filtered = allProducts.filter((p) => {
+            const key = p.slug || p.id
+            return visibilityMap[key] !== false // افتراضياً معروض إلا إذا تعطل عمداً
+          })
+          setVisibleProducts(filtered)
         }
-        return true // افتراضياً معروض للزبون
-      })
-
-      setVisibleProducts(filtered)
-      setLoading(false)
+      } catch (e) {
+        console.warn('Could not sync visibility settings, showing default feed:', e)
+      }
     }
 
-    loadAllProducts()
+    checkVisibility()
   }, [])
 
   return (
-    <section className="py-16 lg:py-24 bg-purple-50/20">
+    <section className="py-16 lg:py-24 bg-purple-50/20 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
           <div>
@@ -69,11 +62,7 @@ export default function ProductGrid() {
           </Link>
         </div>
 
-        {loading ? (
-          <div className="text-center py-12 text-gray-400 text-sm">
-            Loading products...
-          </div>
-        ) : visibleProducts.length === 0 ? (
+        {visibleProducts.length === 0 ? (
           <div className="text-center py-12 text-gray-400 text-sm">
             No products visible on Home. Turn on "Show on Store" from Admin Dashboard.
           </div>
