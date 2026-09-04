@@ -1,592 +1,322 @@
 [
   {
-    "id": "shopify-csv-1",
+    "id": "QBM-001",
     "slug": "clay-plant-pot",
     "name": "Clay Plant Pot",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 35,
-    "description": "Classic blown clay pot for plants",
+    "description": "Classic blown clay pot designed for indoor and outdoor plants with natural drainage.",
     "price": 9.99,
-    "comparePrice": 13.99,
-    "image": "https://burst.shopifycdn.com/photos/single-sprout-in-a-pot_925x.jpg",
+    "image": "https://qbmaster.shop/products/clay-plant-pot.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/single-sprout-in-a-pot_925x.jpg",
-      "https://burst.shopifycdn.com/photos/pot-with-a-single-sprout_925x.jpg"
+      "https://qbmaster.shop/products/clay-plant-pot.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-1-1",
-        "label": "Regular",
-        "price": 9.99,
-        "comparePrice": 13.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      },
-      {
-        "id": "var-shopify-csv-1-2",
-        "label": "Large",
-        "price": 15.99,
-        "comparePrice": 22.39,
-        "users": 1,
-        "bestselling": false,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-2",
+    "id": "QBM-002",
     "slug": "copper-light",
     "name": "Copper Light",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 38,
-    "description": "Stylish copper bedside light",
+    "description": "Minimalist copper bedside and accent reading light fixture.",
     "price": 59.99,
-    "comparePrice": 75.0,
-    "image": "https://burst.shopifycdn.com/photos/copper-light-in-bedroom_925x.jpg",
+    "image": "https://qbmaster.shop/products/copper-light.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/copper-light-in-bedroom_925x.jpg"
+      "https://qbmaster.shop/products/copper-light.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-2-1",
-        "label": "Standard",
-        "price": 59.99,
-        "comparePrice": 75.0,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-3",
+    "id": "QBM-003",
     "slug": "cream-sofa",
     "name": "Cream Sofa",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 41,
-    "description": "Comfortable 3 person cream-colored sofa",
+    "description": "Comfortable 3-person upholstered cream fabric living room sofa.",
     "price": 289.99,
-    "comparePrice": 405.99,
-    "image": "https://burst.shopifycdn.com/photos/condominium-interior-livingroom_925x.jpg",
+    "image": "https://qbmaster.shop/products/cream-sofa.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/condominium-interior-livingroom_925x.jpg"
+      "https://qbmaster.shop/products/cream-sofa.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-3-1",
-        "label": "Standard",
-        "price": 289.99,
-        "comparePrice": 405.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-4",
+    "id": "QBM-004",
     "slug": "antique-drawers",
     "name": "Antique Drawers",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 44,
-    "description": "Set of 3 rustic white painted wooden drawers",
+    "description": "Set of 3 rustic white wooden storage drawers for bedroom or hallway.",
     "price": 49.99,
-    "comparePrice": 69.99,
-    "image": "https://burst.shopifycdn.com/photos/babys-room_925x.jpg",
+    "image": "https://qbmaster.shop/products/antique-drawers.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/babys-room_925x.jpg"
+      "https://qbmaster.shop/products/antique-drawers.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-4-1",
-        "label": "Standard",
-        "price": 49.99,
-        "comparePrice": 69.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-5",
+    "id": "QBM-005",
     "slug": "white-bed-clothes",
     "name": "White Bed Clothes",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 47,
-    "description": "Hotel quality 100% white cotton sheets",
+    "description": "Breathable 100% white cotton sheets for standard double and queen beds.",
     "price": 29.99,
-    "comparePrice": 41.99,
-    "image": "https://burst.shopifycdn.com/photos/bright-hotel-room-bed_925x.jpg",
+    "image": "https://qbmaster.shop/products/white-bed-clothes.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/bright-hotel-room-bed_925x.jpg"
+      "https://qbmaster.shop/products/white-bed-clothes.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-5-1",
-        "label": "Standard",
-        "price": 29.99,
-        "comparePrice": 41.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-6",
+    "id": "QBM-006",
     "slug": "pink-armchair",
     "name": "Pink Armchair",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 50,
-    "description": "Soft pink cushioned armchair in stately salon",
+    "description": "Soft cushioned pink accent lounge armchair with durable wooden legs.",
     "price": 129.99,
-    "comparePrice": 181.99,
-    "image": "https://burst.shopifycdn.com/photos/soft-pink-cushioned-armchair-in-stately-salon_925x.jpg",
+    "image": "https://qbmaster.shop/products/pink-armchair.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/soft-pink-cushioned-armchair-in-stately-salon_925x.jpg"
+      "https://qbmaster.shop/products/pink-armchair.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-6-1",
-        "label": "Standard",
-        "price": 129.99,
-        "comparePrice": 181.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-7",
+    "id": "QBM-007",
     "slug": "wooden-outdoor-table",
     "name": "Wooden Outdoor Table",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 53,
-    "description": "Solid cafe style patio table with iron legs",
+    "description": "Solid patio and garden table with weather-resistant iron legs.",
     "price": 89.99,
-    "comparePrice": 125.99,
-    "image": "https://burst.shopifycdn.com/photos/cafe-patio_925x.jpg",
+    "image": "https://qbmaster.shop/products/wooden-outdoor-table.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/cafe-patio_925x.jpg"
+      "https://qbmaster.shop/products/wooden-outdoor-table.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-7-1",
-        "label": "Standard",
-        "price": 89.99,
-        "comparePrice": 125.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-8",
+    "id": "QBM-008",
     "slug": "brown-throw-pillows",
     "name": "Brown Throw Pillows",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 56,
-    "description": "Pair of brown accent pillows for living room or bedroom",
+    "description": "Set of 2 soft brown accent pillows for living room sofa or bedding.",
     "price": 19.99,
-    "comparePrice": 27.99,
-    "image": "https://burst.shopifycdn.com/photos/bedroom-bed-with-brown-throw-pillows_925x.jpg",
+    "image": "https://qbmaster.shop/products/brown-throw-pillows.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/bedroom-bed-with-brown-throw-pillows_925x.jpg"
+      "https://qbmaster.shop/products/brown-throw-pillows.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-8-1",
-        "label": "Standard",
-        "price": 19.99,
-        "comparePrice": 27.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-9",
+    "id": "QBM-009",
     "slug": "white-ceramic-pot",
     "name": "White Ceramic Pot",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 59,
-    "description": "Glazed white ceramic planter pot for houseplants",
+    "description": "Glazed white decorative ceramic planter suitable for indoor and patio greenery.",
     "price": 14.99,
-    "comparePrice": 20.99,
-    "image": "https://burst.shopifycdn.com/photos/house-plant-in-white-pot_925x.jpg",
+    "image": "https://qbmaster.shop/products/white-ceramic-pot.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/house-plant-in-white-pot_925x.jpg"
+      "https://qbmaster.shop/products/white-ceramic-pot.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-9-1",
-        "label": "Standard",
-        "price": 14.99,
-        "comparePrice": 20.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-10",
+    "id": "QBM-010",
     "slug": "yellow-watering-can",
-    "name": "Yellow watering can",
+    "name": "Yellow Watering Can",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 62,
-    "description": "Bright yellow vintage metal watering can",
+    "description": "Vintage styled durable coated metal watering can for home garden use.",
     "price": 12.99,
-    "comparePrice": 18.19,
-    "image": "https://burst.shopifycdn.com/photos/flowers-in-yellow-watering-can_925x.jpg",
+    "image": "https://qbmaster.shop/products/yellow-watering-can.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/flowers-in-yellow-watering-can_925x.jpg"
+      "https://qbmaster.shop/products/yellow-watering-can.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-10-1",
-        "label": "Standard",
-        "price": 12.99,
-        "comparePrice": 18.19,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-11",
+    "id": "QBM-011",
     "slug": "gardening-hand-trowel",
-    "name": "Gardening hand trowel",
+    "name": "Gardening Hand Trowel",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 65,
-    "description": "Classic wooden handle steel gardening hand trowel",
+    "description": "Heavy-duty ergonomic steel garden trowel with natural wooden handle.",
     "price": 8.99,
-    "comparePrice": 12.59,
-    "image": "https://burst.shopifycdn.com/photos/spring-gardening-set-up_925x.jpg",
+    "image": "https://qbmaster.shop/products/gardening-hand-trowel.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/spring-gardening-set-up_925x.jpg"
+      "https://qbmaster.shop/products/gardening-hand-trowel.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-11-1",
-        "label": "Standard",
-        "price": 8.99,
-        "comparePrice": 12.59,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-12",
+    "id": "QBM-012",
     "slug": "biodegradable-cardboard-pots",
-    "name": "Biodegradable cardboard pots",
+    "name": "Biodegradable Cardboard Pots",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 68,
-    "description": "Pack of 12 eco-friendly starter seedling pots",
+    "description": "Pack of 12 organic biodegradable starter seedling pots for gardening.",
     "price": 6.99,
-    "comparePrice": 9.79,
-    "image": "https://burst.shopifycdn.com/photos/potted-seeds_925x.jpg",
+    "image": "https://qbmaster.shop/products/biodegradable-cardboard-pots.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/potted-seeds_925x.jpg"
+      "https://qbmaster.shop/products/biodegradable-cardboard-pots.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-12-1",
-        "label": "Standard",
-        "price": 6.99,
-        "comparePrice": 9.79,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-13",
+    "id": "QBM-013",
     "slug": "grey-sofa",
     "name": "Grey Sofa",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 71,
-    "description": "Modern dark grey 3-seater living room couch",
+    "description": "Modern dark grey 3-seater couch with supportive high-density cushions.",
     "price": 349.99,
-    "comparePrice": 489.99,
-    "image": "https://burst.shopifycdn.com/photos/large-grey-sofa-by-brick-wall_925x.jpg",
+    "image": "https://qbmaster.shop/products/grey-sofa.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/large-grey-sofa-by-brick-wall_925x.jpg"
+      "https://qbmaster.shop/products/grey-sofa.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-13-1",
-        "label": "Standard",
-        "price": 349.99,
-        "comparePrice": 489.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-14",
+    "id": "QBM-014",
     "slug": "wooden-outdoor-slats",
-    "name": "Wooden outdoor slats",
+    "name": "Wooden Outdoor Slats",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 74,
-    "description": "Decorative vertical wooden slat trellis wall panel",
+    "description": "Decorative vertical wood slat trellis panel for garden plants and wall decor.",
     "price": 39.99,
-    "comparePrice": 55.99,
-    "image": "https://burst.shopifycdn.com/photos/house-plant-on-wooden-slat-wall_925x.jpg",
+    "image": "https://qbmaster.shop/products/wooden-outdoor-slats.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/house-plant-on-wooden-slat-wall_925x.jpg"
+      "https://qbmaster.shop/products/wooden-outdoor-slats.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-14-1",
-        "label": "Standard",
-        "price": 39.99,
-        "comparePrice": 55.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-15",
+    "id": "QBM-015",
     "slug": "wooden-fence",
     "name": "Wooden Fence",
+    "brand": "QB Master",
     "category": "Outdoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 77,
-    "description": "White garden border picket fence panel",
+    "description": "White modular garden border picket fence panel for pathway borders.",
     "price": 24.99,
-    "comparePrice": 34.99,
-    "image": "https://burst.shopifycdn.com/photos/picket-fence-flowers_925x.jpg",
+    "image": "https://qbmaster.shop/products/wooden-fence.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/picket-fence-flowers_925x.jpg"
+      "https://qbmaster.shop/products/wooden-fence.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-15-1",
-        "label": "Standard",
-        "price": 24.99,
-        "comparePrice": 34.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-16",
+    "id": "QBM-016",
     "slug": "yellow-sofa",
     "name": "Yellow Sofa",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 80,
-    "description": "Vibrant yellow fabric 2-seater mid-century loveseat",
+    "description": "Mid-century 2-seater upholstered loveseat sofa in warm yellow.",
     "price": 229.99,
-    "comparePrice": 321.99,
-    "image": "https://burst.shopifycdn.com/photos/yellow-couch-by-black-and-white-mural_925x.jpg",
+    "image": "https://qbmaster.shop/products/yellow-sofa.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/yellow-couch-by-black-and-white-mural_925x.jpg"
+      "https://qbmaster.shop/products/yellow-sofa.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-16-1",
-        "label": "Standard",
-        "price": 229.99,
-        "comparePrice": 321.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-17",
+    "id": "QBM-017",
     "slug": "knitted-throw-pillows",
     "name": "Knitted Throw Pillows",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 83,
-    "description": "Chunky hand-knitted accent cushion cover",
+    "description": "Chunky hand-knitted accent cushion cover for living room sofas.",
     "price": 22.99,
-    "comparePrice": 32.19,
-    "image": "https://burst.shopifycdn.com/photos/yellow-sofa-with-throw-pillows_925x.jpg",
+    "image": "https://qbmaster.shop/products/knitted-throw-pillows.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/yellow-sofa-with-throw-pillows_925x.jpg"
+      "https://qbmaster.shop/products/knitted-throw-pillows.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-17-1",
-        "label": "Standard",
-        "price": 22.99,
-        "comparePrice": 32.19,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-18",
+    "id": "QBM-018",
     "slug": "vanilla-candle",
-    "name": "Vanilla candle",
+    "name": "Vanilla Candle",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 86,
-    "description": "Natural soy wax hand-poured fragrant vanilla candle",
+    "description": "Hand-poured natural soy wax candle infused with pure vanilla aroma.",
     "price": 11.99,
-    "comparePrice": 16.79,
-    "image": "https://burst.shopifycdn.com/photos/diy-organic-candle_925x.jpg",
+    "image": "https://qbmaster.shop/products/vanilla-candle.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/diy-organic-candle_925x.jpg"
+      "https://qbmaster.shop/products/vanilla-candle.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-18-1",
-        "label": "Standard",
-        "price": 11.99,
-        "comparePrice": 16.79,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-19",
+    "id": "QBM-019",
     "slug": "black-beanbag",
     "name": "Black Beanbag",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 89,
-    "description": "Ergonomic oversized black lounge bean bag chair",
+    "description": "Ergonomic oversized black lounge bean bag chair with supportive fill.",
     "price": 44.99,
-    "comparePrice": 62.99,
-    "image": "https://burst.shopifycdn.com/photos/comfortable-living-room-cat_925x.jpg",
+    "image": "https://qbmaster.shop/products/black-beanbag.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/comfortable-living-room-cat_925x.jpg"
+      "https://qbmaster.shop/products/black-beanbag.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-19-1",
-        "label": "Standard",
-        "price": 44.99,
-        "comparePrice": 62.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   },
   {
-    "id": "shopify-csv-20",
+    "id": "QBM-020",
     "slug": "bedside-table",
     "name": "Bedside Table",
+    "brand": "QB Master",
     "category": "Indoor",
-    "tag": "Verified Quality",
-    "rating": 4.92,
-    "reviewsCount": 92,
-    "description": "Minimalist Scandinavian wooden nightstand table",
+    "description": "Minimalist wooden Scandinavian nightstand and side table with storage shelf.",
     "price": 64.99,
-    "comparePrice": 90.99,
-    "image": "https://burst.shopifycdn.com/photos/dark-wall-bedside-table_925x.jpg",
+    "image": "https://qbmaster.shop/products/bedside-table.jpg",
     "images": [
-      "https://burst.shopifycdn.com/photos/dark-wall-bedside-table_925x.jpg"
+      "https://qbmaster.shop/products/bedside-table.jpg"
     ],
-    "hidden": false,
-    "isPhysical": true,
-    "variants": [
-      {
-        "id": "var-20-1",
-        "label": "Standard",
-        "price": 64.99,
-        "comparePrice": 90.99,
-        "users": 1,
-        "bestselling": true,
-        "paymentLink": "#"
-      }
-    ]
+    "availability": "in_stock",
+    "condition": "new",
+    "isPhysical": true
   }
 ]
