@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Check, Zap, ShieldCheck, ZoomIn, ShoppingBag, Plus, Minus, CreditCard, Truck, PackageCheck, Lock, Sparkles } from 'lucide-react'
+import { ArrowLeft, Check, Zap, ShieldCheck, ZoomIn, ShoppingBag, Plus, Minus, CreditCard, Truck, PackageCheck, Lock } from 'lucide-react'
 import productsData from '../data/csvProducts.json'
 import { useCart } from '../context/CartContext'
 import PayPalButton from '../components/PayPalButton'
@@ -51,18 +51,31 @@ export default function ProductDetails() {
   const navigate = useNavigate()
   const { addToCart } = useCart()
 
-  const foundProduct = findMatchingProduct(productsData, slug)
-
   const [product, setProduct] = useState(() => {
-    if (!foundProduct) return null
+    const found = findMatchingProduct(productsData, slug)
+    if (!found) return null
     return {
-      ...foundProduct,
-      name: foundProduct.title || foundProduct.name,
-      image: foundProduct.image_link || foundProduct.image,
-      price: Number(foundProduct.price || 49.99),
-      description: foundProduct.description || 'Premium home and garden product crafted for durability and everyday use.'
+      ...found,
+      name: found.name || found.title,
+      image: found.image || found.image_link,
+      price: Number(found.price || 49.99),
+      description: found.description || 'Premium home and garden product crafted for durability and everyday use.'
     }
   })
+
+  // تحديث بيانات المنتج تلقائياً عند تغيير رابط الصفحة
+  useEffect(() => {
+    const found = findMatchingProduct(productsData, slug)
+    if (found) {
+      setProduct({
+        ...found,
+        name: found.name || found.title,
+        image: found.image || found.image_link,
+        price: Number(found.price || 49.99),
+        description: found.description || 'Premium home and garden product crafted for durability and everyday use.'
+      })
+    }
+  }, [slug])
 
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState(0)
@@ -92,7 +105,7 @@ export default function ProductDetails() {
     price: 49.99,
     description: 'High quality home and garden essential with heavy-duty construction.',
     category: 'Home & Garden',
-    image: '/images/default.jpg'
+    image: '/products/clay-plant-pot.jpg'
   }
 
   const unitPrice = Number(currentProduct.price || 49.99)
@@ -100,7 +113,7 @@ export default function ProductDetails() {
   const unitPriceFormatted = unitPrice.toFixed(2)
 
   const canonicalUrl = `https://qbmaster.shop/product/${currentProduct.slug || currentProduct.id || slug}`
-  const rawImage = currentProduct.image || '/images/default.jpg'
+  const rawImage = currentProduct.image || '/products/clay-plant-pot.jpg'
   const absoluteImageUrl = rawImage.startsWith('http') 
     ? rawImage 
     : `https://qbmaster.shop${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
@@ -234,7 +247,7 @@ export default function ProductDetails() {
               className="lg:col-span-7"
             >
               <div className="flex items-center justify-between mb-2">
-                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">Home & Garden</div>
+                <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">{currentProduct.category || 'Home & Garden'}</div>
                 <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
                   Ready to Ship • Dispatched in 24-48h
