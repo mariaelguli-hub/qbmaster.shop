@@ -123,7 +123,7 @@ export default function Contact() {
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Phone Support</div>
                 <p className="text-xs text-gray-500 mb-2">Mon - Sat from 9am to 6pm EST.</p>
-                <span className="text-sm font-semibold text-gray-800">+493028094878</span>
+                <span className="text-sm font-semibold text-gray-800">+1 (571) 340-7798</span>
               </div>
 
               <div className="bg-white p-6 rounded-3xl border border-purple-100 shadow-xl shadow-purple-950/5">
@@ -132,8 +132,8 @@ export default function Contact() {
                 </div>
                 <div className="font-bold text-gray-900 text-sm mb-1">Office Address</div>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Torstraße 42, 10119,<br />
-                  Berlin, Allemagne
+                  2236 Loftin Rd,<br />
+                  Denton, NC 27239-8752, United States
                 </p>
               </div>
             </div>
