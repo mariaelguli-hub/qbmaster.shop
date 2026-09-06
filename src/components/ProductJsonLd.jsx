@@ -25,6 +25,7 @@ export default function ProductJsonLd({ product, selectedVariant }) {
 
   const productUrl = `${baseUrl}/product/${currentProduct.slug || currentProduct.id || 'item'}`
 
+  // Images handling
   const rawImages = Array.isArray(currentProduct.images) && currentProduct.images.length > 0
     ? currentProduct.images
     : [currentProduct.image_link || currentProduct.image || '/images/default.jpg'].filter(Boolean)
@@ -33,17 +34,17 @@ export default function ProductJsonLd({ product, selectedVariant }) {
     img.startsWith('http') ? img : `${baseUrl}${img.startsWith('/') ? '' : '/'}${img}`
   )
 
-  const isOutOfStock = currentProduct.inStock === false || currentProduct.stock === 0 || currentProduct.availability === 'out_of_stock'
-  const availability = isOutOfStock
-    ? 'https://schema.org/OutOfStock'
-    : 'https://schema.org/InStock'
+  const isOutOfStock = 
+    currentProduct.inStock === false || 
+    currentProduct.stock === 0 || 
+    currentProduct.availability === 'out_of_stock'
 
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: cleanStr(currentProduct.name || currentProduct.title),
     description: cleanStr(currentProduct.description || 'Premium quality home and garden hardware designed for durability and outdoor comfort.'),
-    image: images.length > 0 ? images : undefined,
+    image: images,
     category: cleanStr(currentProduct.category || 'Home & Garden'),
     sku: String(currentProduct.sku || `SKU-${currentProduct.id || currentProduct.slug || 'item'}`),
     
@@ -57,7 +58,7 @@ export default function ProductJsonLd({ product, selectedVariant }) {
       price: currentPrice,
       priceCurrency: 'USD',
       priceValidUntil: '2027-12-31',
-      availability: availability,
+      availability: isOutOfStock ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/NewCondition',
       url: productUrl,
       seller: {
@@ -102,6 +103,7 @@ export default function ProductJsonLd({ product, selectedVariant }) {
     },
   }
 
+  // زيل أي حقل قيمتو undefined قبل التحويل لـ JSON
   const cleanSchema = JSON.parse(JSON.stringify(schema))
 
   return (
