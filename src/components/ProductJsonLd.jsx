@@ -39,14 +39,21 @@ export default function ProductJsonLd({ product, selectedVariant }) {
     currentProduct.stock === 0 || 
     currentProduct.availability === 'out_of_stock'
 
+  const productSku = String(currentProduct.sku || `SKU-${currentProduct.id || currentProduct.slug || 'item'}`)
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
+    /* 🚀 [Schema.org / repo HEAD Best Practice] ربط المعرف الدائم للـ Rich Snippets */
+    '@id': `${productUrl}#product`,
+    url: productUrl,
     name: cleanStr(currentProduct.name || currentProduct.title),
     description: cleanStr(currentProduct.description || 'Premium quality home and garden hardware designed for durability and outdoor comfort.'),
     image: images,
     category: cleanStr(currentProduct.category || 'Home & Garden'),
-    sku: String(currentProduct.sku || `SKU-${currentProduct.id || currentProduct.slug || 'item'}`),
+    sku: productSku,
+    /* 🚀 [GMC / Rich Results] تفادي تحذير Missing MPN فـ Google Search Console */
+    mpn: String(currentProduct.mpn || productSku),
     
     brand: {
       '@type': 'Brand',
@@ -55,6 +62,8 @@ export default function ProductJsonLd({ product, selectedVariant }) {
 
     offers: {
       '@type': 'Offer',
+      /* 🚀 ربط العرض بالـ Offer ID */
+      '@id': `${productUrl}#offer`,
       price: currentPrice,
       priceCurrency: 'USD',
       priceValidUntil: '2027-12-31',
