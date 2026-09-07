@@ -5,11 +5,24 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* 🚀 تحسين استجابة اللمس فالموبايل ومنع تأخير النقرات 300ms */
+    touch-action: manipulation;
+    /* 🚀 منع اهتزاز layout فاش كيطلع أو يغبر الـ scrollbar */
+    scrollbar-gutter: stable;
   }
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     color: #1a1a1a;
     background: #ffffff;
+    /* 🚀 [Performance & Text Rendering] تنعيم رسم الخطوط باش تبان احترافية ومقروءة */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  /* 🚀 [Core Web Vitals / CLS] حماية من اهتزاز المحتوى وضمان تجاوب الصور */
+  img, svg, video {
+    max-width: 100%;
+    height: auto;
   }
 }
 
@@ -108,5 +121,18 @@ details[open] summary ~ * {
   /* 5. Clean up stats and trust badges spacing */
   .grid.grid-cols-2 {
     gap: 1rem !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════ */
+/* ♿ [Accessibility & UX Best Practices]                         */
+/* احترام رغبة المستخدم إلا كان مطفي الـ Animations فـ جهازو        */
+/* ══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
