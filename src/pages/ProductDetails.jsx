@@ -138,6 +138,7 @@ export default function ProductDetails() {
   return (
     <>
       <Helmet>
+        {/* ─── الـ Tags القديمة ديالك (محفوظة بالكامل) ─── */}
         <title>{`${currentProduct.name} — QB MASTER`}</title>
         <meta name="description" content={currentProduct.description} />
         <link rel="canonical" href={canonicalUrl} />
@@ -150,6 +151,22 @@ export default function ProductDetails() {
         <meta property="product:price:amount" content={unitPriceFormatted} />
         <meta property="product:price:currency" content="USD" />
         <meta property="product:availability" content={stockAvailabilityText} />
+
+        {/* ─── 🚀 إضافات مستشهدة من repo HEAD ─── */}
+        {/* 1. [HEAD: Crawlers] أمر الأرشفة المباشر لصفحات المنتجات */}
+        <meta name="robots" content="index, follow" />
+
+        {/* 2. [HEAD: Open Graph] وصف الصورة لمحركات البحث والـ Previews */}
+        <meta property="og:image:alt" content={currentProduct.name} />
+
+        {/* 3. [HEAD: Twitter Card] بطاقة عرض المنتج الكبيرة فـ منصة X / Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="qbmaster.shop" />
+        <meta property="twitter:url" content={canonicalUrl} />
+        <meta name="twitter:title" content={`${currentProduct.name} — QB MASTER`} />
+        <meta name="twitter:description" content={currentProduct.description} />
+        <meta name="twitter:image" content={absoluteImageUrl} />
+        <meta name="twitter:image:alt" content={currentProduct.name} />
       </Helmet>
 
       <ProductJsonLd product={currentProduct} />
