@@ -8,7 +8,6 @@ const products = JSON.parse(
   fs.readFileSync(path.resolve('src/data/csvProducts.json'), 'utf-8')
 );
 
-// إنشاء المجلد الرئيسي للـ products
 fs.mkdirSync(path.join(distPath, 'product'), { recursive: true });
 
 products.forEach((product) => {
@@ -18,7 +17,6 @@ products.forEach((product) => {
   const imageUrl = product.image;
   const canonicalUrl = `https://qbmaster.shop/product/${slug}`;
 
-  // بلوك الميتا الخاص بالمنتج
   const productMetaTags = `
     <title>${title}</title>
     <meta name="description" content="${desc}">
@@ -29,38 +27,27 @@ products.forEach((product) => {
     <meta property="og:description" content="${desc}">
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:image" content="${imageUrl}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image:secure_url" content="${imageUrl}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${title}">
     <meta name="twitter:description" content="${desc}">
     <meta name="twitter:image" content="${imageUrl}">
   `;
 
-  // مسح الميتا القديمة بهاد الـ Regex الشاملة (سواء مسدودة بـ > أو />)
+  // مسح شامل لأي meta قديمة متعلقة بالصور أو العناوين مهما كانت طريقة كتابتها
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/gi, '')
-    .replace(/<meta\s+name=["']description["'][^>]*>/gi, '')
-    .replace(/<meta\s+property=["']og:title["'][^>]*>/gi, '')
-    .replace(/<meta\s+property=["']og:description["'][^>]*>/gi, '')
-    .replace(/<meta\s+property=["']og:image["'][^>]*>/gi, '')
-    .replace(/<meta\s+name=["']twitter:title["'][^>]*>/gi, '')
-    .replace(/<meta\s+name=["']twitter:description["'][^>]*>/gi, '')
-    .replace(/<meta\s+name=["']twitter:image["'][^>]*>/gi, '');
+    .replace(/<meta[^>]+(name|property)=["']?(og:image|twitter:image|og:title|twitter:title|og:description|twitter:description|description)["']?[^>]*>/gi, '');
 
-  // حقن الميتا فـ أول الـ head
   html = html.replace('<head>', `<head>${productMetaTags}`);
 
-  // توليد مسار الفولدر /product/slug/index.html
+  // توليد مسار الفولدر والملف المباشر
   const dir = path.join(distPath, 'product', slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);
-
-  // توليد مسار /product/slug.html لـ GitHub Pages
   fs.writeFileSync(path.join(distPath, 'product', `${slug}.html`), html);
 });
 
-// نسخ index.html الرئيسي إلى 404.html
 fs.copyFileSync(path.join(distPath, 'index.html'), path.join(distPath, '404.html'));
 
-console.log(`Generated HTML files for ${products.length} products.`);
+console.log(`Successfully generated ${products.length} products with CDN image URLs.`);
