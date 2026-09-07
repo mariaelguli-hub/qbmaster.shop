@@ -8,6 +8,7 @@ const products = JSON.parse(
   fs.readFileSync(path.resolve('src/data/csvProducts.json'), 'utf-8')
 );
 
+// إنشاء مجلد products فـ dist
 fs.mkdirSync(path.join(distPath, 'product'), { recursive: true });
 
 products.forEach((product) => {
@@ -17,6 +18,7 @@ products.forEach((product) => {
   const imageUrl = product.image;
   const canonicalUrl = `https://qbmaster.shop/product/${slug}`;
 
+  // بلوك الميتا الخاص بالمنتج
   const productMetaTags = `
     <title>${title}</title>
     <meta name="description" content="${desc}">
@@ -28,26 +30,32 @@ products.forEach((product) => {
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:image" content="${imageUrl}">
     <meta property="og:image:secure_url" content="${imageUrl}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${title}">
     <meta name="twitter:description" content="${desc}">
     <meta name="twitter:image" content="${imageUrl}">
   `;
 
-  // مسح شامل لأي meta قديمة متعلقة بالصور أو العناوين مهما كانت طريقة كتابتها
+  // مسح الميتا الافتراضية ديال الصوفا من هاد الصفحة الخاصة
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/gi, '')
-    .replace(/<meta[^>]+(name|property)=["']?(og:image|twitter:image|og:title|twitter:title|og:description|twitter:description|description)["']?[^>]*>/gi, '');
+    .replace(/<meta[^>]+(name|property)=["']?(og:url|og:image|og:image:secure_url|og:title|og:description|twitter:image|twitter:title|twitter:description|description)["']?[^>]*>/gi, '')
+    .replace(/<link[^>]+rel=["']?canonical["']?[^>]*>/gi, '');
 
   html = html.replace('<head>', `<head>${productMetaTags}`);
 
-  // توليد مسار الفولدر والملف المباشر
+  // 1. إنشاء ملف مباشر لـ GitHub Pages (باش يخدم الرابط بلا سلاش): dist/product/clay-plant-pot.html
+  fs.writeFileSync(path.join(distPath, 'product', `${slug}.html`), html);
+
+  // 2. إنشاء مجلد للمسار بالسلاش: dist/product/clay-plant-pot/index.html
   const dir = path.join(distPath, 'product', slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);
-  fs.writeFileSync(path.join(distPath, 'product', `${slug}.html`), html);
 });
 
+// إنشاء fallback 404
 fs.copyFileSync(path.join(distPath, 'index.html'), path.join(distPath, '404.html'));
 
-console.log(`Successfully generated ${products.length} products with CDN image URLs.`);
+console.log(`Generated ${products.length} pre-rendered products successfully!`);
