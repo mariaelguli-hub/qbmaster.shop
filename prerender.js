@@ -5,12 +5,21 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.resolve(__dirname, 'dist');
 const templatePath = path.join(distPath, 'index.html');
-const productsPath = path.resolve(__dirname, 'src/data/csvProducts.json');
 
+// قراءة القالب
+if (!fs.existsSync(templatePath)) {
+  console.error("Error: dist/index.html not found! Run vite build first.");
+  process.exit(1);
+}
 const template = fs.readFileSync(templatePath, 'utf-8');
-const products = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
 
-// إنشاء مجلد product داخل dist
+// فحص مسار ملف المنتجات بالحالتين (حروف كبيرة أو صغيرة)
+let productsPath = path.resolve(__dirname, 'src/data/csvProducts.json');
+if (!fs.existsSync(productsPath)) {
+  productsPath = path.resolve(__dirname, 'src/data/csvproducts.json');
+}
+
+const products = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
 fs.mkdirSync(path.join(distPath, 'product'), { recursive: true });
 
 products.forEach((product) => {
@@ -20,9 +29,8 @@ products.forEach((product) => {
   const imageUrl = product.image;
   const canonicalUrl = `https://qbmaster.shop/product/${slug}`;
 
-  // بلوك الميتا الخاص بالمنتج (مضمون 100% بجميع التاغات)
   const productMetaTags = `
-    <!-- Product Dynamic OG Tags -->
+    <!-- Dynamic Product Meta -->
     <title>${title}</title>
     <meta name="description" content="${desc}">
     <link rel="canonical" href="${canonicalUrl}">
@@ -41,7 +49,6 @@ products.forEach((product) => {
     <meta name="twitter:image" content="${imageUrl}">
   `;
 
-  // مسح الميتا الافتراضية ديال المتجر
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/gi, '')
     .replace(/<meta[^>]+(name|property)=["']?(og:url|og:image|og:image:secure_url|og:title|og:description|twitter:image|twitter:title|twitter:description|description)["']?[^>]*>/gi, '')
@@ -49,16 +56,11 @@ products.forEach((product) => {
 
   html = html.replace('<head>', `<head>${productMetaTags}`);
 
-  // 1. ملف مباشر باش يخدم الرابط يلا تبارطاجا بلا سلاش (/product/clay-plant-pot)
+  // كتابة الملف المباشر والمسار الداخلي
   fs.writeFileSync(path.join(distPath, 'product', `${slug}.html`), html);
-
-  // 2. ملف داخلي باش يخدم الرابط يلا تبارطاجا بالسلاش (/product/clay-plant-pot/)
   const dir = path.join(distPath, 'product', slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);
 });
 
-// 3. تحديث 404.html كـ fallback
-fs.copyFileSync(templatePath, path.join(distPath, '404.html'));
-
-console.log(`Successfully prerendered ${products.length} products (both .html and /index.html).`);
+console.log(`Generated ${products.length} product static pages successfully.`);
